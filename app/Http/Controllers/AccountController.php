@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Account;
+use Auth;
 
 class AccountController extends Controller
 {
@@ -28,23 +29,13 @@ class AccountController extends Controller
         	return response()->json(["success"=>false]);
         }
     }
-    public function addOrUpdate(Request $request)
+    public function addOrUpdate(Request $request) 
     {
         //validate data
         $validator = \Validator::make($request->account, [
             'name'=>'required|string',
-            'email'=>'required|email',
-            'is_active'=>'required|boolean',
-        ]);
-        $validator = \Validator::make($request->account['detail'], [
-            'full_name'=>'nullable',
-            'phone'=>'required',
-            'bitbucket'=>'required|email',
-            'trello'=>'required|email',
-            'skype'=>'required|string',
-            'designation'=>'required|string',
-            'join_date'=>'required|date',
-            'address'=>'nullable',
+            'group'=>'required|string',
+            'sub_group'=>'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -52,20 +43,11 @@ class AccountController extends Controller
         }
 
         if($request->account['id'] == null){
-            //validate data
-            $validator = \Validator::make($request->account->all(), [
-                'password'=>'required|min:6'
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json(['success' =>false , 'errors'=>$validator->messages()]);
-            }
-
             // create
             $account = Account::create([
                 'name' => $request->account['name'],
-                'email' => $request->account['email'],
-                'password' => bcrypt($request->account['password']),
+                'group' => $request->account['group'],
+                'sub_group' => $request->account['sub_group'],
                 'created_by' => Auth::id(),
                 'is_active' => $request->account['is_active'],
             ]);
@@ -74,40 +56,14 @@ class AccountController extends Controller
         } else { 
             $account = Account::find($request->account['id']);   
             if(!$account) return response()->json(["success"=>true, 'status'=>'somethingwrong']);        
-            //validate data
-            if(array_key_exists('password', $request->account)){
-                $validator = \Validator::make($request->account->all(), [
-                    'password'=>'required|min:6'
-                ]);
-                
-                if ($validator->fails()) {
-                    return response()->json(['success' =>false , 'errors'=>$validator->messages()]);
-                }
 
-                $account->update([
-                    'password' => bcrypt($request->account['password']),
-                    'created_by' => Auth::id(),
-                ]);
-            }
             //update
             $account->update([
                 'name' => $request->account['name'],
-                'email' => $request->account['email'],
+                'group' => $request->account['group'],
+                'sub_group' => $request->account['sub_group'],
                 'created_by' => Auth::id(),
                 'is_active' => $request->account['is_active'],
-            ]);
-            $accountDetail = $account->detail;
-            $accountDetail->update([
-                'account_id' => $account->id,
-                'full_name' => $request->account['detail']['full_name'],
-                'phone' => $request->account['detail']['phone'],
-                'bitbucket' => $request->account['detail']['bitbucket'],
-                'trello' => $request->account['detail']['trello'],
-                'skype' => $request->account['detail']['skype'],
-                'avatar' =>'default/images/1.jpg',//default
-                'designation' => $request->account['detail']['designation'],
-                'join_date' => $request->account['detail']['join_date'],
-                'address' => $request->account['detail']['address'],
             ]);
             return response()->json(["success"=>true, 'status'=>'updated', 'account'=>$account]);
         }
