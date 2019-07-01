@@ -1,0 +1,100 @@
+1,Cash In Hand,Cash,Asset,parvez,0
+2,Petty Cash,Cash,Asset,jmk,1
+3,ABC Bank Name/ any bank name,Expense,Expense,JOYNAL,0
+4,Paid-Up Capital,Capital,Capital,faruk,0
+5,Profit & Loss,Profit & Loss,Capital,faruk,0
+6,Cost of goods sold,Expense,Expense,faruk,0
+7,Salary Expense,Expense,Expense,faruk,0
+8,Rent Expense,Expense,Expense,faruk,0
+9,Tax Expense,Expense,Expense,faruk,0
+10,Interest Expense,Expense,Expense,faruk,0
+11,Sales Income,Income,Income,faruk,0
+12,Interest Income,Income,Income,faruk,0
+13,Telephone & Mobile Bill,Expense,Expense,parvez,0
+14,Elictic Bill,Expense,Expense,faruk,0
+15,Entertainment,Expense,Expense,faruk,0
+16,Office Supplies,Expense,Expense,faruk,0
+17,AGENT WRONG ENTRY TICKET,Accounts Payable,Liability,JOYNAL,0
+18,GST  LIABILITY,Accounts Payable,Liability,faruk,0
+19,GST EXPENSE,Expense,Expense,faruk,0
+20,CASH CUSTOMER,Accounts Receiveable,Asset,faruk,0
+21,SMT KL,Accounts Payable,Liability,jmk,0
+22,WRONG 01,Bank,Asset,jmk,1
+23,WRONG03,wrong03,Asset,JOYNAL,1
+24,NCC BANK BD,Expense,Expense,JOYNAL,0
+25,CIMB BANK-JMK,Bank,Asset,jmk,0
+26,RABIYA SHINE ENTERPRISE,Accounts Receiveable,Asset,JOYNAL,0
+27,FLIGHTINGALE HOLIDAYS,Accounts Payable,Liability,JOYNAL,0
+28,MAY BANK-JOYNAL,Bank,Asset,JOYNAL,0
+29,KREATIF RESTU GLOBAL ENTERPRISE,Accounts Receiveable,Asset,jmk,0
+30,MTTSB,Accounts Payable,Liability,jmk,0
+31,OLD CR  LADGER,Accounts Receiveable,Asset,jmk,0
+32,MD KARIM,Accounts Receiveable,Asset,JOYNAL,0
+33,CT VIEWS SDN. BHD.,Accounts Receiveable,Asset,JOYNAL,0
+34,OFFICE EXPENSES,Expense,Expense,jmk,0
+35,NATFAR ENTERPRISE,Accounts Receiveable,Asset,JOYNAL,0
+36,AD.KRISHNA,Accounts Receiveable,Asset,JOYNAL,0
+37,SMT CGP,Accounts Payable,Liability,jmk,0
+38,KHAIRUL BIN ROSLI,Accounts Receiveable,Asset,JOYNAL,0
+39,MD SAYEM AHMED AMAN,Accounts Receiveable,Asset,JOYNAL,0
+40,BIG PREPAID,Accounts Payable,Liability,jmk,0
+41,HONGLEONG BANK-JOYNAL,Bank,Asset,JOYNAL,0
+42,CIMB BANK-MASUD,Bank,Asset,JOYNAL,1
+43,KOMOL,Accounts Receiveable,Asset,JOYNAL,0
+44,KICK BACK BANGLADESH BIMAN,Accounts Receiveable,Asset,jmk,0
+45,KICK BACK MALAYSIA AIRLINES,Accounts Receiveable,Asset,jmk,0
+46,KICK BACK MALINDO AIRLINES,Accounts Receiveable,Asset,jmk,0
+47,ABJAL BHAI,Accounts Receiveable,Asset,JOYNAL,0
+48,REJA MAMA,Accounts Receiveable,Asset,JOYNAL,0
+49,BABITA,Accounts Receiveable,Asset,JOYNAL,0
+50,NAZRUL ISLAM KHOKON,Accounts Receiveable,Asset,JOYNAL,0
+51,RHB JMK,Bank,Asset,jmk,0
+52,MSC AGENT,Accounts Receiveable,Asset,jmk,0
+53,CASH EXTRA,Accounts Receiveable,Liability,jmk,0
+54,WRONG ISSUE,Expense,Expense,jmk,1
+55,SHIV SHANKAR SAH,Accounts Receiveable,Asset,JOYNAL,0
+56,SAHIN,Accounts Receiveable,Asset,jmk,0
+57,PREM DHAKAL,Accounts Receiveable,Asset,JOYNAL,0
+58,CASH SHORT,Accounts Payable,Expense,jmk,0
+59,ANOWAR BHAI,Accounts Receiveable,Asset,JOYNAL,0
+60,SABRE TRAVEL NETWORK,Accounts Receiveable,Asset,jmk,0
+61,TAHASIN,Accounts Receiveable,Asset,JOYNAL,0
+62,BANK XTRA,Bank,Liability,JOYNAL,1
+63,BAZAR,Expense,Expense,jmk,0
+64,NAZRUL BHAI,Accounts Receiveable,Asset,JOYNAL,0
+65,ONE BANK BD,wrong03,Asset,JOYNAL,0
+66,LICENSED RENIO,Expense,Expense,jmk,0
+67,LUNCH& DINNER,Expense,Expense,jmk,0
+68,TRANSPORT,Expense,Expense,jmk,0
+69,MOHD SOFIQUL ISLAM,Accounts Receiveable,Asset,JOYNAL,0
+70,PASSENGER DEPOSIT,Accounts Payable,Capital,jmk,0
+71,WRONG 03,Cash,Asset,JOYNAL,1
+72,DEPOSIT RECIVED,Accounts Receiveable,Asset,jmk,0
+73,BADSHA BHAI,Accounts Receiveable,Asset,JOYNAL,0
+74,US BANGLA JMK,Accounts Payable,Liability,jmk,0
+75,HIMALAYAN AIRLINES,Accounts Payable,Liability,jmk,0
+76,DUMMY TICKET,Accounts Receiveable,Asset,jmk,0
+77,HAMIDUL ISLAM JONY,Accounts Receiveable,Asset,JOYNAL,0
+78,REFUND RCVD FROM AGENT,Accounts Receiveable,Asset,jmk,0
+79,SOLTI RESTURANT,Accounts Receiveable,Asset,JOYNAL,0
+80,GS TRAVEL,Accounts Payable,Liability,KHAIRUL,0
+81,MASUD SARKER,Accounts Receiveable,Asset,JOYNAL,0
+82,BD EXPENSE,Expense,Expense,jmk,0
+83,JMK CGP,Accounts Payable,Liability,JOYNAL,0
+84,AGENT NOT ENTRY TICKET,Accounts Payable,Liability,JOYNAL,1
+85,JMK NOT ENTRY TICKET,Accounts Payable,Liability,JOYNAL,0
+86,ABM TRAVEL SDN BHD,Accounts Payable,Liability,JOYNAL,0
+87,US BANGLA INCENTIVE,Accounts Receiveable,Asset,JOYNAL,0
+88,CIMB-EAGLE VISION SERVICES,Bank,Asset,JOYNAL,0
+89,MAYBANK-ONE VISION SERVICES,Bank,Asset,JOYNAL,0
+90,FORD FOCUS GHIA -WPN 9113,Expense,Expense,JOYNAL,0
+91,WRONG  ISSUE JMK,Accounts Payable,Liability,JOYNAL,0
+92,ABM TRAVEL SDN BHD  INCENTIVE,Accounts Receiveable,Asset,JOYNAL,0
+93,MOHAMMED JOYNAL ABEDIN,Accounts Receiveable,Asset,JOYNAL,0
+94,JMK SERVICES SDN BHD,Expense,Expense,JOYNAL,0
+95,AFROZA AKTER NISHI,Accounts Receiveable,Asset,JOYNAL,0
+96,EPF,Expense,Expense,JOYNAL,0
+97,SOKSO,Expense,Expense,JOYNAL,0
+98,V.KARTIGESU A/L VELAUTHAM,Accounts Receiveable,Asset,JOYNAL,0
+99,AFFIN BANK-JMK SERVICES,Bank,Asset,JOYNAL,0
+100,LHDN,Expense,Expense,JOYNAL,0
