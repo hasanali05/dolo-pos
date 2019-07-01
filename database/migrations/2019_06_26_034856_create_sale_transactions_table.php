@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCustomerTransactionsTable extends Migration
+class CreateSaleTransactionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateCustomerTransactionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('customer_transactions', function (Blueprint $table) {
+        Schema::create('sale_transactions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('customer_id')->unsigned();
             $table->enum('reason', ['no-reason', 'sale', 'collection', 'adjustment', 'return'])->default('no-reason');
@@ -30,6 +30,6 @@ class CreateCustomerTransactionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customer_transactions');
+        Schema::dropIfExists('sale_transactions');
     }
 }
