@@ -28,6 +28,7 @@ Home page
                         </div>
                     </div>
                 </div>
+                <h1 v-if="successMessage" class="text-center alert alert-success">@{{successMessage}}</h1>
                 <table data-toggle="table" data-mobile-responsive="true"
                 class="table-striped">
                 <thead>
@@ -156,7 +157,7 @@ Home page
             <div class="modal-content">
                 <form action="javascript:void(0)" method="POST">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="createModalLabel"><i class="ti-marker-alt mr-2"></i> Create New Employee</h5>
+                        <h5 class="modal-title" id="createModalLabel"><i class="ti-marker-alt mr-2"></i> Create New Account</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -180,7 +181,13 @@ Home page
                             <div class="col-4">
                                 <div class="input-group mb-3">
                                     <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                    <input type="text" class="form-control" placeholder="username" v-model="account.group">
+                                    <input type="text" class="form-control" placeholder="Group" v-model="account.group">
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="input-group mb-3">
+                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                    <input type="text" class="form-control" placeholder="Sub Group" v-model="account.sub_group">
                                 </div>
                             </div>
                             <div class="col-4">
@@ -236,7 +243,8 @@ Home page
                     is_active: 1,
                 },
                 currentIndex: 0,
-                accounts: []
+                accounts: [],
+                successMessage: '',
             },
             mounted() {
                 var _this = this;
@@ -303,6 +311,7 @@ Home page
                         axios.post('{{ route("accounts.addOrUpdate") }}', data)
                         .then(function (response) {
                             let data = response.data;
+                            let status = response.data.status;
                             if(response.data.success == true) {
                                 //modal close
                                 if (status=='somethingwrong') {
@@ -313,11 +322,13 @@ Home page
                                     _this.accounts.push(data.account);
                                     //modal close
                                     document.getElementById('modalClose').click();
+                                    _this.successMessage = 'Account created successfully.';
                                 }
                                 if(status=='updated') {
                                     _this.accounts[currentIndex] = data.account;
                                     //modal close
                                     document.getElementById('modalClose').click();
+                                    _this.successMessage = 'Account updated successfully.';
                                 }
                             } else {                                
                                 for (var key in data.errors) {
