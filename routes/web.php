@@ -41,33 +41,68 @@ Route::prefix('admin')->group(function()
 		Route::get('/accounts-all', 'AccountController@accountsAll')->name('accounts.all');
 		Route::post('/accounts-status-change', 'AccountController@statusChange')->name('accounts.statusChange');
 		Route::post('/accounts-add-or-update', 'AccountController@addOrUpdate')->name('accounts.addOrUpdate');
-
-
-
-
-
-
-
-
-
-
 		
+		//ledgers
+		Route::get('/ledgers', 'LedgerController@ledgers')->name('ledgers');
+		Route::get('/ledgers-all', 'LedgerController@ledgersAll')->name('ledgers.all');
+		Route::post('/ledgers-status-change', 'LedgerController@statusChange')->name('ledgers.statusChange');
+		Route::post('/ledgers-add-or-update', 'LedgerController@addOrUpdate')->name('ledgers.addOrUpdate');
+
+		//expenses
+		Route::get('/expenses', 'ExpenseController@expenses')->name('expenses');
+		Route::get('/expenses-all', 'ExpenseController@expensesAll')->name('expenses.all');
+		Route::post('/expenses-status-change', 'ExpenseController@statusChange')->name('expenses.statusChange');
+		Route::post('/expenses-add-or-update', 'ExpenseController@addOrUpdate')->name('expenses.addOrUpdate');
+
+		//productCategories
+		Route::get('/productCategories', 'ProductCategoryController@productCategories')->name('productCategories');
+		Route::get('/productCategories-all', 'ProductCategoryController@productCategoriesAll')->name('productCategories.all');
+		Route::post('/productCategories-status-change', 'ProductCategoryController@statusChange')->name('productCategories.statusChange');
+		Route::post('/productCategories-add-or-update', 'ProductCategoryController@addOrUpdate')->name('productCategories.addOrUpdate');
+
+		//products
+		Route::get('/products', 'ProductController@products')->name('products');
+		Route::get('/products-all', 'ProductController@productsAll')->name('products.all');
+		Route::post('/products-status-change', 'ProductController@statusChange')->name('products.statusChange');
+		Route::post('/products-add-or-update', 'ProductController@addOrUpdate')->name('products.addOrUpdate');
+
+		//suppliers
+		Route::get('/suppliers', 'SupplierController@suppliers')->name('suppliers');
+		Route::get('/suppliers-all', 'SupplierController@suppliersAll')->name('suppliers.all');
+		Route::post('/suppliers-status-change', 'SupplierController@statusChange')->name('suppliers.statusChange');
+		Route::post('/suppliers-add-or-update', 'SupplierController@addOrUpdate')->name('suppliers.addOrUpdate');
 
 
+		//customers
+		Route::get('/customers', 'CustomerController@customers')->name('customers');
+		Route::get('/customers-all', 'CustomerController@customersAll')->name('customers.all');
+		Route::post('/customers-status-change', 'CustomerController@statusChange')->name('customers.statusChange');
+		Route::post('/customers-add-or-update', 'CustomerController@addOrUpdate')->name('customers.addOrUpdate');
 
 
+		//purchases (initially purchase, purchase detail and purchase transaction will be one action)
+		Route::get('/purchases', 'PurchaseController@purchases')->name('purchases');
+		Route::get('/purchases-all', 'PurchaseController@purchasesAll')->name('purchases.all');
+		Route::post('/purchases-status-change', 'PurchaseController@statusChange')->name('purchases.statusChange');
+		Route::post('/purchases-add-or-update', 'PurchaseController@addOrUpdate')->name('purchases.addOrUpdate');
 
+		//sales (initially sale, sale detail and sale transaction will be one action)
+		Route::get('/sales', 'SaleController@sales')->name('sales');
+		Route::get('/sales-all', 'SaleController@salesAll')->name('sales.all');
+		Route::post('/sales-status-change', 'SaleController@statusChange')->name('sales.statusChange');
+		Route::post('/sales-add-or-update', 'SaleController@addOrUpdate')->name('sales.addOrUpdate');
 
+		//damages 
+		Route::get('/damages', 'DamageController@damages')->name('damages');
+		Route::get('/damages-all', 'DamageController@damagesAll')->name('damages.all');
+		Route::post('/damages-status-change', 'DamageController@statusChange')->name('damages.statusChange');
+		Route::post('/damages-add-or-update', 'DamageController@addOrUpdate')->name('damages.addOrUpdate');
 
-
-
-
-
-
-
-
-
-
+		//warranties 
+		Route::get('/warranties', 'WarrantyController@warranties')->name('warranties');
+		Route::get('/warranties-all', 'WarrantyController@warrantiesAll')->name('warranties.all');
+		Route::post('/warranties-status-change', 'WarrantyController@statusChange')->name('warranties.statusChange');
+		Route::post('/warranties-add-or-update', 'WarrantyController@addOrUpdate')->name('warranties.addOrUpdate');
 
 
 		Route::get('/', 'AdminController@index')->name('admin.index');
