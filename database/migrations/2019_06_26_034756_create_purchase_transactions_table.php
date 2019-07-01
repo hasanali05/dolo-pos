@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSupplierTransactionsTable extends Migration
+class CreatePurchaseTransactionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateSupplierTransactionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('supplier_transactions', function (Blueprint $table) {
+        Schema::create('purchase_transactions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('supplier_id')->unsigned();
             $table->enum('reason', ['no-reason', 'purchase', 'payment', 'adjustment', 'return'])->default('no-reason');
@@ -30,6 +30,6 @@ class CreateSupplierTransactionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('supplier_transactions');
+        Schema::dropIfExists('purchase_transactions');
     }
 }
