@@ -10,7 +10,7 @@ Home page
 @endsection
 
 @section('breadcrumb')
-	<li class="breadcrumb-item"><a href="{{ route('admin.index') }}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">Home</a></li>
 @endsection
 
 @section('content')
@@ -358,25 +358,25 @@ Home page
                 currentIndex: 0,
                 employees: []
             },
-            mounted: function mounted() {
+            mounted() {
                 var _this = this;
                 _this.getAllData();
             },
             methods: {
-                getAllData: function getAllData() {
+                getAllData() {
                     var _this = this;
                     axios.get('{{ route("employees.all") }}')
                     .then(function (response) {
                         _this.employees = response.data.employees;
                     })
                 },
-                setData: function setData(index) {
+                setData(index) {
                     var _this = this;
                     _this.errors = [];
                     _this.currentIndex = index;
                     _this.employee = _this.employees[index];
                 },
-                inactiveEmployee: function inactiveEmployee(index) {
+                inactiveEmployee(index) {
                     var _this = this;
                     let data = {
                         employee_id: _this.employees[index].id,
@@ -389,7 +389,7 @@ Home page
                         }
                     })
                 },
-                activeEmployee: function activeEmployee(index) {
+                activeEmployee(index) {
                     var _this = this;
                     let data = {
                         employee_id: _this.employees[index].id,
@@ -402,7 +402,7 @@ Home page
                         }
                     })
                 },
-                clearData: function clearData() {
+                clearData() {
                     var _this = this;
                     _this.errors = [];
                     _this.employee = {
@@ -425,7 +425,7 @@ Home page
                         }
                     }
                 },
-                saveData: function saveData() {
+                saveData() {
                     var _this = this;
                     if(_this.validate()){
                         //save data
@@ -444,6 +444,7 @@ Home page
                                 if(status=='created') {
                                     _this.employees.push(data.employee);
                                     //modal close
+                                    document.getElementById('modalClose').click();
                                 }
                                 if(status=='updated') {
                                     _this.employees[currentIndex] = data.employee;
@@ -460,7 +461,7 @@ Home page
                         }) 
                     }
                 },
-                validate: function validate() {           
+                validate() {           
                     var _this = this; 
                     _this.errors = [];
                     let employee = _this.employee;
@@ -514,11 +515,11 @@ Home page
                     if(count==0) return true;
                     else return false;
                 },
-                validEmail: function (email) {
+                validEmail(email) {
                     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                     return re.test(email);
                 },
-                wait: function wait(ms){
+                wait(ms){
                     var start = new Date().getTime();
                     var end = start;
                     while(end < start + ms) {

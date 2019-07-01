@@ -35,6 +35,12 @@ Route::prefix('admin')->group(function()
 		Route::post('/employees-status-change', 'EmployeeDetailController@statusChange')->name('employees.statusChange');
 		Route::post('/employee-add-or-update', 'EmployeeDetailController@addOrUpdate')->name('employees.addOrUpdate');
 
+		
+		//accounts
+		Route::get('/accounts', 'AccountController@accounts')->name('accounts');
+		Route::get('/accounts-all', 'AccountController@accountsAll')->name('accounts.all');
+		Route::post('/accounts-status-change', 'AccountController@statusChange')->name('accounts.statusChange');
+		Route::post('/accounts-add-or-update', 'AccountController@addOrUpdate')->name('accounts.addOrUpdate');
 
 
 
