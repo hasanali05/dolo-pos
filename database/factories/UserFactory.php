@@ -35,7 +35,7 @@ $factory->define(App\Product::class, function (Faker $faker) {
     return [
         'name' =>$faker->name,
         'category_id'=>rand(1,10),
-        'detail'=>$faker->text,
+        'detail'=>$faker->word,
         'is_active' =>$faker->boolean,
         
     ];
