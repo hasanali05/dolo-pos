@@ -28,15 +28,15 @@ Home page
                         </div>
                     </div>
                 </div>
-                <table data-toggle="table" data-mobile-responsive="true"
-                class="table-striped">
-                <thead>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
 
-            <table class="table table-bordered" width="100%" cellspacing="0">
+                <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="successMessage">
+                    <strong>Successfull!</strong> @{{successMessage}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click.prevent="successMessage=''">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+            <table class="table table-bordered table-striped" data-mobile-responsive="true" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>S/L</th>
@@ -114,7 +114,7 @@ Home page
                             <div class="col-6">
                                 <div class="input-group mb-3">
                                     <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                    <input type="text" class="form-control" placeholder="name" v-model="category.name">
+                                    <input type="text" class="form-control" placeholder="name" v-model="category.name" required="">
                                     <input type="hidden" class="form-control" v-model="category.id">
                                 </div>
                             </div>
@@ -172,7 +172,8 @@ Home page
                    
                 },
                 currentIndex: 0,
-                categories: []
+                categories: [],                
+                successMessage:'',
             },
             mounted() {
                 var _this = this;
@@ -202,6 +203,7 @@ Home page
                     .then(function (response) {
                         if(response.data.success == true) {
                             _this.$set(_this.categories[index] , 'is_active' , 0);
+                            _this.successMessage = 'Category status inactivated successfully';
                         }
                     })
                 },
@@ -215,6 +217,7 @@ Home page
                     .then(function (response) {
                         if(response.data.success == true) {
                             _this.$set(_this.categories[index] , 'is_active' , 1);
+                            _this.successMessage = 'Category  status activated successfully';
                         }
                     })
                 },
@@ -224,9 +227,7 @@ Home page
                     _this.category = {
                         id: '',
                         name: '',
-                        is_active: 1,
-
- 
+                        is_active: 1, 
                     }
                 },
                 saveData() {
@@ -250,11 +251,13 @@ Home page
                                     _this.categories.push(data.category);
                                     //modal close
                                     document.getElementById('modalClose').click();
+                                    _this.successMessage = 'Category created successfully';
                                 }
                                 if(status=='updated') {
                                     _this.categories[_this.currentIndex] = data.category;
                                     //modal close
                                     document.getElementById('modalClose').click();
+                                    _this.successMessage = 'Category updated successfully';
                                 }
                             } else {                                
                                 for (var key in data.errors) {

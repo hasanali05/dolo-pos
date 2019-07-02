@@ -55,8 +55,9 @@ class EmployeeDetailController extends Controller
 
         if($request->employee['id'] == null){
             //validate data
-            $validator = \Validator::make($request['employee']->all(), [
-                'password'=>'required|min:6'
+            $validator = \Validator::make($request->employee, [
+                'password'=>'required|min:6',
+                'email'=>'required|email|unique:employees,email,',
             ]);
 
             if ($validator->fails()) {
@@ -90,8 +91,9 @@ class EmployeeDetailController extends Controller
             if(!$employee) return response()->json(["success"=>true, 'status'=>'somethingwrong']);        
             //validate data
             if(array_key_exists('password', $request->employee)){
-                $validator = \Validator::make($request->employee->all(), [
-                    'password'=>'required|min:6'
+                $validator = \Validator::make($request->employee, [
+                    'password'=>'required|min:6',
+                    'email'=>'required|email|unique:employees,email,'.$employee->id,
                 ]);
                 
                 if ($validator->fails()) {

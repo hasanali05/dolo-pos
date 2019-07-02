@@ -28,15 +28,15 @@ Home page
                         </div>
                     </div>
                 </div>
-                <table data-toggle="table" data-mobile-responsive="true"
-                class="table-striped">
-                <thead>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
 
-            <table class="table table-bordered" width="100%" cellspacing="0">
+                <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="successMessage">
+                    <strong>Successfull!</strong> @{{successMessage}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click.prevent="successMessage=''">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+            <table class="table table-bordered table-striped" width="100%" cellspacing="0" data-toggle="table" data-mobile-responsive="true">
                 <thead>
                     <tr>
                         <th>S/L</th>
@@ -356,7 +356,8 @@ Home page
                     }
                 },
                 currentIndex: 0,
-                employees: []
+                employees: [],
+                successMessage: ''
             },
             mounted() {
                 var _this = this;
@@ -386,6 +387,7 @@ Home page
                     .then(function (response) {
                         if(response.data.success == true) {
                             _this.$set(_this.employees[index] , 'is_active' , 0);
+                            _this.successMessage = 'Employee status inactivated successfully';
                         }
                     })
                 },
@@ -399,6 +401,8 @@ Home page
                     .then(function (response) {
                         if(response.data.success == true) {
                             _this.$set(_this.employees[index] , 'is_active' , 1);
+                            _this.successMessage = 'Employee status activated successfully';
+
                         }
                     })
                 },
@@ -435,6 +439,7 @@ Home page
                         axios.post('{{ route("employees.addOrUpdate") }}', data)
                         .then(function (response) {
                             let data = response.data;
+                            let status = response.data.status;
                             if(response.data.success == true) {
                                 //modal close
                                 if (status=='somethingwrong') {
@@ -445,11 +450,14 @@ Home page
                                     _this.employees.push(data.employee);
                                     //modal close
                                     document.getElementById('modalClose').click();
+                                    _this.successMessage = 'Employee created successfully';
+
                                 }
                                 if(status=='updated') {
-                                    _this.employees[currentIndex] = data.employee;
+                                    _this.employees[_this.currentIndex] = data.employee;
                                     //modal close
                                     document.getElementById('modalClose').click();
+                                    _this.successMessage = 'Employee updated successfully';
                                 }
                             } else {                                
                                 for (var key in data.errors) {
