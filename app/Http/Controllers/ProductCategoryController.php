@@ -43,13 +43,7 @@ class ProductCategoryController extends Controller
             return response()->json(['success' =>false , 'errors'=>$validator->messages()]);
         }
 
-        if($request->category['id'] == null){
-            //validate data
-   
-
-            if ($validator->fails()) {
-                return response()->json(['success' =>false , 'errors'=>$validator->messages()]);
-            }
+        if($request->category['id'] == null){  
 
             // create
             $category = ProductCategory::create([
@@ -61,18 +55,7 @@ class ProductCategoryController extends Controller
         } else { 
             $category = ProductCategory::find($request->category['id']);   
             if(!$category) return response()->json(["success"=>true, 'status'=>'somethingwrong']);        
-            //validate data
-            if(array_key_exists('password', $request->category)){
-
-                
-                if ($validator->fails()) {
-                    return response()->json(['success' =>false , 'errors'=>$validator->messages()]);
-                }
-
-                $category->update([
-
-                ]);
-            }
+         
             //update
             $category->update([
                 'name' => $request->category['name'],

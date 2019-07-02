@@ -239,6 +239,7 @@ Home page
                         axios.post('{{ route("productCategories.addOrUpdate") }}', data)
                         .then(function (response) {
                             let data = response.data;
+                            let status = response.data.status;
                             if(response.data.success == true) {
                                 //modal close
                                 if (status=='somethingwrong') {
@@ -251,7 +252,7 @@ Home page
                                     document.getElementById('modalClose').click();
                                 }
                                 if(status=='updated') {
-                                    _this.categories[currentIndex] = data.category;
+                                    _this.categories[_this.currentIndex] = data.category;
                                     //modal close
                                     document.getElementById('modalClose').click();
                                 }

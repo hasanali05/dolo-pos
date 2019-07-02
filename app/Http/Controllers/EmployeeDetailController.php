@@ -55,7 +55,7 @@ class EmployeeDetailController extends Controller
 
         if($request->employee['id'] == null){
             //validate data
-            $validator = \Validator::make($request->employee->all(), [
+            $validator = \Validator::make($request['employee']->all(), [
                 'password'=>'required|min:6'
             ]);
 

@@ -14,8 +14,8 @@ class Supplier extends Model
 
     protected $fillable = ['account_id','name','contact','address','is_active'];
 
-     public function accounts(){
-    	return $this->hasMany(Account::class,'account_id');
+     public function account(){
+    	return $this->belongsTo(Account::class,'account_id','id');
     }
 
 }
