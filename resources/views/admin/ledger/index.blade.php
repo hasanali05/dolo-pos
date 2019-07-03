@@ -14,16 +14,16 @@ Home page
 @endsection
 
 @section('content')
-<div class="row" id="accounts">
+<div class="row" id="ledgers">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
                 <div class="d-flex no-block align-items-center mb-4">
-                    <h4 class="card-title">Accounts List</h4>
+                    <h4 class="card-title">Ledger List</h4>
                     <div class="ml-auto">
                         <div class="btn-group">
                             <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#createmodel"  @click.prevent="clearData()">
-                            Create New Account
+                            Create New Ledger
                             </button>
                         </div>
                     </div>
@@ -41,9 +41,13 @@ Home page
                 <thead style="text-align: center;">
                     <tr>
                         <th>S/L</th>
-                        <th>Name</th>
-                        <th>Group</th>
-                        <th>Sub Group</th>
+                        <th>Account Name</th>
+                        <th>Entry Date</th>
+                        <th>Type</th>
+                        <th>Detail</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <th>balance</th>
                         <th>Active/Not</th>
                         <th>Action</th>
                     </tr>
@@ -51,19 +55,27 @@ Home page
                 <tfoot>
                     <tr>
                         <th>S/L</th>
-                        <th>Name</th>
-                        <th>Group</th>
-                        <th>Sub Group</th>
+                        <th>Account Name</th>
+                        <th>Entry Date</th>
+                        <th>Type</th>
+                        <th>Detail</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <th>balance</th>
                         <th>Active/Not</th>
                         <th>Action</th>
                     </tr>
                 </tfoot>
                 <tbody style="text-align: center;">
-                    <tr v-for="(account, index) in accounts">
+                    <tr v-for="(ledger, index) in ledgers">
                         <td>@{{index+1}}</td>
-                        <td>@{{account.name}}</td>
-                        <td>@{{account.group}}</td>
-                        <td>@{{account.sub_group}}</td>
+                        <td>@{{ledger.account?ledger.account.name:"Empty"}}</td>
+                        <td>@{{ledger.entry_date}}</td>
+                        <td>@{{ledger.type}}</td>
+                        <td>@{{ledger.detail}}</td>
+                        <td>@{{ledger.debit}}</td>
+                        <td>@{{ledger.credit}}</td>
+                        <td>@{{ledger.balance}}</td>
                         <td>
                             <span class="badge badge-success" v-if="account.is_active == 1">Active</span>
                             <button class="btn btn-danger" v-if="account.is_active == 1" @click.prevent="inactiveAccount(index)">In-activate-it</button> 
@@ -232,18 +244,30 @@ Home page
     <script src="{{asset('/')}}/js/axios.min.js"></script>
     <script type="text/javascript">
         const app = new Vue({
-            el: '#accounts',
+            el: '#ledgers',
             data: {
                 errors: [],
-                account: {
+                ledger: {
                     id: '',
-                    name: '',
-                    group: '',
-                    sub_group: '',
+                    account_id: '',
+                    entry_date: '',
+                    type: '',
+                    detail: '',
+                    debit: '',
+                    credit: '',
+                    balance: '',
                     is_active: 1,
+                     created_by: '',
+                     account: {
+                        name:'',
+                        group:'',
+                        sub_group:'',
+                        is_active: 1,
+                        created_by: '',
+                     }
                 },
                 currentIndex: 0,
-                accounts: [],
+                ledgers: [],
                 successMessage: '',
             },
             mounted() {
@@ -253,40 +277,40 @@ Home page
             methods: {
                 getAllData() {
                     var _this = this;
-                    axios.get('{{ route("accounts.all") }}')
+                    axios.get('{{ route("ledgers.all") }}')
                     .then(function (response) {
-                        _this.accounts = response.data.accounts;
+                        _this.ledgers = response.data.ledgers;
                     })
                 },
                 setData(index) {
                     var _this = this;
                     _this.errors = [];
                     _this.currentIndex = index;
-                    _this.account = _this.accounts[index];
+                    _this.account = _this.ledgers[index];
                 },
                 inactiveAccount(index) {
                     var _this = this;
                     let data = {
-                        account_id: _this.accounts[index].id,
+                        account_id: _this.ledgers[index].id,
                         is_active: 0,
                     }
-                    axios.post('{{ route("accounts.statusChange") }}',data)
+                    axios.post('{{ route("ledgers.statusChange") }}',data)
                     .then(function (response) {
                         if(response.data.success == true) {
-                            _this.$set(_this.accounts[index] , 'is_active' , 0);
+                            _this.$set(_this.ledgers[index] , 'is_active' , 0);
                         }
                     })
                 },
                 activeAccount(index) {
                     var _this = this;
                     let data = {
-                        account_id: _this.accounts[index].id,
+                        account_id: _this.ledgers[index].id,
                         is_active: 1,
                     }
-                    axios.post('{{ route("accounts.statusChange") }}',data)
+                    axios.post('{{ route("ledgers.statusChange") }}',data)
                     .then(function (response) {
                         if(response.data.success == true) {
-                            _this.$set(_this.accounts[index] , 'is_active' , 1);
+                            _this.$set(_this.ledgers[index] , 'is_active' , 1);
                         }
                     })
                 },
@@ -308,7 +332,7 @@ Home page
                         let data = {
                             account: _this.account
                         }
-                        axios.post('{{ route("accounts.addOrUpdate") }}', data)
+                        axios.post('{{ route("ledgers.addOrUpdate") }}', data)
                         .then(function (response) {
                             let data = response.data;
                             let status = response.data.status;
@@ -319,13 +343,13 @@ Home page
                                     alert("something Wrong. Try Again.")
                                 }
                                 if(status=='created') {
-                                    _this.accounts.push(data.account);
+                                    _this.ledgers.push(data.account);
                                     //modal close
                                     document.getElementById('modalClose').click();
                                     _this.successMessage = 'Account created successfully.';
                                 }
                                 if(status=='updated') {
-                                    _this.accounts[currentIndex] = data.account;
+                                    _this.ledgers[currentIndex] = data.account;
                                     //modal close
                                     document.getElementById('modalClose').click();
                                     _this.successMessage = 'Account updated successfully.';
@@ -358,7 +382,6 @@ Home page
                     if(count==0) return true;
                     else return false;
                 },
-
                 wait(ms){
                     var start = new Date().getTime();
                     var end = start;
