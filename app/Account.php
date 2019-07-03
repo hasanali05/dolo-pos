@@ -10,4 +10,8 @@ class Account extends Model
     use SoftDeletes;
     protected $fillable = ['name','group','sub_group', 'is_active','created_by'];
 
+    public function ledger(){
+    	return $this->hasOne(Account::class);
+    }
+
 }
