@@ -28,14 +28,12 @@ Home page
                         </div>
                     </div>
                 </div>
-                <h1 v-if="successMessage" class="text-center alert alert-success">@{{successMessage}}</h1>
-                <table data-toggle="table" data-mobile-responsive="true"
-                class="table-striped">
-                <thead>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+                <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="successMessage">
+                    <strong>Successfull!</strong> @{{successMessage}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click.prevent="successMessage=''">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
             <table class="table table-bordered" width="100%" cellspacing="0">
                 <thead style="text-align: center;">
@@ -104,7 +102,7 @@ Home page
     </div>
     
         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="employeeDetailLabel" aria-modal="true" id="accountDetail">
-            <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="employeeDetailLabel">Account Detail</h5>
@@ -133,8 +131,12 @@ Home page
                                             </div>
                                             <div class="col-md-3 col-xs-6"> <strong>Active</strong>
                                                 <br>
-                                                   <button class="btn btn-success" >@{{account.is_active}}</button>
-                                                <p class="text-muted">@{{account.is_active}}</p>
+                                                <h3 >
+                                                    <span class="badge badge-success" v-if="account.is_active == 1">Active
+                                                    </span>
+                                                    <span class="badge badge-danger" v-else>Inactive
+                                                    </span>
+                                                </h3>
                                             </div>
                                         </div>
                                     </div>
@@ -144,7 +146,7 @@ Home page
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"  v-on:click="counter += 1" >Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -171,26 +173,26 @@ Home page
                             </ul>
                         </div>
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-6">
                                 <div class="input-group mb-3">
                                     <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
                                     <input type="text" class="form-control" placeholder="username" v-model="account.name">
                                     <input type="hidden" class="form-control"  v-model="account.id">
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-6">
                                 <div class="input-group mb-3">
                                     <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
                                     <input type="text" class="form-control" placeholder="Group" v-model="account.group">
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-6">
                                 <div class="input-group mb-3">
                                     <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
                                     <input type="text" class="form-control" placeholder="Sub Group" v-model="account.sub_group">
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-6">
                                 <div class="input-group mb-3">
                                     <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
                                     <select class="form-control form-white" placeholder="Choose status" v-model="account.is_active">
@@ -325,7 +327,7 @@ Home page
                                     _this.successMessage = 'Account created successfully.';
                                 }
                                 if(status=='updated') {
-                                    _this.accounts[currentIndex] = data.account;
+                                    _this.accounts[_this.currentIndex] = data.account;
                                     //modal close
                                     document.getElementById('modalClose').click();
                                     _this.successMessage = 'Account updated successfully.';
@@ -352,6 +354,14 @@ Home page
                     }
                     if (!account.group) {
                         _this.errors.push("Group required.");
+                        count++;
+                    }
+                    if (!account.sub_group) {
+                        _this.errors.push("Sub group required.");
+                        count++;
+                    }
+                    if (!account.status) {
+                        _this.errors.push("Sub group required.");
                         count++;
                     }
 
