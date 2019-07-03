@@ -12,7 +12,7 @@ class DamageWarrentySeeder extends Seeder
     public function run()
     {
         // Only Damange and Warrenty
-        echo "Warranty seeding .... \n";
+        echo "Damage seeding .... \n";
         $inventory = App\Inventory::create([
              // 'id'=>$line[0],
              'product_id'=>1,
@@ -26,18 +26,12 @@ class DamageWarrentySeeder extends Seeder
              'customer_id'=>1,
              'sale_id'=>1,
             ]);
-        App\Warranty::create([
+        App\Damage::create([
             'inventory_id' => $inventory->id,
-            'purchase_id' => 1,
-            'sale_id' => 1,
-            'warranty_duration'=>"6 month",
-            'warranty_type'=>"No reson",
-            'warranty_start'=>"02-07-19",
-            'warranty_end'=>"02-07-20",
-            'issue_date'=>"02-07-29",
-            'reason'=>"Damage",
-            'return_date'=>"23-07-29",
+            'issue_date'=>"2-07-19",
+            'reason'=>"No reson",
+            'status'=>"sold",
         ]);
-        echo "Warranty seeded .... \n";
+        echo "Damage seeded .... \n";
     }
 }
