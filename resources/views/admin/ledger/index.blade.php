@@ -18,15 +18,9 @@ Home page
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <div class="d-flex no-block align-items-center mb-4">
-                    <h4 class="card-title">Ledger List</h4>
-                    <div class="ml-auto">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#createmodel"  @click.prevent="clearData()">
-                            Create New Ledger
-                            </button>
-                        </div>
-                    </div>
+                <div class="d-flex no-block align-items-center mb-4" >
+                    <h4 class="card-title" style="text-align: center;">Ledger List</h4>
+
                 </div>
                 <h1 v-if="successMessage" class="text-center alert alert-success">@{{successMessage}}</h1>
                 <table data-toggle="table" data-mobile-responsive="true"
@@ -48,7 +42,7 @@ Home page
                         <th>Debit</th>
                         <th>Credit</th>
                         <th>balance</th>
-                        <th>Active/Not</th>
+
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -62,7 +56,7 @@ Home page
                         <th>Debit</th>
                         <th>Credit</th>
                         <th>balance</th>
-                        <th>Active/Not</th>
+   
                         <th>Action</th>
                     </tr>
                 </tfoot>
@@ -76,24 +70,14 @@ Home page
                         <td>@{{ledger.debit}}</td>
                         <td>@{{ledger.credit}}</td>
                         <td>@{{ledger.balance}}</td>
-                        <td>
-                            <span class="badge badge-success" v-if="account.is_active == 1">Active</span>
-                            <button class="btn btn-danger" v-if="account.is_active == 1" @click.prevent="inactiveAccount(index)">In-activate-it</button> 
 
-                            <span class="badge badge-danger" v-if="account.is_active == 0">In-active</span>
-                            <button class="btn btn-success" v-if="account.is_active == 0" @click.prevent="activeAccount(index)">Active-it</button> 
-                        </td>
                         <td>     
                             <button class="btn btn-info btn-icon-split"  data-toggle="modal" data-target="#accountDetail" @click="setData(index)">
                                 <span class="icon text-white" >
                                     <i class="fas fa-eye"></i>
                                 </span>
                             </button> 
-                            <button class="btn btn-warning btn-icon-split"   data-toggle="modal" data-target="#createmodel"  @click="setData(index)">
-                                <span class="icon text-white">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </span>
-                            </button>                                  
+                                 
                         </td>
                     </tr>
                 </tbody>
@@ -129,7 +113,7 @@ Home page
                             <!-- Column -->
                             <div class="col-lg-12 col-xlg-12 col-md-12">
                                 <div class="card">
-                                    <div class="card-body">
+                           <!--          <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-3 col-xs-6 b-r"> <strong>Account Name</strong>
                                                 <br>
@@ -149,7 +133,7 @@ Home page
                                                 <p class="text-muted">@{{account.is_active}}</p>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <!-- Column -->
@@ -166,68 +150,7 @@ Home page
 
     <div class="modal fade" id="createmodel" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <form action="javascript:void(0)" method="POST">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="createModalLabel"><i class="ti-marker-alt mr-2"></i> Create New Account</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <div v-if="errors.length" class="alert alert-danger">
-                            <b>Please correct the following error(s):</b>
-                            <ul>
-                                <li v-for="error in errors">@{{ error }}</li>
-                            </ul>
-                        </div>
-                        <div class="row">
-                            <div class="col-4">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                    <input type="text" class="form-control" placeholder="username" v-model="account.name">
-                                    <input type="hidden" class="form-control"  v-model="account.id">
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                    <input type="text" class="form-control" placeholder="Group" v-model="account.group">
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                    <input type="text" class="form-control" placeholder="Sub Group" v-model="account.sub_group">
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
-                                    <select class="form-control form-white" placeholder="Choose status" v-model="account.is_active">
-                                        <option value="1">Active</option>
-                                        <option value="0">In-active</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- <div class="input-group mb-3">
-                            <button type="button" class="btn btn-info"><i class="ti-import text-white"></i></button>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="inputGroupFile01">
-                                <label class="custom-file-label" for="inputGroupFile01">Choose Image</label>
-                            </div>
-                        </div> -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalClose">Close</button>
-                        <button type="submit" class="btn btn-info" @click.prevent="clearData()"><i class="ti-close"></i> Clear data</button>
-                        <button type="submit" class="btn btn-success" @click.prevent="saveData()" v-if="!account.id"><i class="ti-save"></i> Save</button>
-                        <button type="submit" class="btn btn-primary" @click.prevent="saveData()" v-if="account.id"><i class="ti-save"></i> Update</button>
-                    </div>
-                </form>
-            </div>
+          
         </div>
     </div>
 </div>
@@ -258,7 +181,7 @@ Home page
                     balance: '',
                     is_active: 1,
                      created_by: '',
-                     account: {
+                    account: {
                         name:'',
                         group:'',
                         sub_group:'',
@@ -286,12 +209,12 @@ Home page
                     var _this = this;
                     _this.errors = [];
                     _this.currentIndex = index;
-                    _this.account = _this.ledgers[index];
+                    _this.ledger = _this.ledgers[index];
                 },
                 inactiveAccount(index) {
                     var _this = this;
                     let data = {
-                        account_id: _this.ledgers[index].id,
+                        ledger_id: _this.ledgers[index].id,
                         is_active: 0,
                     }
                     axios.post('{{ route("ledgers.statusChange") }}',data)
@@ -304,7 +227,7 @@ Home page
                 activeAccount(index) {
                     var _this = this;
                     let data = {
-                        account_id: _this.ledgers[index].id,
+                        ledger_id: _this.ledgers[index].id,
                         is_active: 1,
                     }
                     axios.post('{{ route("ledgers.statusChange") }}',data)
@@ -317,7 +240,7 @@ Home page
                 clearData() {
                     var _this = this;
                     _this.errors = [];
-                    _this.account = {
+                    _this.ledger = {
                         id: '',
                         name: '',
                         group: '',
@@ -330,7 +253,7 @@ Home page
                     if(_this.validate()){
                         //save data
                         let data = {
-                            account: _this.account
+                            ledger: _this.ledger
                         }
                         axios.post('{{ route("ledgers.addOrUpdate") }}', data)
                         .then(function (response) {
@@ -343,13 +266,13 @@ Home page
                                     alert("something Wrong. Try Again.")
                                 }
                                 if(status=='created') {
-                                    _this.ledgers.push(data.account);
+                                    _this.ledgers.push(data.ledger);
                                     //modal close
                                     document.getElementById('modalClose').click();
                                     _this.successMessage = 'Account created successfully.';
                                 }
                                 if(status=='updated') {
-                                    _this.ledgers[currentIndex] = data.account;
+                                    _this.ledgers[currentIndex] = data.ledger;
                                     //modal close
                                     document.getElementById('modalClose').click();
                                     _this.successMessage = 'Account updated successfully.';
@@ -367,10 +290,10 @@ Home page
                 validate() {           
                     var _this = this; 
                     _this.errors = [];
-                    let account = _this.account;
+                    let ledger = _this.ledger;
                     let count = 0; 
 
-                    if (!account.name) {
+                    if (!ledger.name) {
                         _this.errors.push("Name required.");
                         count++;
                     }
