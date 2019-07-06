@@ -55,13 +55,13 @@ class ProductController extends Controller
 
             $product = Product::create([
                 'name' => $request->product['name'],
-                'category_id' => $request->product['category_id'],
+                'category_id' => $request->product['category']['id'],
                 'detail' => $request->product['detail'],
                 'is_active' => $request->product['is_active'],
             ]);
 
                 
-            $product = product::with('category')->find($product->id);
+            $product = Product::with('category')->find($product->id);
             return response()->json(["success"=>true, 'status'=>'created', 'product'=>$product]);
         } else { 
             $product = Product::find($request->product['id']);   

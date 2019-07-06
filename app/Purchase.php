@@ -10,10 +10,10 @@ class Purchase extends Model
     protected $dates = ['deleted_at'];
     protected $table = 'purchases';
 
-    protected $fillable=['supplier_id','purchase_date','amount','commission','payment','due'];
+    protected $fillable=['supplier_id','purchase_date','amount','commission','payment','due','is_active'];
 
-    public function suppliers(){
-    	return $this->hasMany(Supplier::class,'supplier_id');
+    public function supplier(){
+    	return $this->belongsTo(Supplier::class,'supplier_id');
     }
 
 }

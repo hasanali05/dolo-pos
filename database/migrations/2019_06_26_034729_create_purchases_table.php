@@ -21,6 +21,7 @@ class CreatePurchasesTable extends Migration
             $table->double('commission',8,2)->default(0);
             $table->double('payment',8,2)->default(0);
             $table->double('due',8,2)->default(0);
+            $table->boolean('is_active')->default(true);
             $table->softDeletes();
             $table->timestamps();
         });
