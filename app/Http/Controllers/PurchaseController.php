@@ -9,7 +9,7 @@ class PurchaseController extends Controller
 {
     public function purchases()
     {
-    	return view('admin.purchas.index');
+    	return view('admin.purchase.index');
     }
 
  	 public function purchasesAll()
@@ -77,5 +77,9 @@ class PurchaseController extends Controller
 
             return response()->json(["success"=>true, 'status'=>'updated', 'purchase'=>$purchase]);
         }
+    }
+
+    public function purchasesdetail(){
+        return view('admin.purchase.create');
     }
 }
