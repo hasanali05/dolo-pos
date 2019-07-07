@@ -35,6 +35,10 @@ class AppServiceProvider extends ServiceProvider
                             ->where('sub_group', '=', 'Accounts Receiveable')->get();
             $view->with('receivableAccounts', json_encode($receivableAccounts));
 
+            $payableAccounts = \App\Account::where('group', '=', 'Liability')
+                            ->where('sub_group', '=', 'Accounts Payable')->get();
+            $view->with('payableAccounts', json_encode($payableAccounts));
+
             $liabilityAccounts = \App\Account::where('group', '=', 'Expense')
                             ->orWhere('group', '=', 'Liability')->get();
             $view->with('liabilityAccounts', json_encode($liabilityAccounts));
