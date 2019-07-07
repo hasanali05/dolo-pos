@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Ledger;
 use App\Account;
+use Auth; 
 
 class LedgerController extends Controller
 {
@@ -15,9 +16,9 @@ class LedgerController extends Controller
 	}
     public function ledgersAll()
     {
-        $ledgers = Ledger::all();
-        $account = Account::all();
-        return response()->json(["$ledgers"=>$ledgers],["$account"=>$account]);
+        $ledgers = Ledger::with('account')->get();
+        //$account = Account::all();
+        return response()->json(["ledgers"=>$ledgers]);
     }
     public function statusChange(Request $request)
     {
