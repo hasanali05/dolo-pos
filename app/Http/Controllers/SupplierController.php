@@ -62,7 +62,7 @@ class SupplierController extends Controller
             ]);
 
                 
-            $supplier = Supplier::find($supplier->id);
+            $supplier = Supplier::with('account')->find($supplier->id);
             return response()->json(["success"=>true, 'status'=>'created', 'supplier'=>$supplier]);
         } else { 
             $supplier = Supplier::find($request->supplier['id']);   
