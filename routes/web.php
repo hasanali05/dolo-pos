@@ -83,8 +83,19 @@ Route::prefix('admin')->group(function()
 		//purchases (initially purchase, purchase detail and purchase transaction will be one action)
 		Route::get('/purchases', 'PurchaseController@purchases')->name('purchases');
 		Route::get('/purchases-all', 'PurchaseController@purchasesAll')->name('purchases.all');
-		Route::post('/purchases-status-change', 'PurchaseController@statusChange')->name('purchases.statusChange');
 		Route::post('/purchases-add-or-update', 'PurchaseController@addOrUpdate')->name('purchases.addOrUpdate');
+		//purchase details
+
+		Route::get('/purchasesDetail', 'PurchaseDetailController@purchasesDetail')->name('purchasesDetails');
+		Route::get('/purchasesDetail-all', 'PurchaseDetailController@purchasesDetailAll')->name('purchasesDetails.all');
+		//purchase transection
+
+		Route::get('/purchaseTransaction', 'PurchaseTransactionController@purchaseTransaction')->name('purchaseTransaction');
+		Route::get('/purchaseTransaction-all', 'PurchaseTransactionController@purchaseTransactionAll')->name('purchaseTransaction.all');
+
+		//inventory
+		Route::get('/inventories', 'InventoryController@purchases')->name('inventories');
+		Route::get('/inventories-all', 'InventoryController@purchasesAll')->name('inventories.all');
 
 		//sales (initially sale, sale detail and sale transaction will be one action)
 		Route::get('/sales', 'SaleController@sales')->name('sales');

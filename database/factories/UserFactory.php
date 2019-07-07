@@ -62,7 +62,6 @@ $factory->define(App\Purchase::class, function (Faker $faker) {
         'commission'=>rand(10,20),
         'payment' =>rand(10,20),
         'due' =>rand(10,20),
-        'is_active' =>$faker->boolean,
         
     ];
 });
@@ -88,7 +87,7 @@ $factory->define(App\Inventory::class, function (Faker $faker) {
         'buying_price'=>rand(500,2000),
         'selling_price'=>rand(600,2000),
         'supplier_id'=>rand(1,10),
-         'supply_id'=>rand(1,10),
+         'purchase_id'=>rand(1,10),
         'customer_id'=>rand(1,10),
         'sale_id'=>rand(1,10),
         

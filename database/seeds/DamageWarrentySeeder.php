@@ -22,7 +22,7 @@ class DamageWarrentySeeder extends Seeder
              'selling_price'=>"120",
              'status'=>"sold",
              'supplier_id'=>1,
-             'supply_id'=>1,
+             'purchase_id'=>1,
              'customer_id'=>1,
              'sale_id'=>1,
             ]);

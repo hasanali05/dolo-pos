@@ -13,11 +13,11 @@ class PurchaseDetail extends Model
     protected $fillable=['purchase_id','inventory_id','price','warranty_duration','warranty_type','unique_code'];
 
     public function purchase(){
-    	return $this->hasMany(Purches::class,'purchase_id');
+    	return $this->belongsTo(Purchase::class,'purchase_id');
     }
 
-    public function inventoris(){
-    	return $this->hasMany(Inventory::class,'inventory_id');
+    public function inventory(){
+    	return $this->belongsTo(Inventory::class,'inventory_id');
     }
     
 }

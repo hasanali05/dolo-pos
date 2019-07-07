@@ -24,7 +24,7 @@ class CreateInventoriesTable extends Migration
             $table->enum('status', ['inventory', 'sold', 'warranty', 'damage'])->default('inventory');
 
             $table->integer('supplier_id')->unsigned();
-            $table->integer('supply_id')->unsigned();
+            $table->integer('purchase_id')->unsigned();
 
             $table->integer('customer_id')->unsigned();
             $table->integer('sale_id')->unsigned();

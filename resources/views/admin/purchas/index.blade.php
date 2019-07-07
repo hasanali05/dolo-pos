@@ -43,7 +43,6 @@ Home page
                         <th>Supplier Name</th>
                         <th>Purchase Date</th>
                         <th>Purchase Amount</th>
-                        <th>Active/Not</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -53,7 +52,6 @@ Home page
                         <th>Supplier Name</th>
                         <th>Purchase Date</th>
                         <th>Purchase Amount</th>
-                        <th>Active/Not</th>
                         <th>Action</th>
                     </tr>
                 </tfoot>
@@ -64,18 +62,8 @@ Home page
                         <td>@{{purchase.supplier?purchase.supplier.name:''}}</td>
                         <td>@{{purchase.purchase_date}}</td>
                         <td>@{{purchase.amount}}</td>
-                        
 
-      
-
-                        
-                        <td>
-                            <span class="badge badge-success" v-if="purchase.is_active == 1">Active</span>
-                            <button class="btn btn-danger" v-if="purchase.is_active == 1" @click.prevent="inactivepurchase(index)">In-activate-it</button> 
-
-                            <span class="badge badge-danger" v-if="purchase.is_active == 0">In-active</span>
-                            <button class="btn btn-success" v-if="purchase.is_active == 0" @click.prevent="activepurchase(index)">Active-it</button> 
-                        </td>
+         
                         <td> 
                             <button class="btn btn-info btn-icon-split"  data-toggle="modal" data-target="#supplyDetail" @click="setData(index)">
                                 <span class="icon text-white" >
@@ -340,34 +328,8 @@ Home page
                     _this.currentIndex = index;
                     _this.purchase = _this.purchases[index];
                 },
-                inactivepurchase(index) {
-                    var _this = this;
-                    let data = {
-                        purchase_id: _this.purchases[index].id,
-                        is_active: 0,
-                    }
-                    axios.post('{{ route("purchases.statusChange") }}',data)
-                    .then(function (response) {
-                        if(response.data.success == true) {
-                            _this.$set(_this.purchases[index] , 'is_active' , 0);
-                            _this.successMessage = 'Supplier status inactivated successfully';
-                        }
-                    })
-                },
-                activepurchase(index) {
-                    var _this = this;
-                    let data = {
-                         purchase_id: _this.purchases[index].id,
-                        is_active: 1,
-                    }
-                    axios.post('{{ route("purchases.statusChange") }}',data)
-                    .then(function (response) {
-                        if(response.data.success == true) {
-                            _this.$set(_this.purchases[index] , 'is_active' , 1);
-                            _this.successMessage = 'Purchase  status activated successfully';
-                        }
-                    })
-                },
+
+           
                 clearData() {
                     var _this = this;
                     _this.errors = [];

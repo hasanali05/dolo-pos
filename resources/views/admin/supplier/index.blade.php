@@ -132,9 +132,9 @@ Home page
                             <div class="col-6">
                                 <div class="input-group mb-3">
                                     <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
-                                    <select class="form-control form-white" v-model="supplier.account.id">
+                                    <select class="form-control form-white" v-model="supplier.account_id">
                                         <option>select Supplier Name</option>
-                                        <option v-for="supplier in suppliers">@{{supplier.account?supplier.account.name:''}}</option>
+                                        <option v-for="account in accounts" :value="account.id">@{{account.name}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -284,6 +284,7 @@ Home page
                 errors: [],
                 supplier: {
                     id: '',
+                    account_id:'',
                     name: '',
                     contact: '',
                     address: '',
@@ -294,20 +295,31 @@ Home page
                     }
                 },
                 currentIndex: 0,
-                suppliers: [],                
+                suppliers: [],               
+                accounts: [],               
                 successMessage:'',
             },
             mounted() {
                 var _this = this;
                 _this.getAllData();
+                _this.getAllAccountData();
             },
             methods: {
                 getAllData() {
                     var _this = this;
+                    axios.get('{{ route("accounts.all") }}')
+                    .then(function (response) {
+                        _this.accounts = response.data.accounts;
+                    })
+                },
+
+                getAllAccountData(){
+                      var _this = this;
                     axios.get('{{ route("suppliers.all") }}')
                     .then(function (response) {
                         _this.suppliers = response.data.suppliers;
                     })
+
                 },
                 setData(index) {
                     var _this = this;
@@ -386,7 +398,8 @@ Home page
                                     _this.successMessage = 'Supplier created successfully';
                                 }
                                 if(status=='updated') {
-                                    _this.suppliers[_this.currentIndex] = data.supplier;
+                                    
+                                    _this.$set( _this.suppliers, _this.currentIndex, data.supplier )
                                     //modal close
                                     document.getElementById('modalClose').click();
                                     _this.successMessage = 'Supplier updated successfully';

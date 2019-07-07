@@ -140,9 +140,9 @@ Home page
                             <div class="col-6">
                                 <div class="input-group mb-3">
                                     <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
-                                    <select class="form-control form-white" placeholder="Choose status" v-model="product.category.id">
+                                    <select class="form-control form-white" placeholder="Choose status" v-model="product.category_id">
                                         
-                                        <option  v-for="product in products">@{{product.category?product.category.name:''}}</option>
+                                        <option  v-for="category in categories" :value="category.id">@{{category.name}}</option>
                             
                                       
                                     </select>
@@ -278,6 +278,7 @@ Home page
                     id: '',
                     name: '',
                     detail: '',
+                    category_id: 1,
                     is_active: '1',
                     category:{
                         id:'',
@@ -286,11 +287,13 @@ Home page
                 },
                 currentIndex: 0,
                 products: [],                
+                categories: [],                
                 successMessage:'',
             },
             mounted() {
                 var _this = this;
                 _this.getAllData();
+                _this.getAllCategory();
             },
             methods: {
                 getAllData() {
@@ -298,6 +301,13 @@ Home page
                     axios.get('{{ route("products.all") }}')
                     .then(function (response) {
                         _this.products = response.data.products;
+                    })
+                },
+                getAllCategory() {
+                    var _this = this;
+                    axios.get('{{ route("productCategories.all") }}')
+                    .then(function (response) {
+                        _this.categories = response.data.categories;
                     })
                 },
                 setData(index) {
@@ -337,17 +347,16 @@ Home page
                 clearData() {
                     var _this = this;
                     _this.errors = [];
-                    _this.product = {
+                    _this.product= {
                         id: '',
                         name: '',
-                        category_id: '',
                         detail: '',
+                        category_id: 1,
                         is_active: '1',
-                          category: {
+                        category:{
                             id:'',
-                        name: '',
-                  
-                    }
+                            name:''
+                        }
                     }
                 },
                 saveData() {
@@ -374,7 +383,9 @@ Home page
                                     _this.successMessage = 'Product created successfully';
                                 }
                                 if(status=='updated') {
-                                    _this.products[_this.currentIndex] = data.Product;
+
+                                    _this.$set( _this.products, _this.currentIndex, data.product )
+                                    _this.products[_this.currentIndex] = data.product;
                                     //modal close
                                     document.getElementById('modalClose').click();
                                     _this.successMessage = 'Product updated successfully';
@@ -403,7 +414,7 @@ Home page
                         _this.errors.push("detail required.");
                         count++;
                     }
-                     if (!product.category.id) {
+                     if (!product.category_id) {
                         _this.errors.push("category name required.");
                         count++;
                     }

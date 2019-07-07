@@ -76,8 +76,7 @@ class SupplierController extends Controller
                 'address' => $request->supplier['address'],
                 'is_active' => $request->supplier['is_active'],
             ]);
-
-            
+            $supplier = Supplier::with('account')->find($supplier->id);
 
             return response()->json(["success"=>true, 'status'=>'updated', 'supplier'=>$supplier]);
         }

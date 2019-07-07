@@ -18,18 +18,7 @@ class PurchaseController extends Controller
         return response()->json(["purchases"=>$purchases]);
     }
 
-     public function statusChange(Request $request)
-    {
-        $purchase = Purchase::find($request->purchase_id);
-        if($purchase) {
-        	$purchase->update([
-        		'is_active' => $request->is_active
-        	]);
-        	return response()->json(["success"=>true]);
-        } else {
-        	return response()->json(["success"=>false]);
-        }
-    }
+
 
 
        public function addOrUpdate(Request $request)
