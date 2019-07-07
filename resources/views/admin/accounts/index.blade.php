@@ -177,19 +177,23 @@ Home page
                                 <div class="input-group mb-3">
                                     <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
                                     <input type="text" class="form-control" placeholder="username" v-model="account.name">
-                                    <input type="hidden" class="form-control"  v-model="account.id">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="input-group mb-3">
                                     <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                    <input type="text" class="form-control" placeholder="Group" v-model="account.group">
+                                    <select class="form-control form-white" placeholder="Sub Group" v-model="account.group">
+                                        <option v-for="group in groups" :value="group">@{{group}}</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="input-group mb-3">
                                     <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                    <input type="text" class="form-control" placeholder="Sub Group" v-model="account.sub_group">
+
+                                    <select class="form-control form-white" placeholder="Sub Group" v-model="account.sub_group">
+                                        <option v-for="subGroup in subGroups" :value="subGroup">@{{subGroup}}</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -247,6 +251,8 @@ Home page
                 currentIndex: 0,
                 accounts: [],
                 successMessage: '',
+                groups: JSON.parse('{!!$accountGroups!!}'),
+                subGroups: JSON.parse('{!!$accountSubGroups!!}'),
             },
             mounted() {
                 var _this = this;
@@ -360,8 +366,8 @@ Home page
                         _this.errors.push("Sub group required.");
                         count++;
                     }
-                    if (!account.status) {
-                        _this.errors.push("Sub group required.");
+                    if (!account.is_active) {
+                        _this.errors.push("Status required.");
                         count++;
                     }
 
