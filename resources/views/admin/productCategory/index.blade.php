@@ -252,6 +252,7 @@ Home page
                                     //modal close
                                     document.getElementById('modalClose').click();
                                     _this.successMessage = 'Category created successfully';
+                                    
                                 }
                                 if(status=='updated') {
                                     _this.categories[_this.currentIndex] = data.category;

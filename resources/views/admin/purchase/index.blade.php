@@ -22,9 +22,12 @@ Home page
                     <h4 class="card-title">Purchase List</h4>
                     <div class="ml-auto">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#createmodel"  @click.prevent="clearData()">
-                            Create New Purchase
+                            <a href="{{route('purchasesdetail.all')}}">
+                                <button type="button" class="btn btn-dark" >
+                             Purchase
                             </button>
+                            </a>
+                            
                         </div>
                     </div>
                 </div>

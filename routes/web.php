@@ -21,7 +21,8 @@ Route::get('/', 'HomeController@index');
 
 Route::prefix('admin')->group(function()
 {
-	Route::middleware('auth:admin')->group(function(){
+	Route::middleware('auth:admin')->group(function()
+	{
 		//profile
 		Route::get('/dashboard', 'AdminController@dashboard')->name('admin.dashboard');
 		Route::get('/myprofile', 'AdminController@myprofile')->name('admin.myprofile');
@@ -83,6 +84,7 @@ Route::prefix('admin')->group(function()
 		//purchases (initially purchase, purchase detail and purchase transaction will be one action)
 		Route::get('/purchases', 'PurchaseController@purchases')->name('purchases');
 		Route::get('/purchases-all', 'PurchaseController@purchasesAll')->name('purchases.all');
+		Route::get('/purchases-detail', 'PurchaseController@purchasesdetail')->name('purchasesdetail.all');
 		Route::post('/purchases-add-or-update', 'PurchaseController@addOrUpdate')->name('purchases.addOrUpdate');
 		//purchase details
 
