@@ -35,13 +35,28 @@ class SaleSeeder extends Seeder
         echo "Customer seeded .... \n";
 
         echo "Sale seeding .... \n";
-        App\Sale::create([
+        $sale = App\Sale::create([
             'customer_id' => $customer->id,
             'sale_date'=>"01-07-19",
             'amount'=>"434",
             'commission'=>"50",
             'payment'=>"300",
             'due'=>"100",
+        ]);
+        App\SaleDetail::create([
+            'sale_id' =>$sale->id,
+            'inventory_id'=>1,
+            'price'=>434,
+            'warranty_duration'=>6,
+            'warranty_type'=>"months",
+            'warranty_start'=>"01-07-2019",
+            'warranty_end'=>"01-07-2020",
+            'unique_code'=>"112",
+        ]);
+        App\SaleTransaction::create([
+            'customer_id' => $customer->id,
+            'reason'=>"sale",
+            'amount'=>"434",
         ]);
         echo "Sale seeded .... \n";
     }

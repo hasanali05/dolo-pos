@@ -189,7 +189,7 @@ Home page
     </div>
 
     <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="employeeDetailLabel" aria-modal="true" id="productDetail">
-            <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="employeeDetailLabel">Product detail</h5>
@@ -200,25 +200,7 @@ Home page
                     <div class="modal-body">
                         <div class="row">
                             <!-- Column -->
-                            <div class="col-lg-4 col-xlg-3 col-md-5">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <center class="mt-4"> <img src="{{ asset('/') }}/template/assets/images/users/5.jpg" class="rounded-circle" width="150" />
-                                            <h4 class="card-title mt-2"></h4>
-                                            <h6 class="card-subtitle"></h6>
-
-                                            <span class="badge badge-success" v-if="product.is_active == 1">Active</span>
-                                            <span class="badge badge-danger" v-if="product.is_active == 0">In-active</span>
-
-                                        </center>
-                                    </div>
-                                    <div>
-                                        <hr> </div>
-                                </div>
-                            </div>
-                            <!-- Column -->
-                            <!-- Column -->
-                            <div class="col-lg-8 col-xlg-9 col-md-7">
+                            <div class="col-lg-12 col-xlg-12 col-md-12">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row">
@@ -234,15 +216,16 @@ Home page
                                                 <br>
                                                 <p class="text-muted">@{{product.detail}}</p>
                                             </div>
-                                  
-
-
-
-
-
-
+                                            <div class="col-md-3 col-xs-6"> <strong>Active</strong>
+                                                <br>
+                                                <h3>
+                                                    <span class="badge badge-success" v-if="product.is_active == 1">Active
+                                                    </span>
+                                                    <span class="badge badge-danger" v-else>Inactive
+                                                    </span>
+                                                </h3>
+                                            </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>

@@ -194,7 +194,7 @@ Home page
 
 
             <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="employeeDetailLabel" aria-modal="true" id="supplyDetail">
-            <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="employeeDetailLabel">Supply detail</h5>
@@ -205,28 +205,10 @@ Home page
                     <div class="modal-body">
                         <div class="row">
                             <!-- Column -->
-                            <div class="col-lg-4 col-xlg-3 col-md-5">
+                            <div class="col-lg-12 col-xlg-12 col-md-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <center class="mt-4"> <img src="{{ asset('/') }}/template/assets/images/users/5.jpg" class="rounded-circle" width="150" />
-                                            <h4 class="card-title mt-2"></h4>
-                                            <h6 class="card-subtitle"></h6>
-
-                                            <span class="badge badge-success" v-if="supplier.is_active == 1">Active</span>
-                                            <span class="badge badge-danger" v-if="supplier.is_active == 0">In-active</span>
-
-                                        </center>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <!-- Column -->
-                            <!-- Column -->
-                            <div class="col-lg-8 col-xlg-9 col-md-7">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            
+                                        <div class="row">  
                                             <div class="col-md-3 col-xs-6 b-r"> <strong>Account Name</strong>
                                                 <br>
                                                 <p class="text-muted">@{{supplier.account?supplier.account.name:''}}</p>
@@ -238,18 +220,20 @@ Home page
                                                 <br>
                                                 <p class="text-muted">@{{supplier.contact}}</p>
                                             </div>
-                                             <div class="col-md-3 col-xs-6 b-r"> <strong>Address</strong>
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Status</strong>
+                                                <br>
+                                                <h3>
+                                                    <span class="badge badge-success" v-if="supplier.is_active == 1">Active
+                                                    </span>
+                                                    <span class="badge badge-danger" v-else>Inactive
+                                                    </span>
+                                                </h3>
+                                            </div>
+                                            <div class="col-md-6 col-xs-6 b-r"> <strong>Address</strong>
                                                 <br>
                                                 <p class="text-muted">@{{supplier.address}}</p>
                                             </div>
-
-
-
-
-
-
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -296,30 +280,20 @@ Home page
                 },
                 currentIndex: 0,
                 suppliers: [],               
-                accounts: [],               
+                accounts: JSON.parse('{!!$payableAccounts!!}'),               
                 successMessage:'',
             },
             mounted() {
                 var _this = this;
                 _this.getAllData();
-                _this.getAllAccountData();
             },
             methods: {
                 getAllData() {
                     var _this = this;
-                    axios.get('{{ route("accounts.all") }}')
-                    .then(function (response) {
-                        _this.accounts = response.data.accounts;
-                    })
-                },
-
-                getAllAccountData(){
-                      var _this = this;
                     axios.get('{{ route("suppliers.all") }}')
                     .then(function (response) {
                         _this.suppliers = response.data.suppliers;
                     })
-
                 },
                 setData(index) {
                     var _this = this;

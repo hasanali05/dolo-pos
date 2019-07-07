@@ -14,72 +14,70 @@ Home page
 @endsection
 
 @section('content')
-<div class="row" id="accounts">
+<div class="row" id="ledgers">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <div class="d-flex no-block align-items-center mb-4">
-                    <h4 class="card-title">Accounts List</h4>
-                    <div class="ml-auto">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#createmodel"  @click.prevent="clearData()">
-                            Create New Account
-                            </button>
-                        </div>
-                    </div>
+                <div class="d-flex no-block align-items-center mb-4" >
+                    <h4 class="card-title" style="text-align: center;">Ledger List</h4>
+
                 </div>
-                <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="successMessage">
-                    <strong>Successfull!</strong> @{{successMessage}}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click.prevent="successMessage=''">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+                <h1 v-if="successMessage" class="text-center alert alert-success">@{{successMessage}}</h1>
+                <table data-toggle="table" data-mobile-responsive="true"
+                class="table-striped">
+                <thead>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
 
             <table class="table table-bordered" width="100%" cellspacing="0">
                 <thead style="text-align: center;">
                     <tr>
                         <th>S/L</th>
-                        <th>Name</th>
-                        <th>Group</th>
-                        <th>Sub Group</th>
-                        <th>Active/Not</th>
+                        <th>Account Name</th>
+                        <th>Entry Date</th>
+                        <th>Type</th>
+                        <th>Detail</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <th>balance</th>
+
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <th>S/L</th>
-                        <th>Name</th>
-                        <th>Group</th>
-                        <th>Sub Group</th>
-                        <th>Active/Not</th>
+                        <th>Account Name</th>
+                        <th>Entry Date</th>
+                        <th>Type</th>
+                        <th>Detail</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <th>balance</th>
+   
                         <th>Action</th>
                     </tr>
                 </tfoot>
                 <tbody style="text-align: center;">
-                    <tr v-for="(account, index) in accounts">
+                    <tr v-for="(ledger, index) in ledgers">
                         <td>@{{index+1}}</td>
-                        <td>@{{account.name}}</td>
-                        <td>@{{account.group}}</td>
-                        <td>@{{account.sub_group}}</td>
-                        <td>
-                            <span class="badge badge-success" v-if="account.is_active == 1">Active</span>
-                            <button class="btn btn-danger" v-if="account.is_active == 1" @click.prevent="inactiveAccount(index)">In-activate-it</button> 
+                        <td>@{{ledger.account?ledger.account.name:"Empty"}}</td>
+                        <td>@{{ledger.entry_date}}</td>
+                        <td>@{{ledger.type}}</td>
+                        <td>@{{ledger.detail}}</td>
+                        <td>@{{ledger.debit}}</td>
+                        <td>@{{ledger.credit}}</td>
+                        <td>@{{ledger.balance}}</td>
 
-                            <span class="badge badge-danger" v-if="account.is_active == 0">In-active</span>
-                            <button class="btn btn-success" v-if="account.is_active == 0" @click.prevent="activeAccount(index)">Active-it</button> 
-                        </td>
                         <td>     
                             <button class="btn btn-info btn-icon-split"  data-toggle="modal" data-target="#accountDetail" @click="setData(index)">
                                 <span class="icon text-white" >
                                     <i class="fas fa-eye"></i>
                                 </span>
                             </button> 
-                            <button class="btn btn-warning btn-icon-split"   data-toggle="modal" data-target="#createmodel"  @click="setData(index)">
-                                <span class="icon text-white">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </span>
-                            </button>                                  
+                                 
                         </td>
                     </tr>
                 </tbody>
@@ -102,7 +100,7 @@ Home page
     </div>
     
         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="employeeDetailLabel" aria-modal="true" id="accountDetail">
-            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="employeeDetailLabel">Account Detail</h5>
@@ -115,7 +113,7 @@ Home page
                             <!-- Column -->
                             <div class="col-lg-12 col-xlg-12 col-md-12">
                                 <div class="card">
-                                    <div class="card-body">
+                           <!--          <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-3 col-xs-6 b-r"> <strong>Account Name</strong>
                                                 <br>
@@ -131,22 +129,18 @@ Home page
                                             </div>
                                             <div class="col-md-3 col-xs-6"> <strong>Active</strong>
                                                 <br>
-                                                <h3 >
-                                                    <span class="badge badge-success" v-if="account.is_active == 1">Active
-                                                    </span>
-                                                    <span class="badge badge-danger" v-else>Inactive
-                                                    </span>
-                                                </h3>
+                                                   <button class="btn btn-success" >@{{account.is_active}}</button>
+                                                <p class="text-muted">@{{account.is_active}}</p>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <!-- Column -->
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"  v-on:click="counter += 1" >Close</button>
                     </div>
                 </div>
             </div>
@@ -156,72 +150,7 @@ Home page
 
     <div class="modal fade" id="createmodel" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <form action="javascript:void(0)" method="POST">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="createModalLabel"><i class="ti-marker-alt mr-2"></i> Create New Account</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <div v-if="errors.length" class="alert alert-danger">
-                            <b>Please correct the following error(s):</b>
-                            <ul>
-                                <li v-for="error in errors">@{{ error }}</li>
-                            </ul>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                    <input type="text" class="form-control" placeholder="username" v-model="account.name">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                    <select class="form-control form-white" placeholder="Sub Group" v-model="account.group">
-                                        <option v-for="group in groups" :value="group">@{{group}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-
-                                    <select class="form-control form-white" placeholder="Sub Group" v-model="account.sub_group">
-                                        <option v-for="subGroup in subGroups" :value="subGroup">@{{subGroup}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
-                                    <select class="form-control form-white" placeholder="Choose status" v-model="account.is_active">
-                                        <option value="1">Active</option>
-                                        <option value="0">In-active</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- <div class="input-group mb-3">
-                            <button type="button" class="btn btn-info"><i class="ti-import text-white"></i></button>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="inputGroupFile01">
-                                <label class="custom-file-label" for="inputGroupFile01">Choose Image</label>
-                            </div>
-                        </div> -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalClose">Close</button>
-                        <button type="submit" class="btn btn-info" @click.prevent="clearData()"><i class="ti-close"></i> Clear data</button>
-                        <button type="submit" class="btn btn-success" @click.prevent="saveData()" v-if="!account.id"><i class="ti-save"></i> Save</button>
-                        <button type="submit" class="btn btn-primary" @click.prevent="saveData()" v-if="account.id"><i class="ti-save"></i> Update</button>
-                    </div>
-                </form>
-            </div>
+          
         </div>
     </div>
 </div>
@@ -238,21 +167,31 @@ Home page
     <script src="{{asset('/')}}/js/axios.min.js"></script>
     <script type="text/javascript">
         const app = new Vue({
-            el: '#accounts',
+            el: '#ledgers',
             data: {
                 errors: [],
-                account: {
+                ledger: {
                     id: '',
-                    name: '',
-                    group: '',
-                    sub_group: '',
+                    account_id: '',
+                    entry_date: '',
+                    type: '',
+                    detail: '',
+                    debit: '',
+                    credit: '',
+                    balance: '',
                     is_active: 1,
+                     created_by: '',
+                    account: {
+                        name:'',
+                        group:'',
+                        sub_group:'',
+                        is_active: 1,
+                        created_by: '',
+                     }
                 },
                 currentIndex: 0,
-                accounts: [],
+                ledgers: [],
                 successMessage: '',
-                groups: JSON.parse('{!!$accountGroups!!}'),
-                subGroups: JSON.parse('{!!$accountSubGroups!!}'),
             },
             mounted() {
                 var _this = this;
@@ -261,47 +200,47 @@ Home page
             methods: {
                 getAllData() {
                     var _this = this;
-                    axios.get('{{ route("accounts.all") }}')
+                    axios.get('{{ route("ledgers.all") }}')
                     .then(function (response) {
-                        _this.accounts = response.data.accounts;
+                        _this.ledgers = response.data.ledgers;
                     })
                 },
                 setData(index) {
                     var _this = this;
                     _this.errors = [];
                     _this.currentIndex = index;
-                    _this.account = _this.accounts[index];
+                    _this.ledger = _this.ledgers[index];
                 },
                 inactiveAccount(index) {
                     var _this = this;
                     let data = {
-                        account_id: _this.accounts[index].id,
+                        ledger_id: _this.ledgers[index].id,
                         is_active: 0,
                     }
-                    axios.post('{{ route("accounts.statusChange") }}',data)
+                    axios.post('{{ route("ledgers.statusChange") }}',data)
                     .then(function (response) {
                         if(response.data.success == true) {
-                            _this.$set(_this.accounts[index] , 'is_active' , 0);
+                            _this.$set(_this.ledgers[index] , 'is_active' , 0);
                         }
                     })
                 },
                 activeAccount(index) {
                     var _this = this;
                     let data = {
-                        account_id: _this.accounts[index].id,
+                        ledger_id: _this.ledgers[index].id,
                         is_active: 1,
                     }
-                    axios.post('{{ route("accounts.statusChange") }}',data)
+                    axios.post('{{ route("ledgers.statusChange") }}',data)
                     .then(function (response) {
                         if(response.data.success == true) {
-                            _this.$set(_this.accounts[index] , 'is_active' , 1);
+                            _this.$set(_this.ledgers[index] , 'is_active' , 1);
                         }
                     })
                 },
                 clearData() {
                     var _this = this;
                     _this.errors = [];
-                    _this.account = {
+                    _this.ledger = {
                         id: '',
                         name: '',
                         group: '',
@@ -314,9 +253,9 @@ Home page
                     if(_this.validate()){
                         //save data
                         let data = {
-                            account: _this.account
+                            ledger: _this.ledger
                         }
-                        axios.post('{{ route("accounts.addOrUpdate") }}', data)
+                        axios.post('{{ route("ledgers.addOrUpdate") }}', data)
                         .then(function (response) {
                             let data = response.data;
                             let status = response.data.status;
@@ -327,13 +266,13 @@ Home page
                                     alert("something Wrong. Try Again.")
                                 }
                                 if(status=='created') {
-                                    _this.accounts.push(data.account);
+                                    _this.ledgers.push(data.ledger);
                                     //modal close
                                     document.getElementById('modalClose').click();
                                     _this.successMessage = 'Account created successfully.';
                                 }
                                 if(status=='updated') {
-                                    _this.accounts[_this.currentIndex] = data.account;
+                                    _this.ledgers[currentIndex] = data.ledger;
                                     //modal close
                                     document.getElementById('modalClose').click();
                                     _this.successMessage = 'Account updated successfully.';
@@ -351,10 +290,10 @@ Home page
                 validate() {           
                     var _this = this; 
                     _this.errors = [];
-                    let account = _this.account;
+                    let ledger = _this.ledger;
                     let count = 0; 
 
-                    if (!account.name) {
+                    if (!ledger.name) {
                         _this.errors.push("Name required.");
                         count++;
                     }
@@ -362,19 +301,10 @@ Home page
                         _this.errors.push("Group required.");
                         count++;
                     }
-                    if (!account.sub_group) {
-                        _this.errors.push("Sub group required.");
-                        count++;
-                    }
-                    if (!account.is_active) {
-                        _this.errors.push("Status required.");
-                        count++;
-                    }
 
                     if(count==0) return true;
                     else return false;
                 },
-
                 wait(ms){
                     var start = new Date().getTime();
                     var end = start;
