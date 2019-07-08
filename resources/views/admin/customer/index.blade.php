@@ -92,19 +92,7 @@ Home page
                     </tr>
                 </tbody>
             </table>
-<!-- <nav aria-label="..." style="float: right">
-<ul class="pagination pagination-sm">
-<li class="page-item disabled">
-<a class="page-link" href="javascript:void(0)" tabindex="-1">Previous</a>
-</li>
-<li class="page-item"><a class="page-link" href="javascript:void(0)">1</a></li>
-<li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
-<li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-<li class="page-item">
-<a class="page-link" href="javascript:void(0)">Next</a>
-</li>
-</ul>
-</nav> -->
+
             </div>
         </div>
     </div>
@@ -134,7 +122,7 @@ Home page
                                 <div class="input-group mb-3">
                                     <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
                                     <select class="form-control form-white" v-model="customer.account_id">
-                                        <option>select customer Name</option>
+                                        <option>select Account Name</option>
                                         <option v-for="account in accounts" :value="account.id">@{{account.name}}</option>
                                     </select>
                                 </div>

@@ -20,6 +20,8 @@ class PurchaseSeeder extends Seeder
         factory(App\PurchaseTransaction::class,20)->create();
         factory(App\Inventory::class,20)->create();
         
+
+        
         echo "Purchase seeded .... \n";
     }
 }

@@ -22,10 +22,11 @@ class Inventory extends Model
     public function customer(){
     	return $this->belongsTo(Customer::class,'customer_id');
     }
-    public function sale(){
-    	return $this->belongsTo(Sale::class,'sale_id');
-    }
+    
     public function purchase(){
     	return $this->belongsTo(Purchase::class,'purchase_id');
+    }
+    public function sale(){
+        return $this->belongsTo(Sale::class,'sale_id');
     }
 }
