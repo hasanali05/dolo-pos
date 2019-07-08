@@ -104,3 +104,17 @@ $factory->define(App\PurchaseTransaction::class, function (Faker $faker) {
         
     ];
 });
+
+$factory->define(App\Sale::class, function (Faker $faker) {
+    return [
+        
+        'customer_id'=>rand(1,10),
+        'sale_date'=>$faker->date,
+        'amount'=>rand(50,500),
+        'commission'=>rand(10,20),
+        'payment'=>rand(10,20),
+        'due'=>rand(10,20),
+        
+    ];
+
+});

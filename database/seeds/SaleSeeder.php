@@ -33,7 +33,11 @@ class SaleSeeder extends Seeder
             ]);
         }
         echo "Customer seeded .... \n";
+        // this seed not working so i do anather seed
+        factory(App\Sale::class,20)->create();
 
+
+        
         echo "Sale seeding .... \n";
         $sale = App\Sale::create([
             'customer_id' => $customer->id,

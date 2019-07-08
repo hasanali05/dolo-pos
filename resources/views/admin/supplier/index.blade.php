@@ -133,7 +133,7 @@ Home page
                                 <div class="input-group mb-3">
                                     <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
                                     <select class="form-control form-white" v-model="supplier.account_id">
-                                        <option>select Supplier Name</option>
+                                        <option>select Account Name</option>
                                         <option v-for="account in accounts" :value="account.id">@{{account.name}}</option>
                                     </select>
                                 </div>

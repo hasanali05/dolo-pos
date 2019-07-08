@@ -97,7 +97,7 @@ Route::prefix('admin')->group(function()
 
 		//inventory
 		Route::get('/inventories', 'InventoryController@purchases')->name('inventories');
-		Route::get('/inventories-all', 'InventoryController@purchasesAll')->name('inventories.all');
+		Route::get('/inventories-all', 'InventoryController@inventoriesAll')->name('inventories.all');
 
 		//sales (initially sale, sale detail and sale transaction will be one action)
 		Route::get('/sales', 'SaleController@sales')->name('sales');
