@@ -16,7 +16,7 @@ class CreatePurchaseDetailsTable extends Migration
         Schema::create('purchase_details', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('purchase_id')->unsigned();
-            $table->integer('inventory_id')->unsigned();
+            $table->integer('product_id')->unsigned();
             $table->double('price',8,2)->default(0);
             $table->string('warranty_duration')->nullable();
             $table->enum('warranty_type', ['days', 'months', 'years'])->default('days')->nullable();

@@ -69,7 +69,7 @@ $factory->define(App\PurchaseDetail::class, function (Faker $faker) {
     return [
         
         'purchase_id'=>rand(1,10),
-        'inventory_id'=>rand(1,10),
+        'product_id'=>rand(1,10),
         'price' =>rand(10,20),
         'warranty_duration'=>$faker->dateTimeThisCentury,
         'unique_code' =>$faker->swiftBicNumber,
