@@ -38,11 +38,9 @@ Home page
                          <th>S/L</th>
                         <th>Product name</th>
                         <th>Unique Code</th>
-                        <th>Quantity</th>   
                         <th>Buying Price</th>   
                         <th>Selling Price</th>
                         <th>status</th>
-                        <th>Sale Date</th>
                      {{--    <th>Supplier Name</th>
                         <th>Purchase Amount</th>
                         <th>Customer Name</th>
@@ -54,12 +52,10 @@ Home page
                     <tr>
                          <th>S/L</th>
                         <th>Product name</th>
-                        <th>Unique Code</th>
-                        <th>Quantity</th>   
+                        <th>Unique Code</th> 
                         <th>Buying Price</th>   
                         <th>Selling Price</th>
                         <th>status</th>
-                        <th>Sale Date</th>
                       {{--   <th>Supplier Name</th>
                         <th>Purchase Amount</th>
                         <th>Customer Name</th>
@@ -73,11 +69,9 @@ Home page
                         <td>@{{index+1}}</td>
                         <td>@{{inventory.product?inventory.product.name:''}}</td>
                         <td>@{{inventory.unique_code}}</td>
-                        <td>@{{inventory.quantity}}</td>
                         <td>@{{inventory.buying_price}}</td>
                         <td>@{{inventory.selling_price}}</td>
                         <td>@{{inventory.status}}</td>
-                         <td>@{{inventory.sale?inventory.sale.sale_date:''}}</td> 
 
                       {{--   <td>@{{inventory.supplier?inventory.supplier.name:''}}</td>
                         <td>@{{inventory.purchase?inventory.purchase.amount:''}}</td>
@@ -85,10 +79,6 @@ Home page
                         <td>@{{inventory.customer?inventory.customer.name:''}}</td>
 
                         <td>@{{inventory.sale?inventory.sale.amount:''}}</td> --}}
-
-
-                        
-
 
                         <td> 
                             <button class="btn btn-info btn-icon-split"  data-toggle="modal" data-target="#supplyDetail" @click="setData(index)">
@@ -121,28 +111,45 @@ Home page
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <!-- Column -->
                             <div class="col-lg-12 col-xlg-12 col-md-12">
-                                <div class="card">
+                                <div class="card mb-0">
+                                    <div class="card-title">Product info</div>
                                     <div class="card-body">
                                         <div class="row"> 
                                             <div class="col-md-3 col-xs-6 b-r"> <strong>Product Name</strong>
                                                 <br>
                                                 <p class="text-muted">@{{inventory.product?inventory.product.name:''}}</p>
-                                            </div><div class="col-md-3 col-xs-6 b-r"> 
+                                            </div>
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Product Category</strong>
+                                                <br>
+                                                <p class="text-muted">@{{inventory.product?inventory.product.category?inventory.product.category.name:'':''}}</p>
+                                            </div>
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Product Detail</strong>
+                                                <br>
+                                                <p class="text-muted">@{{inventory.product?inventory.product.detail:''}}</p>
+                                            </div>
+                                          
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-xlg-12 col-md-12">
+                                <div class="card mb-0">
+                                    <div class="card-title">Inventory info</div>
+                                    <div class="card-body">
+                                        <div class="row"> 
+                                            <div class="col-md-3 col-xs-6 b-r"> 
                                                 <strong>Unique Code</strong>
                                                 <br>
                                                 <p class="text-muted">@{{inventory.unique_code}}</p>
                                             </div>
-                                             <div class="col-md-3 col-xs-6 b-r"> <strong>Quantity</strong>
-                                                <br>
-                                                <p class="text-muted">@{{inventory.quantity}}</p>
-                                            </div><div class="col-md-3 col-xs-6 b-r"> 
+                                            <div class="col-md-3 col-xs-6 b-r"> 
                                                 <strong>
                                             Buying Price</strong>
                                                 <br>
                                                 <p class="text-muted">@{{inventory.buying_price}}</p>
-                                            </div><div class="col-md-3 col-xs-6 b-r"> 
+                                            </div>
+                                            <div class="col-md-3 col-xs-6 b-r"> 
                                                 <strong>
                                             Selling Price</strong>
                                                 <br>
@@ -152,32 +159,52 @@ Home page
                                                 <br>
                                                 <p class="text-muted">@{{inventory.status}}</p>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-xlg-12 col-md-12">
+                                <div class="card mb-0">
+                                    <div class="card-title">Purchase info</div>
+                                    <div class="card-body">
+                                        <div class="row"> 
                                             <div class="col-md-3 col-xs-6 b-r"> <strong>Supplier Name</strong>
                                                 <br>
                                                 <p class="text-muted">@{{inventory.supplier?inventory.supplier.name:''}}</p>
                                             </div>
+                                            <div class="col-md-3 col-xs-6 b-r"> 
+                                                <strong>Unique Code</strong>
+                                                <br>
+                                                <p class="text-muted">@{{inventory.unique_code}}</p>
+                                            </div>
+                                            <div class="col-md-3 col-xs-6 b-r"> 
+                                                <strong>
+                                            Buying Price</strong>
+                                                <br>
+                                                <p class="text-muted">@{{inventory.buying_price}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-xlg-12 col-md-12">
+                                <div class="card mb-0">
+                                    <div class="card-title">Sale info</div>
+                                    <div class="card-body">
+                                        <div class="row"> 
                                             <div class="col-md-3 col-xs-6 b-r"> <strong>Customer Name</strong>
                                                 <br>
                                                 <p class="text-muted">@{{inventory.customer?inventory.customer.name:''}}</p>
-                                            </div>
-                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Purchase Amount</strong>
-                                                <br>
-                                                <p class="text-muted">@{{inventory.purchase?inventory.purchase.amount:''}}</p>
                                             </div>
                                             
                                             <div class="col-md-3 col-xs-6 b-r"> <strong>Sale Amount</strong>
                                                 <br>
                                                 <p class="text-muted">@{{inventory.sale?inventory.sale.amount:''}}</p>
                                             </div>
-                                         
-                                         
-                                           
-                                          
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Column -->
                         </div>
                     </div>
                     <div class="modal-footer">

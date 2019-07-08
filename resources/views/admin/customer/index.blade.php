@@ -158,16 +158,8 @@ Home page
                                         <option value="0">In-active</option>
                                     </select>
                                 </div>
-                            </div>
-                         
+                            </div>                         
                         </div>
-                        <!-- <div class="input-group mb-3">
-                            <button type="button" class="btn btn-info"><i class="ti-import text-white"></i></button>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="inputGroupFile01">
-                                <label class="custom-file-label" for="inputGroupFile01">Choose Image</label>
-                            </div>
-                        </div> -->
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalClose">Close</button>
@@ -269,7 +261,7 @@ Home page
                 },
                 currentIndex: 0,
                 customers: [],               
-                accounts: JSON.parse('{!!$payableAccounts!!}'),               
+                accounts: JSON.parse('{!!$receivableAccounts!!}'),               
                 successMessage:'',
             },
             mounted() {
@@ -289,6 +281,7 @@ Home page
                     _this.errors = [];
                     _this.currentIndex = index;
                     _this.customer = _this.customers[index];
+                    console.log(_this.customer)
                 },
                 inactivecustomer(index) {
                     var _this = this;
@@ -331,11 +324,8 @@ Home page
                         account:{
                             id:'',
                             name:''
-                         
-                  
-                    
-                    }
                         }
+                    }
                 },
                 saveData() {
                     var _this = this;

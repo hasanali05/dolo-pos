@@ -13,7 +13,7 @@ class InventoryController extends Controller
 
      public function inventoriesAll()
     {
-        $inventories = Inventory::with('product','supplier','customer','purchase','sale')->get();
+        $inventories = Inventory::with('product', 'product.category','supplier','customer','purchase','sale')->get();
         return response()->json(["inventories"=>$inventories]);
     }
 }
