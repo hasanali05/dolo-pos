@@ -18,8 +18,8 @@ class SaleSeeder extends Seeder
         $account = App\Account::create([
              // 'id'=>$line[0],
              'name'=>"Shop Customer",
-             'sub_group'=>"Asset",
-             'group'=>"Accounts Receiveable",
+             'group'=>"Asset",
+             'sub_group'=>"Accounts Receiveable",
              'created_by'=>1,
              'is_active'=>1,
             ]);

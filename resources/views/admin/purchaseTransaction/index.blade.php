@@ -78,60 +78,78 @@ Home page
 
 
 
-            <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="employeeDetailLabel" aria-modal="true" id="supplyDetail">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="employeeDetailLabel">Purchase details</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <!-- Column -->
-                            <div class="col-lg-12 col-xlg-12 col-md-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row"> 
-                                            <div class="col-md-3 col-xs-6 b-r"> <strong>supplier Name</strong>
-                                                <br>
-                                                <p class="text-muted">@{{purchase.supplier?purchase.supplier.name:''}}</p>
-                                            </div><div class="col-md-3 col-xs-6 b-r"> 
-                                                <strong> supplier Contact </strong>
-                                                <br>
-                                                <p class="text-muted">@{{purchase.supplier?purchase.supplier.contact:''}}</p>
-                                            </div>
-                                             <div class="col-md-3 col-xs-6 b-r"> <strong>Reason</strong>
-                                                <br>
-                                                <p class="text-muted">@{{purchase.reason}}</p>
-                                            </div><div class="col-md-3 col-xs-6 b-r"> 
-                                                <strong>
-                                            Amount </strong>
-                                                <br>
-                                                <p class="text-muted">@{{purchase.amount}}</p>
-                                            </div><div class="col-md-3 col-xs-6 b-r"> 
-                                             
-                                         
-                                         
-                                           
-                                          
-                                        </div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="employeeDetailLabel" aria-modal="true" id="supplyDetail">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="employeeDetailLabel">Purchase details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12 col-xlg-12 col-md-12">
+                        <div class="card mb-0">
+                            <div class="card-title">Supplier info</div>
+                            <div class="card-body">
+                                <div class="row"> 
+                                    <div class="col-md-3 col-xs-6 b-r"> <strong>supplier Name</strong>
+                                        <br>
+                                        <p class="text-muted">@{{purchase.supplier?purchase.supplier.name:''}}</p>
+                                    </div><div class="col-md-3 col-xs-6 b-r"> 
+                                        <strong> supplier Contact </strong>
+                                        <br>
+                                        <p class="text-muted">@{{purchase.supplier?purchase.supplier.contact:''}}</p>
+                                    </div>
+                                     <div class="col-md-3 col-xs-6 b-r"> <strong>Reason</strong>
+                                        <br>
+                                        <p class="text-muted">@{{purchase.reason}}</p>
+                                    </div><div class="col-md-3 col-xs-6 b-r"> 
+                                        <strong>
+                                    Amount </strong>
+                                        <br>
+                                        <p class="text-muted">@{{purchase.amount}}</p>
+                                    </div>
+                                    <div class="col-md-3 col-xs-6 b-r">
                                     </div>
                                 </div>
                             </div>
-                            <!-- Column -->
+                        </div>
+                        <!-- Column -->
+                    </div>
+                    <div class="col-lg-12 col-xlg-12 col-md-12">
+                        <div class="card mb-0">
+                            <div class="card-title">Transaction Detail</div>
+                            <div class="card-body">
+                                <div class="row"> 
+                                    <div class="col-md-12 col-xs-12 b-r">
+                                        <table class="table table-bordered table-striped">
+                                            <thead>
+                                                <th>S/L</th>
+                                                <th>Reason</th>
+                                                <th>Amount</th>
+                                                <th>Balance</th>
+                                            </thead>
+                                            <tbody>    
+                                                <td>S/L</td>
+                                                <td>Reason</td>
+                                                <td>Amount</td>
+                                                <td>Balance</td>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"  v-on:click="counter += 1" >Close</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"  v-on:click="counter += 1" >Close</button>
                 </div>
             </div>
         </div>
-    
-
-
+    </div>
 </div>
 
 
