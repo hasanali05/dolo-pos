@@ -10,6 +10,12 @@
           html body .m-b-0 {
             margin-bottom: 0;
         }
+          html body .p-t-10 {
+            padding-top: 10px;
+        }
+          html body .p-b-10 {
+            padding-bottom: 10px;
+        }
     .card-border-radius{
         border:1px solid #c7c7c7;
         border-radius: 20px;
@@ -119,21 +125,6 @@ Home page
 @endsection
 
 @section('content')
-
-
-
-
-
-
-
-    
-
-
-
-
-@php($products = [])
-@php($customers = [])
-
 <div class="row" id="purchase">
     <div class="col-md-9">
         <div class="card border-danger">
@@ -144,15 +135,10 @@ Home page
               <div class="row">
                 <div class="col-md-6">                  
                   Products:
-                    <select class="select2 form-control custom-select" style="width: 100%; height:36px;" onchange="showInventory(this)" name="product_id">
-                        <option value="0"><--- Select Product ---></option>
-                        @foreach($products as $product)
-                        <option value="{{ $product->id }}"> {{ $product->name }} </option>
-                        @endforeach
+                    <select class="select2 form-control custom-select" style="width: 100%; height:36px;" @change="addToPurchase($event)">
+                        <option value="-1"><--- Select Product ---></option>
+                        <option v-for="(product,index) in products" :value="index" :key="index">@{{ product.name }}</option>
                     </select>
-                </div>
-                <div class="col-md-6">                  
-                  <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="New service" onclick="newService()"  class="btn btn-info m-r-10"style="float: right;"><i class="fa fa-plus m-r-10"></i>Add outside product/ Service</a>
                 </div>
               </div>
               <div class="row">
@@ -162,29 +148,36 @@ Home page
                             <thead>
                               <tr>
                                   <th class="sn">#</th>
-                                  <th class="model">Name</th>
-                                  <th class="s-n">S/N</th>
-                                  <th class="qty">QTY</th>
-                                  <th class="unit">Unit Price (BDT)</th>
-                                  <th class="total">Line Total (BDT)</th>
+                                  <th class="model">Product name</th>
+                                  <th class="s-n">unique code</th>
+                                  <th class="s-n">Warrenty</th>
+                                  <th class="unit">Buy Price (BDT)</th>
+                                  <th class="total">Sell Price (BDT)</th>
                                   <th class="action">Action</th>
                               </tr>
 
                             </thead>
                             <tbody id="tbody">
-                                <tr>
-                                  <td class="sn">#</td>
-                                  <td class="model">Name</td>
-                                  <td class="s-n">S/N</td>
-                                  <td class="qty">QTY</td>
-                                  <td class="unit"><input type="number" min="1" max="1" style="width:100%" value="1" name="qty"></td>
-                                  <td class="total">Line</td>
-                                  <td class="action"><a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Remove" onclick="removeRow(this)"> <i class="fa fa-trash text-danger m-r-10"></i> </a></td>
+                                <tr v-for="(detail, index) in purchaseDetails" :key="index">
+                                  <td class="sn">@{{index+1}}</td>
+                                  <td class="model">@{{detail.name}}</td>
+                                  <td class="s-n"><input type="text" style="width:100%" v-model="detail.unique_code"></td>
+                                  <td class="unit">
+                                    <input type="number" min="1" max="1" style="width:48%" v-model="detail.warranty_duration">
+                                    <select style="width:48%; height: 100%;" v-model="detail.warranty_type">
+                                      <option value="days">days</option>
+                                      <option value="months">months</option>
+                                      <option value="years">years</option>
+                                    </select>
+                                  </td>
+                                  <td class="unit"><input type="number" min="1" max="1" style="width:100%" v-model="detail.buying_price"></td>
+                                  <td class="total"><input type="number" min="1" max="1" style="width:100%" v-model="detail.selling_price"></td>
+                                  <td class="action">
+                                    <a data-toggle="tooltip" data-original-title="Remove" @click.prevent="removeRow(index)">
+                                      <i class="fa fa-trash text-danger m-r-10"></i> 
+                                    </a>
+                                  </td>
                               </tr>
-                           
-                          
-                             
-                           
                             </tbody>
                             <tfoot>
                               <tr class="summery">
@@ -211,7 +204,7 @@ Home page
                         </table>
                         <br>
                         <br>
-                         <button type="submit" class="btn btn-info waves-effect pull-right m-r-10" name="invoice" value="active">Generate</button>
+                         <button type="submit" class="btn btn-info waves-effect pull-right m-r-10" name="invoice" value="active" @click.prevent="saveData()">Generate</button>
                 </div>
              </div> 
             </div>
@@ -220,58 +213,56 @@ Home page
     <div class="col-md-3">
         <div class="card border-success">
             <div class="card-header bg-info">
-                <h4 class="m-b-0 text-white">Customer & Payments</h4></div>
+                <h4 class="m-b-0 text-white">Supplier & Payments</h4></div>
             <div class="card-body">
                 <div class="row">
-
-                  <div class="bg-danger w-100 p-10">
-                    <h6 class="m-b-0 text-white">Customer Info</h6>
-                  </div>
-
+                    <div class="bg-danger w-100 p-10">
+                      <h6 class="m-b-0 text-white">Supplier Info</h6>
+                    </div>
                     <div class="col-sm-12">
 
-                        <label>Select Customer</label>
-                        <select class="select2 form-control custom-select" style="width: 100%; height:36px;"  name="customer_id" onchange="customerInfo(this)">
-                            <option value="0">Not registered Customer</option>
+                        <label>Select Supplier</label>
+                        <select class="select2 form-control custom-select" style="width: 100%; height:36px;" @change="changeSupplier($event)">
+                            <option value="-1">Not registered Supplier</option>
                             <optgroup>
-                                @foreach($customers as $customer)
-                                <option value="{{ $customer->id }}">{{ $customer->user_name }}</option>
-                                @endforeach
+                                <option v-for="(supplier,index) in suppliers" :value="index" :key="index">@{{ supplier.name }}</option>
                             </optgroup>
                         </select>
                     </div>
                     <div class="col-sm-12 p-t-10">
                         <!-- sample modal content -->
-                            <button type="button" class="btn btn-info w-100" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add New Customer</button>
+                            <button type="button" class="btn btn-info w-100" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add New Supplier</button>
                     </div>
                     <div class="col-sm-12 p-t-10 p-b-10" >        
-                        <label>Customer information</label>
-                        <div id="customerInfo">
+                        <label style="font-weight: 500">Supplier information</label>
+                        <div>
                           
-                          <p>Not registered Customer</p>
-                          <input type="hidden" name="customer_name" class="form-control" placeholder="Name" value="Note registered">
-                          <input type="hidden" name="customer_company_name" class="form-control" placeholder="Company name">
-                          <input type="hidden" name="customer_contact" class="form-control"  placeholder="Contact">
-                          <textarea placeholder="address" class="form-control" name="customer_address" style="display:none"></textarea>
+                          <template v-if="selectedSupplier"> 
+                            <p>Name: @{{selectedSupplier.name}}</p>
+                            <p>Contact: @{{selectedSupplier.contact}}</p>
+                            <p>Address: @{{selectedSupplier.address}}</p>
+                          </template>
+                          <p v-else class="text-alert">Supplier not selected</p>
                         </div>
                     </div>
-
-                  <div class="bg-danger w-100 p-10">
-                    <h6 class="m-b-0 text-white">Payment Info</h6>
-                  </div>
+                    <div class="bg-danger w-100 p-10">
+                      <h6 class="m-b-0 text-white">Payment Info</h6>
+                    </div>
                     <div class="col-sm-12 p-t-10 p-b-10">
-                                <label>Payment Type</label>
-                                <select class="select2 form-control custom-select" style="width: 100%; height:36px;" name="payment_type" onchange="paymentType(this)">                                
-                                    <option value="Cash">Cash</option>
-                                    <option value="Credit">Credit</option>
-                                    <option value="Check">Check</option>
-                                </select>
-                                <input class="form-control" type="date" value="2011-08-19" name="payment_date" style="display: none;">
+                      <label>Payment From</label>
+                      <select class="select2 form-control custom-select" style="width: 100%; height:36px;"  @change="changeAccount($event)">
+                          <option v-for="(account, index) in transactionAccounts" :value="index">@{{account.name}}</option>
+                      </select>
+                    </div>
+
+                    <div class="col-sm-12 p-t-10 p-b-10">
+                      <label>Purchase Date</label>
+                      <input class="form-control" type="date" value="2011-08-19" name="payment_date">
                     </div>
 
                     <div class="col-sm-12 p-t-10 p-b-10" style="display: none" id="payment">
                          <label>Payment amount</label>
-                         <input type="number" name="payment" min="0" class="form-control" value="0" max="0">
+                         <input type="number" name="payment_amount" min="0" class="form-control" value="0" max="0">
                     </div>
 
                     <div class="col-sm-12 p-t-10 p-b-10">
@@ -279,42 +270,20 @@ Home page
                          <textarea class="form-control" rows="3" name="payment_note" placeholder="Write some note if any..."></textarea>
                     </div>
 
-                  <div class="bg-danger w-100 p-10">
-                    <h6 class="m-b-0 text-white">Shipping Info</h6>
-                  </div>
-                    <div class="col-sm-12 p-t-10 p-b-10">
-                                    <option>Shipping Type</option>
-                                <select class="select2 form-control custom-select" style="width: 100%; height:36px;" onchange="shippingInfo(this)" name="delivery_method">
-                                    <optgroup>
-                                        <option value="From Office">From Office</option>
-                                        <option value="Company delivery">Company delivery</option>
-                                        <option value="Type 3">Type 3</option>
-                                    </optgroup>
-                                </select>
-                    </div>                    
-                    <div class="col-sm-12 p-t-10 p-b-10">        
-                        <label>Shipping information</label>
-                        <div id="shippingInfo">                          
-                          <p>Not applicable</p>
-                          <input type="hidden" name="shipping_name" class="form-control" placeholder="Name" value="Not applicable">
-                          <input type="hidden" name="shipping_company_name" class="form-control" placeholder="Company name">
-                          <input type="hidden" name="shipping_contact" class="form-control"  placeholder="Contact">
-                          <textarea placeholder="address" class="form-control" name="shipping_address" style="display:none"></textarea>
-                        </div>
-                    </div>
-
-                  <div class="bg-danger w-100 p-10">
-                    <h6 class="m-b-0 text-white">Sale person</h6>
-                  </div>
-
-                    <div class="col-sm-12 p-t-10 p-b-10">        
-                        <label>Sale person name</label>
+                    <div class="col-sm-12 p-t-10 p-b-10" >        
+                        <label style="font-weight: 500">Account information</label>
                         <div>                          
-                          <input class="form-control" type="text" name="sales_person" placeholder="sales person name">
+                          <template v-if="selectedAccount"> 
+                            <p>Name: @{{selectedAccount.name}}</p>
+                            <p>Group: @{{selectedAccount.group}}</p>
+                            <p>Sub Group: @{{selectedAccount.sub_group}}</p>
+                          </template>
+                          <p v-else class="text-alert">Account not selected</p>
                         </div>
                     </div>
+
                     <div class="col-sm-12 p-t-10 p-b-10">
-                                <button type="submit" class="btn waves-effect waves-light btn-block btn-info" name="invoice" value="active">Generate</button>
+                        <button type="submit" class="btn waves-effect waves-light btn-block btn-info" name="invoice" value="active" @click.prevent="saveData()">Generate</button>
                     </div>
                 </div>
             </div>
@@ -335,28 +304,37 @@ Home page
             el: '#purchase',
             data: {
                 errors: [],
-                purchase: {
-                    id: '',
-                    purchase_date: '',
-                    amount: '',
-                    commission: '',
-                    payment: '',
-                    due: '',
-                    is_active: '1',
-                    supplier: {
-                        id:'',
-                        name: ''
-                    }
-                },
+
+                selectedSupplier: '',
+                selectedAccount: '',
+                purchaseDetails: [],
+                suppliers: [],
+                products: [],
                 currentIndex: 0,
-                purchases: [],                
+                purchase: '',
                 successMessage:'',
+                transactionAccounts: JSON.parse('{!!$transactionAccounts!!}'),
             },
             mounted() {
                 var _this = this;
-                _this.getAllData();
+                _this.getAllSupplier();
+                _this.getAllProduct();
             },
             methods: {
+                getAllSupplier() {
+                    var _this = this;
+                    axios.get('{{ route("suppliers.all") }}')
+                    .then(function (response) {
+                        _this.suppliers = response.data.suppliers;
+                    })
+                },
+                getAllProduct() {
+                    var _this = this;
+                    axios.get('{{ route("products.all") }}')
+                    .then(function (response) {
+                        _this.products = response.data.products;
+                    })
+                },
                 getAllData() {
                     var _this = this;
                     axios.get('{{ route("purchases.all") }}')
@@ -369,6 +347,32 @@ Home page
                     _this.errors = [];
                     _this.currentIndex = index;
                     _this.purchase = _this.purchases[index];
+                },
+                changeSupplier(event) 
+                { 
+                    var _this = this;
+                    if(event.target.value<0)
+                      _this.selectedSupplier = '';
+                    else 
+                      _this.selectedSupplier = _this.suppliers[event.target.value];
+                },
+                changeAccount(event) 
+                { 
+                    var _this = this;
+                    if(event.target.value<0)
+                      _this.selectedAccount = '';
+                    else 
+                      _this.selectedAccount = _this.transactionAccounts[event.target.value];
+                },
+                addToPurchase(event) 
+                { 
+                    var _this = this;
+                    if(event.target.value>=0) 
+                      _this.purchaseDetails.push(_this.products[event.target.value]);
+                },
+                removeRow(index) 
+                {   
+                  this.purchaseDetails.splice(index, 1);
                 },
 
            
@@ -385,12 +389,10 @@ Home page
                         is_active: '1',
                         supplier:{
                             id:'',
-                            name:''
-                         
-                  
+                            name:''  
                     
-                    }
                         }
+                    }
                 },
                 saveData() {
                     var _this = this;
