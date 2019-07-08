@@ -20,18 +20,6 @@ class LedgerController extends Controller
         //$account = Account::all();
         return response()->json(["ledgers"=>$ledgers]);
     }
-    public function statusChange(Request $request)
-    {
-        $ledger = Ledger::find($request->ledger_id);
-        if($ledger) {
-        	$ledger->update([
-        		'is_active' => $request->is_active
-        	]);
-        	return response()->json(["success"=>true]);
-        } else {
-        	return response()->json(["success"=>false]);
-        }
-    }
     public function addOrUpdate(Request $request) 
     {
         //validate data

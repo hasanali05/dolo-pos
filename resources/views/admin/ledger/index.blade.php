@@ -72,7 +72,7 @@ Home page
                         <td>@{{ledger.balance}}</td>
 
                         <td>     
-                            <button class="btn btn-info btn-icon-split"  data-toggle="modal" data-target="#accountDetail" @click="setData(index)">
+                            <button class="btn btn-info btn-icon-split"  data-toggle="modal" data-target="#ledgerDetail" @click="setData(index)">
                                 <span class="icon text-white" >
                                     <i class="fas fa-eye"></i>
                                 </span>
@@ -99,11 +99,11 @@ Home page
         </div>
     </div>
     
-        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="employeeDetailLabel" aria-modal="true" id="accountDetail">
+        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ledgerShow" aria-modal="true" id="ledgerDetail">
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="employeeDetailLabel">Account Detail</h5>
+                        <h5 class="modal-title" id="ledgerShow">Ledger Detail</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
@@ -113,27 +113,31 @@ Home page
                             <!-- Column -->
                             <div class="col-lg-12 col-xlg-12 col-md-12">
                                 <div class="card">
-                           <!--          <div class="card-body">
+                                 <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-3 col-xs-6 b-r"> <strong>Account Name</strong>
                                                 <br>
-                                                <p class="text-muted">@{{account.name}}</p>
+                                                <p class="text-muted" >@{{ledger.account?ledger.account.name:'none'}}</p>
                                             </div>
-                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Group</strong>
+                                            <div class="col-md-3 col-xs-6 b-r"><strong>Date</strong>
                                                 <br>
-                                                <p class="text-muted">@{{account.group}}</p>
+                                                <p class="text-muted">@{{ledger?ledger.entry_date:'none'}}</p>
                                             </div>
-                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Sub Group</strong>
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Ledger Type</strong>
                                                 <br>
-                                                <p class="text-muted">@{{account.sub_group}}</p>
+                                                <p class="text-muted">@{{ledger.type}}</p>
                                             </div>
-                                            <div class="col-md-3 col-xs-6"> <strong>Active</strong>
+                                            <div class="col-md-3 col-xs-6 b-r"><strong>Debit</strong>
                                                 <br>
-                                                   <button class="btn btn-success" >@{{account.is_active}}</button>
-                                                <p class="text-muted">@{{account.is_active}}</p>
+                                                <p class="text-muted">@{{ledger.debit}}</p>
                                             </div>
+                                          <div class="col-md-3 col-xs-6 b-r"><strong>Credit</strong>
+                                                <br>
+                                                <p class="text-muted">@{{ledger.credit}}</p>
+                                            </div>
+              
                                         </div>
-                                    </div> -->
+                                    </div> 
                                 </div>
                             </div>
                             <!-- Column -->
@@ -211,32 +215,7 @@ Home page
                     _this.currentIndex = index;
                     _this.ledger = _this.ledgers[index];
                 },
-                inactiveAccount(index) {
-                    var _this = this;
-                    let data = {
-                        ledger_id: _this.ledgers[index].id,
-                        is_active: 0,
-                    }
-                    axios.post('{{ route("ledgers.statusChange") }}',data)
-                    .then(function (response) {
-                        if(response.data.success == true) {
-                            _this.$set(_this.ledgers[index] , 'is_active' , 0);
-                        }
-                    })
-                },
-                activeAccount(index) {
-                    var _this = this;
-                    let data = {
-                        ledger_id: _this.ledgers[index].id,
-                        is_active: 1,
-                    }
-                    axios.post('{{ route("ledgers.statusChange") }}',data)
-                    .then(function (response) {
-                        if(response.data.success == true) {
-                            _this.$set(_this.ledgers[index] , 'is_active' , 1);
-                        }
-                    })
-                },
+
                 clearData() {
                     var _this = this;
                     _this.errors = [];
