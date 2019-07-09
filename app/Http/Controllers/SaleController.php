@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Sale;
 use App\Customer;
+use Auth;
 
 class SaleController extends Controller
 {
@@ -33,9 +34,11 @@ class SaleController extends Controller
     {
         //validate data
         $validator = \Validator::make($request->sale, [
-            'name'=>'required|string',
-            'group'=>'required|string',
-            'sub_group'=>'required|string',
+            'sale_date'=>'required|date',
+            'amount'=>'required|numeric',
+            'commission'=>'required|string',
+            'payment'=>'required|numeric',
+            'due'=>'required|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -45,13 +48,16 @@ class SaleController extends Controller
         if($request->sale['id'] == null){
             // create
             $sale = Sale::create([
-                'name' => $request->sale['name'],
-                'group' => $request->sale['group'],
-                'sub_group' => $request->sale['sub_group'],
+                'customer_id' => $request->sale['customer_id'],
+                'sale_date' => $request->sale['sale_date'],
+                'amount' => $request->sale['amount'],
+                'commission' => $request->sale['commission'],
+                'payment' => $request->sale['payment'],
+                'due' => $request->sale['due'],
                 'created_by' => Auth::id(),
                 'is_active' => $request->sale['is_active'],
             ]);
-            $sale = Sale::find($sale->id);
+            $sale = Sale::with('customer')->find($sale->id);
             return response()->json(["success"=>true, 'status'=>'created', 'sale'=>$sale]);
         } else { 
             $sale = Sale::find($request->sale['id']);   
@@ -59,12 +65,16 @@ class SaleController extends Controller
 
             //update
             $sale->update([
-                'name' => $request->sale['name'],
-                'group' => $request->sale['group'],
-                'sub_group' => $request->sale['sub_group'],
+                'customer_id' => $request->sale['customer_id'],
+                'sale_date' => $request->sale['sale_date'],
+                'amount' => $request->sale['amount'],
+                'commission' => $request->sale['commission'],
+                'payment' => $request->sale['payment'],
+                'due' => $request->sale['due'],
                 'created_by' => Auth::id(),
                 'is_active' => $request->sale['is_active'],
             ]);
+               $sale = Sale::with('customer')->find($sale->id);
             return response()->json(["success"=>true, 'status'=>'updated', 'sale'=>$sale]);
         }
     }
