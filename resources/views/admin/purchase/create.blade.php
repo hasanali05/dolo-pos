@@ -204,7 +204,7 @@ Home page
                         </table>
                         <br>
                         <br>
-                         <button type="submit" class="btn btn-info waves-effect pull-right m-r-10" name="invoice" value="active" @click.prevent="saveData()">Generate</button>
+                         <button type="submit" class="btn btn-info waves-effect pull-right m-r-10" name="invoice" value="active" @click.prevent="saveData()">Save Purchase</button>
                 </div>
              </div> 
             </div>
@@ -376,24 +376,7 @@ Home page
                 },
 
            
-                clearData() {
-                    var _this = this;
-                    _this.errors = [];
-                    _this.purchase = {
-                        id: '',
-                        purchase_date: '',
-                        amount: '',
-                        commission: '',
-                        payment: '',
-                        due: '',
-                        is_active: '1',
-                        supplier:{
-                            id:'',
-                            name:''  
-                    
-                        }
-                    }
-                },
+            
                 saveData() {
                     var _this = this;
                     if(_this.validate()){
@@ -439,31 +422,9 @@ Home page
                     let purchase = _this.purchase;
                     let count = 0; 
 
-                    if (!purchase.purchase_date) {
-                        _this.errors.push("Purchase date required.");
-                        count++;
-                    }
-                     if (!purchase.amount) {
-                        _this.errors.push("Amount required.");
-                        count++;
-                    }
-                    if (!purchase.commission) {
-                        _this.errors.push("Commission required.");
-                        count++;
-                    }
-
-                     if (!purchase.payment) {
-                        _this.errors.push("Payment required.");
-                        count++;
-                    }
-                     if (!purchase.due) {
-                        _this.errors.push("Due required.");
-                        count++;
-                    }
-                     if (!purchase.supplier.id) {
-                        _this.errors.push("Supplier name required.");
-                        count++;
-                    }
+                
+                     
+              
 
                     if(count==0) return true;
                     else return false;

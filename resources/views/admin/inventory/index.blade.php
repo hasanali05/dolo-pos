@@ -173,15 +173,45 @@ Home page
                                                 <p class="text-muted">@{{inventory.supplier?inventory.supplier.name:''}}</p>
                                             </div>
                                             <div class="col-md-3 col-xs-6 b-r"> 
-                                                <strong>Unique Code</strong>
+                                                <strong> Contact </strong>
                                                 <br>
-                                                <p class="text-muted">@{{inventory.unique_code}}</p>
+                                                <p class="text-muted">@{{inventory.supplier?inventory.supplier.contact:''}}</p>
                                             </div>
                                             <div class="col-md-3 col-xs-6 b-r"> 
                                                 <strong>
-                                            Buying Price</strong>
+                                            Address </strong>
                                                 <br>
-                                                <p class="text-muted">@{{inventory.buying_price}}</p>
+                                                <p class="text-muted">@{{inventory.supplier?inventory.supplier.address:''}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row"> 
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong> Purchase Date</strong>
+                                                <br>
+                                                <p class="text-muted">@{{inventory.purchase?inventory.purchase.purchase_date:''}}</p>
+                                            </div>
+                                            <div class="col-md-3 col-xs-6 b-r"> 
+                                                <strong> Amount </strong>
+                                                <br>
+                                                <p class="text-muted">@{{inventory.purchase?inventory.purchase.amount:''}}</p>
+                                            </div>
+                                            <div class="col-md-3 col-xs-6 b-r"> 
+                                                <strong>
+                                            Commission </strong>
+                                                <br>
+                                                <p class="text-muted">@{{inventory.purchase?inventory.purchase.commission:''}}</p>
+                                            </div> 
+                                            <div class="col-md-3 col-xs-6 b-r"> 
+                                                <strong>
+                                            Payment </strong>
+                                                <br>
+                                                <p class="text-muted">@{{inventory.purchase?inventory.purchase.payment:''}}</p>
+                                            </div>
+                                             <div class="col-md-3 col-xs-6 b-r"> 
+                                                <strong>
+                                            Due </strong>
+                                                <br>
+                                                <p class="text-muted">@{{inventory.purchase?inventory.purchase.due:''}}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -190,20 +220,56 @@ Home page
                             <div class="col-lg-12 col-xlg-12 col-md-12">
                                 <div class="card mb-0">
                                     <div class="card-title">Sale info</div>
-                                    <div class="card-body">
+                                        <div class="card-body">
                                         <div class="row"> 
                                             <div class="col-md-3 col-xs-6 b-r"> <strong>Customer Name</strong>
                                                 <br>
                                                 <p class="text-muted">@{{inventory.customer?inventory.customer.name:''}}</p>
                                             </div>
-                                            
-                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Sale Amount</strong>
+                                            <div class="col-md-3 col-xs-6 b-r"> 
+                                                <strong> Contact </strong>
+                                                <br>
+                                                <p class="text-muted">@{{inventory.customer?inventory.customer.contact:''}}</p>
+                                            </div>
+                                            <div class="col-md-3 col-xs-6 b-r"> 
+                                                <strong>
+                                            Address </strong>
+                                                <br>
+                                                <p class="text-muted">@{{inventory.customer?inventory.customer.address:''}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row"> 
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong> Sale Date</strong>
+                                                <br>
+                                                <p class="text-muted">@{{inventory.sale?inventory.sale.sale_date:''}}</p>
+                                            </div>
+                                            <div class="col-md-3 col-xs-6 b-r"> 
+                                                <strong> Amount </strong>
                                                 <br>
                                                 <p class="text-muted">@{{inventory.sale?inventory.sale.amount:''}}</p>
                                             </div>
+                                            <div class="col-md-3 col-xs-6 b-r"> 
+                                                <strong>
+                                            Commission </strong>
+                                                <br>
+                                                <p class="text-muted">@{{inventory.sale?inventory.sale.commission:''}}</p>
+                                            </div> 
+                                            <div class="col-md-3 col-xs-6 b-r"> 
+                                                <strong>
+                                            Payment </strong>
+                                                <br>
+                                                <p class="text-muted">@{{inventory.sale?inventory.sale.payment:''}}</p>
+                                            </div>
+                                             <div class="col-md-3 col-xs-6 b-r"> 
+                                                <strong>
+                                            Due </strong>
+                                                <br>
+                                                <p class="text-muted">@{{inventory.sale?inventory.sale.due:''}}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                    
                             </div>
                         </div>
                     </div>

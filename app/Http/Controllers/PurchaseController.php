@@ -46,13 +46,13 @@ class PurchaseController extends Controller
 
 
             $purchase = Purchase::create([
-            	'supplier_id' => $request->purchase['supplier'],
+            	'supplier_id' => $request->purchase['supplier_id'],
                 'purchase_date' => $request->purchase['purchase_date'],
                 'amount' => $request->purchase['amount'],
                 'commission' => $request->purchase['commission'],
                 'payment' => $request->purchase['payment'],
                 'due' => $request->purchase['due'],
-                'is_active' => $request->purchase['is_active'],
+
             ]);
 
                 
@@ -70,7 +70,7 @@ class PurchaseController extends Controller
                 'commission' => $request->purchase['commission'],
                 'payment' => $request->purchase['payment'],
                 'due' => $request->purchase['due'],
-                'is_active' => $request->purchase['is_active'],
+  
             ]);
 
             
