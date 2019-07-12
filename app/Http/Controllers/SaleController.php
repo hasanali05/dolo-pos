@@ -9,7 +9,7 @@ use Auth;
 
 class SaleController extends Controller
 {
-     	public function sales()
+     public function sales()
 	{
 		return view('admin.sales.index');
 	}

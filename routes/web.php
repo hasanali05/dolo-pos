@@ -104,6 +104,12 @@ Route::prefix('admin')->group(function()
 		Route::get('/sales-all', 'SaleController@salesAll')->name('sales.all');
 		Route::post('/sales-status-change', 'SaleController@statusChange')->name('sales.statusChange');
 		Route::post('/sales-add-or-update', 'SaleController@addOrUpdate')->name('sales.addOrUpdate');
+		//SalesDetails
+		Route::get('/salesDetails', 'SaleDetailController@salesDetails')->name('salesDetails');
+		Route::get('/salesDetails-all', 'SaleDetailController@salesDetailAll')->name('salesDetails.all');
+        //SaleTransection
+		Route::get('/saleTransaction', 'saleTransactionController@saleTransaction')->name('saleTransaction');
+		Route::get('/saleTransaction-all', 'saleTransactionController@saleTransactionAll')->name('saleTransaction.all');
 
 		//damages 
 		Route::get('/damages', 'DamageController@damages')->name('damages');
