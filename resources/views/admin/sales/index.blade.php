@@ -45,7 +45,7 @@ Home page
                         <th>Commission</th>
                         <th>Payment</th>
                         <th>Due</th>
-                        <th>Active/Not</th>
+                       <!-- <th>Active/Not</th>-->
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -58,7 +58,7 @@ Home page
                         <th>Commission</th>
                         <th>Payment</th>
                         <th>Due</th>
-                        <th>Active/Not</th>
+                     
                         <th>Action</th>
                     </tr>
                 </tfoot>
@@ -71,15 +71,15 @@ Home page
                         <td>@{{sale.commission}}</td>
                         <td>@{{sale.payment}}</td>
                         <td>@{{sale.due}}</td>
-                        <td>
+                       <!-- <td>
                             <span class="badge badge-success" v-if="sale.is_active == 1">Active</span>
                             <button class="btn btn-danger" v-if="sale.is_active == 1" @click.prevent="inactivesale(index)">In-activate-it</button> 
 
                             <span class="badge badge-danger" v-if="sale.is_active == 0">In-active</span>
                             <button class="btn btn-success" v-if="sale.is_active == 0" @click.prevent="activesale(index)">Active-it</button> 
-                        </td>
+                        </td>-->
                         <td>     
-                            <button class="btn btn-info btn-icon-split"  data-toggle="modal" data-target="#accountDetail" @click="setData(index)">
+                            <button class="btn btn-info btn-icon-split"  data-toggle="modal" data-target="#saleDetail" @click="setData(index)">
                                 <span class="icon text-white" >
                                     <i class="fas fa-eye"></i>
                                 </span>
@@ -110,7 +110,7 @@ Home page
         </div>
     </div>
     
-        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="employeeDetailLabel" aria-modal="true" id="accountDetail">
+        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="employeeDetailLabel" aria-modal="true" id="saleDetail">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -118,6 +118,41 @@ Home page
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <!-- Column -->
+                            <div class="col-lg-12 col-xlg-12 col-md-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Customer Name</strong>
+                                                <br>
+                                                <p class="text-muted">@{{sale.customer?sale.customer.name: ''}}</p>
+                                            </div>
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Sale Date</strong>
+                                                <br>
+                                                <p class="text-muted">@{{sale.sale_date}}</p>
+                                            </div>
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Amount</strong>
+                                                <br>
+                                                <p class="text-muted">@{{sale.amount}}</p>
+                                            </div>
+                                          <!--  <div class="col-md-3 col-xs-6"> <strong>Active</strong>
+                                                <br>
+                                                <h3 >
+                                                    <span class="badge badge-success" v-if="account.is_active == 1">Active
+                                                    </span>
+                                                    <span class="badge badge-danger" v-else>Inactive
+                                                    </span>
+                                                </h3>
+                                            </div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Column -->
+                        </div>
                     </div>
                 
                     <div class="modal-footer">

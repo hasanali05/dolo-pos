@@ -80,7 +80,6 @@ Route::prefix('admin')->group(function()
 		Route::post('/customers-status-change', 'CustomerController@statusChange')->name('customers.statusChange');
 		Route::post('/customers-add-or-update', 'CustomerController@addOrUpdate')->name('customers.addOrUpdate');
 
-
 		//purchases (initially purchase, purchase detail and purchase transaction will be one action)
 		Route::get('/purchases', 'PurchaseController@purchases')->name('purchases');
 		Route::get('/purchases-all', 'PurchaseController@purchasesAll')->name('purchases.all');
