@@ -55,7 +55,6 @@ class PurchaseController extends Controller
                 return response()->json(['success' =>false , 'errors'=>$validator->messages()]);
             }
         }
-
         $supplier = $request->supplier;
         $account = $request->account;
         $purchaseData = $request->purchase;
