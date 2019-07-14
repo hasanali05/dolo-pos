@@ -12,8 +12,8 @@
             <ul aria-expanded="false" class="collapse first-level">
                 <li class="sidebar-item"><a href="{{route('customers')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Customer</span></a></li>
                 <li class="sidebar-item"><a href="{{route('sales')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Sale </span></a></li>
-                <li class="sidebar-item"><a href="{{route('sales')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Sale Detail</span></a></li>
-                <li class="sidebar-item"><a href="{{route('sales')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Sale Transaction</span></a></li>
+                <li class="sidebar-item"><a href="{{route('salesDetails')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Sale Detail</span></a></li>
+                <li class="sidebar-item"><a href="{{route('saleTransaction')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Sale Transaction</span></a></li>
             </ul>
         </li>
         <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-compress"></i><span class="hide-menu">Damage and Warranty Module</span></a>
