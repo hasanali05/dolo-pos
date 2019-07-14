@@ -472,7 +472,6 @@ Home page
                     _this.errors = [];
                     let purchase = _this.purchase;
                     let count = 0; 
-
                     if (!_this.selectedSupplier) {
                         _this.errors.push("You must have to select a supplier first.");
                         count++;
