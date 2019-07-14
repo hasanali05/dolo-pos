@@ -44,7 +44,6 @@ class PurchaseController extends Controller
         if ($validator->fails()) {
             return response()->json(['success' =>false , 'errors'=>$validator->messages()]);
         }
-
         foreach ($request['detail'] as $detail) {
             $validator = \Validator::make($detail, [
                 // 'unique_code'=>'required|string|unique:purchase_details,unique_code',
