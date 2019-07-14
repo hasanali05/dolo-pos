@@ -10,7 +10,7 @@ class PurchaseTransaction extends Model
     protected $dates = ['deleted_at'];
     protected $table = 'purchase_transactions';
 
-    protected $fillable=['supplier_id','reason','amount'];
+    protected $fillable=['supplier_id','reason','amount','note'];
 
     public function supplier(){
     	return $this->belongsTo(Supplier::class,'supplier_id');
