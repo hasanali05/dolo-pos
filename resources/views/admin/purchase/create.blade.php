@@ -133,6 +133,12 @@ Home page
             </div>
             <div class="card-body">
               <div class="row">
+                <div class="alert alert-success alert-dismissible fade show w-100" role="alert" v-if="successMessage">
+                    <strong>Successfull!</strong> @{{successMessage}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click.prevent="successMessage=''">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                 <div class="col-md-6">                  
                   Products:
                     <select class="select2 form-control custom-select" style="width: 100%; height:36px;" @change="addToPurchase($event)">
@@ -150,7 +156,7 @@ Home page
                                   <th class="sn">#</th>
                                   <th class="model">Product name</th>
                                   <th class="s-n">unique code</th>
-                                  <th class="s-n">Warrenty</th>
+                                  <th class="s-n">Warrenty<br><span class="text-info" style="font-size: 12px;">(Default : 0 days)</span></th>
                                   <th class="unit">Buy Price (BDT)</th>
                                   <th class="total">Sell Price (BDT)</th>
                                   <th class="action">Action</th>
@@ -163,15 +169,15 @@ Home page
                                   <td class="model">@{{detail.name}}</td>
                                   <td class="s-n"><input type="text" style="width:100%" v-model="detail.unique_code"></td>
                                   <td class="unit">
-                                    <input type="number" min="1" max="1" style="width:48%" v-model="detail.warranty_duration">
+                                    <input type="number" min="0" style="width:48%" v-model="detail.warranty_duration">
                                     <select style="width:48%; height: 100%;" v-model="detail.warranty_type">
                                       <option value="days">days</option>
                                       <option value="months">months</option>
                                       <option value="years">years</option>
                                     </select>
                                   </td>
-                                  <td class="unit"><input type="number" min="1" max="1" style="width:100%" v-model="detail.buying_price"></td>
-                                  <td class="total"><input type="number" min="1" max="1" style="width:100%" v-model="detail.selling_price"></td>
+                                  <td class="unit"><input type="number" min="1" style="width:100%" v-model="detail.buying_price"></td>
+                                  <td class="total"><input type="number" min="1" style="width:100%" v-model="detail.selling_price"></td>
                                   <td class="action">
                                     <a data-toggle="tooltip" data-original-title="Remove" @click.prevent="removeRow(index)">
                                       <i class="fa fa-trash text-danger m-r-10"></i> 
@@ -179,32 +185,40 @@ Home page
                                   </td>
                               </tr>
                             </tbody>
-                            <tfoot>
-                              <tr class="summery">
-                                  <td colspan="5" >Subtotal</td>
-                                  <td colspan="2" id="subtotal">0</td>
-                              </tr>        
-                              <tr class="summery">
-                                  <td colspan="5">Sales Tax </td>
-                                  <td colspan="2" id="tax">0</td>
-                              </tr>        
+                            <tfoot>       
                               <tr class="summery">
                                   <td colspan="5">Total</td>
-                                  <td colspan="2" id="total">0</td>
+                                  <td colspan="2">@{{computedTotal}}</td>
                               </tr>        
                               <tr class="summery">
                                   <td colspan="5" style="font-weight: bold">Convayance</td>
-                                  <td colspan="2" id="convayance">0</td>
+                                  <td colspan="2"><input type="number" min="0" style="width:100%" v-model="convayance"></td>
                               </tr>  
                               <tr class="summery">
                                   <td colspan="5" style="font-weight: bold">Grand Total</td>
-                                  <td colspan="2" id="grandTotal">0</td>
+                                  <td colspan="2">@{{computedGrandTotal}}</td>
+                              </tr>
+                              <tr class="summery text-info">
+                                  <td colspan="5" style="font-weight: bold">Paid</td>
+                                  <td colspan="2">@{{computedPaid}}</td>
+                              </tr>
+                              <tr class="summery text-danger">
+                                  <td colspan="5" style="font-weight: bold">Due</td>
+                                  <td colspan="2">@{{computedDue}}</td>
                               </tr>
                               </tfoot>
                         </table>
                         <br>
                         <br>
-                         <button type="submit" class="btn btn-info waves-effect pull-right m-r-10" name="invoice" value="active" @click.prevent="saveData()">Generate</button>
+                         <button type="submit" class="btn btn-info waves-effect pull-right m-r-10" name="invoice" value="active" @click.prevent="saveData()">Purchase</button>
+                </div>
+
+
+                <div v-if="errors.length" class="alert alert-danger w-100" style="margin-top: 10px;">
+                    <b>Please correct the following error(s):</b>
+                    <ul>
+                        <li v-for="error in errors">@{{ error }}</li>
+                    </ul>
                 </div>
              </div> 
             </div>
@@ -228,10 +242,6 @@ Home page
                                 <option v-for="(supplier,index) in suppliers" :value="index" :key="index">@{{ supplier.name }}</option>
                             </optgroup>
                         </select>
-                    </div>
-                    <div class="col-sm-12 p-t-10">
-                        <!-- sample modal content -->
-                            <button type="button" class="btn btn-info w-100" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add New Supplier</button>
                     </div>
                     <div class="col-sm-12 p-t-10 p-b-10" >        
                         <label style="font-weight: 500">Supplier information</label>
@@ -257,17 +267,17 @@ Home page
 
                     <div class="col-sm-12 p-t-10 p-b-10">
                       <label>Purchase Date</label>
-                      <input class="form-control" type="date" value="2011-08-19" name="payment_date">
+                      <input class="form-control" type="date" value="2011-08-19" v-model="purchase_date">
                     </div>
 
-                    <div class="col-sm-12 p-t-10 p-b-10" style="display: none" id="payment">
+                    <div class="col-sm-12 p-t-10 p-b-10">
                          <label>Payment amount</label>
-                         <input type="number" name="payment_amount" min="0" class="form-control" value="0" max="0">
+                         <input type="number" v-model="payment_amount" min="0" class="form-control">
                     </div>
 
                     <div class="col-sm-12 p-t-10 p-b-10">
                          <label>Transaction Note</label>
-                         <textarea class="form-control" rows="3" name="payment_note" placeholder="Write some note if any..."></textarea>
+                         <textarea class="form-control" rows="3" v-model="payment_note" placeholder="Write some note if any..."></textarea>
                     </div>
 
                     <div class="col-sm-12 p-t-10 p-b-10" >        
@@ -283,7 +293,7 @@ Home page
                     </div>
 
                     <div class="col-sm-12 p-t-10 p-b-10">
-                        <button type="submit" class="btn waves-effect waves-light btn-block btn-info" name="invoice" value="active" @click.prevent="saveData()">Generate</button>
+                        <button type="submit" class="btn waves-effect waves-light btn-block btn-info" name="invoice" value="active" @click.prevent="saveData()">Purchase</button>
                     </div>
                 </div>
             </div>
@@ -304,16 +314,48 @@ Home page
             el: '#purchase',
             data: {
                 errors: [],
+                successMessage:'',
+
+                suppliers: [],
+                products: [],
+                transactionAccounts: JSON.parse('{!!$transactionAccounts!!}'),
 
                 selectedSupplier: '',
                 selectedAccount: '',
                 purchaseDetails: [],
-                suppliers: [],
-                products: [],
-                currentIndex: 0,
-                purchase: '',
-                successMessage:'',
-                transactionAccounts: JSON.parse('{!!$transactionAccounts!!}'),
+
+                total: '',
+                convayance: '',
+                grandTotal: '',
+                purchase_date: '',
+                payment_amount: 0,
+                payment_note: '',
+            },
+            computed: {
+              computedTotal () {
+                let total = 0;
+                this.purchaseDetails.forEach(function (detail) {
+                  if (detail.buying_price) {
+                    total+=Number(detail.buying_price);
+                  }
+                })
+                this.total = total;
+                return this.total;
+              },
+              computedGrandTotal () {
+                if(Number(this.convayance) > this.grandTotal) this.convayance = this.grandTotal;
+                if(Number(this.convayance) < 0) this.convayance = 0;
+                this.grandTotal = this.total-Number(this.convayance);
+                return this.grandTotal;
+              },
+              computedPaid () {
+                if(this.payment_amount > this.grandTotal) this.payment_amount = this.grandTotal;
+                if(this.payment_amount < 0) this.payment_amount = 0;
+                return this.payment_amount;
+              },
+              computedDue () {
+                return this.grandTotal-this.payment_amount;
+              }
             },
             mounted() {
                 var _this = this;
@@ -334,19 +376,6 @@ Home page
                     .then(function (response) {
                         _this.products = response.data.products;
                     })
-                },
-                getAllData() {
-                    var _this = this;
-                    axios.get('{{ route("purchases.all") }}')
-                    .then(function (response) {
-                        _this.purchases = response.data.purchases;
-                    })
-                },
-                setData(index) {
-                    var _this = this;
-                    _this.errors = [];
-                    _this.currentIndex = index;
-                    _this.purchase = _this.purchases[index];
                 },
                 changeSupplier(event) 
                 { 
@@ -373,33 +402,45 @@ Home page
                 removeRow(index) 
                 {   
                   this.purchaseDetails.splice(index, 1);
-                },
-
-           
+                },           
                 clearData() {
                     var _this = this;
-                    _this.errors = [];
-                    _this.purchase = {
-                        id: '',
-                        purchase_date: '',
-                        amount: '',
-                        commission: '',
-                        payment: '',
-                        due: '',
-                        is_active: '1',
-                        supplier:{
-                            id:'',
-                            name:''  
-                    
-                        }
-                    }
+
+                    _this.errors= [];
+                    _this.successMessage='';
+
+                    _this.suppliers= [];
+                    _this.products= [];
+                    _this.transactionAccounts= JSON.parse('{!!$transactionAccounts!!}');
+
+                    _this.selectedSupplier= '';
+                    _this.selectedAccount= '';
+                    _this.purchaseDetails= [];
+
+                    _this.total= '';
+                    _this.convayance= '';
+                    _this.grandTotal= '';
+                    _this.purchase_date= '';
+                    _this.payment_amount= 0;
+                    _this.payment_note= '';
                 },
                 saveData() {
                     var _this = this;
-                    if(_this.validate()){
+                    _this.errors = [];
+                    if(1){
+                    // if(_this.validate()){
                         //save data
                         let data = {
-                            purchase: _this.purchase
+                            supplier: _this.selectedSupplier,
+                            account: _this.selectedAccount,
+                            detail: _this.purchaseDetails,
+
+                            purchase: {
+                              convayance: _this.convayance,
+                              purchase_date: _this.purchase_date,
+                              payment: _this.payment_amount,
+                              note: _this.payment_note,
+                            }
                         }
                         axios.post('{{ route("purchases.addOrUpdate") }}', data)
                         .then(function (response) {
@@ -412,16 +453,9 @@ Home page
                                     alert("something Wrong. Try Again.")
                                 }
                                 if(status=='created') {
-                                    _this.purchases.push(data.purchase);
+                                    _this.clearData();
                                     //modal close
-                                    document.getElementById('modalClose').click();
                                     _this.successMessage = 'Purchase created successfully';
-                                }
-                                if(status=='updated') {
-                                    _this.purchases[_this.currentIndex] = data.purchase;
-                                    //modal close
-                                    document.getElementById('modalClose').click();
-                                    _this.successMessage = 'Purchase updated successfully';
                                 }
                             } else {                                
                                 for (var key in data.errors) {
@@ -439,29 +473,34 @@ Home page
                     let purchase = _this.purchase;
                     let count = 0; 
 
-                    if (!purchase.purchase_date) {
-                        _this.errors.push("Purchase date required.");
+                    if (!_this.selectedSupplier) {
+                        _this.errors.push("You must have to select a supplier first.");
                         count++;
                     }
-                     if (!purchase.amount) {
-                        _this.errors.push("Amount required.");
+                    if (_this.purchaseDetails.length < 1) {
+                        _this.errors.push("You must have to select some product.");
                         count++;
                     }
-                    if (!purchase.commission) {
-                        _this.errors.push("Commission required.");
+                    _this.purchaseDetails.forEach(function (detail) {
+                      if(!detail.buying_price) {
+                          _this.errors.push("Add buying prices to all product.");
+                          count++;
+                      }
+                      if(!detail.unique_code) {
+                          _this.errors.push("Add buying prices to all product.");
+                          count++;
+                      }
+                    })
+                    if (!_this.selectedAccount) {
+                        _this.errors.push("You must have to select an account.");
                         count++;
                     }
-
-                     if (!purchase.payment) {
-                        _this.errors.push("Payment required.");
+                    if (!_this.purchase_date) {
+                        _this.errors.push("Select a purchase date.");
                         count++;
                     }
-                     if (!purchase.due) {
-                        _this.errors.push("Due required.");
-                        count++;
-                    }
-                     if (!purchase.supplier.id) {
-                        _this.errors.push("Supplier name required.");
+                     if (!_this.payment_amount) {
+                        _this.errors.push("you must have to select payment amount.");
                         count++;
                     }
 
