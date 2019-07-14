@@ -45,7 +45,7 @@ Home page
                         <th>Commission</th>
                         <th>Payment</th>
                         <th>Due</th>
-                        <th>Active/Not</th>
+                       <!-- <th>Active/Not</th>-->
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -58,7 +58,7 @@ Home page
                         <th>Commission</th>
                         <th>Payment</th>
                         <th>Due</th>
-                        <th>Active/Not</th>
+                     
                         <th>Action</th>
                     </tr>
                 </tfoot>
@@ -71,15 +71,15 @@ Home page
                         <td>@{{sale.commission}}</td>
                         <td>@{{sale.payment}}</td>
                         <td>@{{sale.due}}</td>
-                        <td>
+                       <!-- <td>
                             <span class="badge badge-success" v-if="sale.is_active == 1">Active</span>
-                            <button class="btn btn-danger" v-if="sale.is_active == 1" @click.prevent="inactiveAccount(index)">In-activate-it</button> 
+                            <button class="btn btn-danger" v-if="sale.is_active == 1" @click.prevent="inactivesale(index)">In-activate-it</button> 
 
                             <span class="badge badge-danger" v-if="sale.is_active == 0">In-active</span>
-                            <button class="btn btn-success" v-if="sale.is_active == 0" @click.prevent="activeAccount(index)">Active-it</button> 
-                        </td>
+                            <button class="btn btn-success" v-if="sale.is_active == 0" @click.prevent="activesale(index)">Active-it</button> 
+                        </td>-->
                         <td>     
-                            <button class="btn btn-info btn-icon-split"  data-toggle="modal" data-target="#accountDetail" @click="setData(index)">
+                            <button class="btn btn-info btn-icon-split"  data-toggle="modal" data-target="#saleDetail" @click="setData(index)">
                                 <span class="icon text-white" >
                                     <i class="fas fa-eye"></i>
                                 </span>
@@ -110,7 +110,7 @@ Home page
         </div>
     </div>
     
-        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="employeeDetailLabel" aria-modal="true" id="accountDetail">
+        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="employeeDetailLabel" aria-modal="true" id="saleDetail">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -118,6 +118,41 @@ Home page
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <!-- Column -->
+                            <div class="col-lg-12 col-xlg-12 col-md-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Customer Name</strong>
+                                                <br>
+                                                <p class="text-muted">@{{sale.customer?sale.customer.name: ''}}</p>
+                                            </div>
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Sale Date</strong>
+                                                <br>
+                                                <p class="text-muted">@{{sale.sale_date}}</p>
+                                            </div>
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Amount</strong>
+                                                <br>
+                                                <p class="text-muted">@{{sale.amount}}</p>
+                                            </div>
+                                          <!--  <div class="col-md-3 col-xs-6"> <strong>Active</strong>
+                                                <br>
+                                                <h3 >
+                                                    <span class="badge badge-success" v-if="account.is_active == 1">Active
+                                                    </span>
+                                                    <span class="badge badge-danger" v-else>Inactive
+                                                    </span>
+                                                </h3>
+                                            </div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Column -->
+                        </div>
                     </div>
                 
                     <div class="modal-footer">
@@ -132,7 +167,80 @@ Home page
     <div class="modal fade" id="createmodel" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-             
+                <form action="javascript:void(0)" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createModalLabel"><i class="ti-marker-alt mr-2"></i> Create New Sale</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div v-if="errors.length" class="alert alert-danger">
+                            <b>Please correct the following error(s):</b>
+                            <ul>
+                                <li v-for="error in errors">@{{ error }}</li>
+                            </ul>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="input-group mb-3">
+                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                    <select class="form-control form-white" v-model="sale.customer_id">
+                                        <option>--select Customer Name--</option>
+                                        <option v-for="customer in customers" :value="customer.id">@{{customer.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group mb-3">
+                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                     <input type="date" class="form-control" placeholder="date" v-model="sale.sale_date">
+                       
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group mb-3">
+                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                     <input type="number" class="form-control" placeholder="amount" v-model="sale.amount">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group mb-3">
+                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                     <input type="number" class="form-control" placeholder="commission" v-model="sale.commission">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group mb-3">
+                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                     <input type="number" class="form-control" placeholder="payment" v-model="sale.payment">
+                                </div>
+                            </div>
+                             <div class="col-6">
+                                <div class="input-group mb-3">
+                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                     <input type="number" class="form-control" placeholder="due" v-model="sale.due">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group mb-3">
+                                    <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
+                                    <select class="form-control form-white" placeholder="Choose status" v-model="sale.is_active">
+                                        <option value="1">Active</option>
+                                        <option value="0">In-active</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalClose">Close</button>
+                        <button type="submit" class="btn btn-info" @click.prevent="clearData()"><i class="ti-close"></i> Clear data</button>
+                        <button type="submit" class="btn btn-success" @click.prevent="saveData()" v-if="!sale.id"><i class="ti-save"></i> Save</button>
+                        <button type="submit" class="btn btn-primary" @click.prevent="saveData()" v-if="sale.id"><i class="ti-save"></i> Update</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -162,7 +270,7 @@ Home page
                     due: '',
                     is_active: 1,
 
-                customer:{
+                customers:{
                      account_id:'',
                      name:'',
                      contact:'',
@@ -171,17 +279,26 @@ Home page
                 },
                 currentIndex: 0,
                 sales: [],
+                customers: [],
                 successMessage: '',
             },
             mounted() {
                 var _this = this;
                 _this.getAllData();
+                  _this.getAllCustomerData();
             },
             methods: {
+                getAllCustomerData() {
+                    var _this = this;
+                    axios.get('{{ route("customers.all") }}')
+                    .then(function (response) {
+                        _this.customers = response.data.customers;
+                    })
+                },
                 getAllData() {
                     var _this = this;
                     axios.get('{{ route("sales.all") }}')
-                    .then(function (response) {
+                    .then(function (response) { 
                         _this.sales = response.data.sales;
                     })
                 },
@@ -201,6 +318,7 @@ Home page
                     .then(function (response) {
                         if(response.data.success == true) {
                             _this.$set(_this.sales[index] , 'is_active' , 0);
+                            _this.successMessage = 'Sale status inactivated successfully';
                         }
                     })
                 },
@@ -214,8 +332,15 @@ Home page
                     .then(function (response) {
                         if(response.data.success == true) {
                             _this.$set(_this.sales[index] , 'is_active' , 1);
+                              _this.successMessage = 'Sale status activated successfully';
                         }
                     })
+                },
+                setData(index) {
+                    var _this = this;
+                    _this.errors = [];
+                    _this.currentIndex = index;
+                    _this.sale = _this.sales[index];
                 },
                 clearData() {
                     var _this = this;
@@ -280,11 +405,19 @@ Home page
                         count++;
                     }
                     if (!sale.amount) {
-                        _this.errors.push("Group required.");
+                        _this.errors.push("Amount required.");
                         count++;
                     }
                     if (!sale.commission) {
-                        _this.errors.push("Sub group required.");
+                        _this.errors.push("Commission required.");
+                        count++;
+                    }
+                    if (!sale.payment) {
+                        _this.errors.push("Payment required.");
+                        count++;
+                    }
+                    if (!sale.due) {
+                        _this.errors.push("Due required.");
                         count++;
                     }
                     if (!sale.is_active) {
