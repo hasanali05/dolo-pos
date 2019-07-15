@@ -100,6 +100,7 @@ $factory->define(App\PurchaseTransaction::class, function (Faker $faker) {
         
         'supplier_id'=>rand(1,10),
         'amount'=>rand(500,2000),
+        'note'=>$faker->sentence,
  
         
     ];
@@ -117,4 +118,15 @@ $factory->define(App\Sale::class, function (Faker $faker) {
         
     ];
 
+});
+
+$factory->define(App\SaleTransaction::class, function (Faker $faker) {
+    return [
+        
+        'customer_id'=>rand(1,10),
+        'amount'=>rand(500,2000),
+        'note'=>$faker->sentence,
+ 
+        
+    ];
 });
