@@ -353,13 +353,43 @@ Home page
                                     _this.sales.push(data.sale);
                                     //modal close
                                     document.getElementById('modalClose').click();
-                                    _this.successMessage = 'Sale created successfully.';
+                                    
+                                      //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Sale created successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                                 if(status=='updated') {
                                     _this.sales[_this.currentIndex] = data.sale;
                                     //modal close
                                     document.getElementById('modalClose').click();
-                                    _this.successMessage = 'sale updated successfully.';
+                                  
+                                      //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'sale created successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                             } else {                                
                                 for (var key in data.errors) {

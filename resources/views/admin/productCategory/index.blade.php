@@ -203,8 +203,27 @@ Home page
                     .then(function (response) {
                         if(response.data.success == true) {
                             _this.$set(_this.categories[index] , 'is_active' , 0);
-                            _this.successMessage = 'Category status inactivated successfully';
+                           
+
+                             //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Category  status inactivated   successfully'
+                                  })
+
+                                    //end sweet alart
                         }
+
+
+
                     })
                 },
                 activeCategory(index) {
@@ -217,7 +236,23 @@ Home page
                     .then(function (response) {
                         if(response.data.success == true) {
                             _this.$set(_this.categories[index] , 'is_active' , 1);
-                            _this.successMessage = 'Category  status activated successfully';
+                           
+
+                                     //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Category  status activated   successfully'
+                                  })
+
+                                    //end sweet alart
                         }
                     })
                 },
@@ -251,14 +286,45 @@ Home page
                                     _this.categories.push(data.category);
                                     //modal close
                                     document.getElementById('modalClose').click();
-                                    _this.successMessage = 'Category created successfully';
-                                    
+                                   
+
+                                    //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Product Category Added successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                                 if(status=='updated') {
                                     _this.categories[_this.currentIndex] = data.category;
                                     //modal close
                                     document.getElementById('modalClose').click();
-                                    _this.successMessage = 'Category updated successfully';
+                                   
+
+                                     //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Category updated  successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                             } else {                                
                                 for (var key in data.errors) {

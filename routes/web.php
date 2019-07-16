@@ -110,6 +110,7 @@ Route::prefix('admin')->group(function()
         //SaleTransection
 		Route::get('/saleTransaction', 'saleTransactionController@saleTransaction')->name('saleTransaction');
 		Route::get('/saleTransaction-all', 'saleTransactionController@saleTransactionAll')->name('saleTransaction.all');
+		Route::post('/saleTransaction-add-or-update', 'saleTransactionController@addOrUpdate')->name('saleTransaction.addOrUpdate');
 
 		//damages 
 		Route::get('/damages', 'DamageController@damages')->name('damages');

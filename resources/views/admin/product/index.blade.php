@@ -309,7 +309,22 @@ Home page
                     .then(function (response) {
                         if(response.data.success == true) {
                             _this.$set(_this.products[index] , 'is_active' , 0);
-                            _this.successMessage = 'Product status inactivated successfully';
+                          
+                              //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Product status inactivated successfully'
+                                  })
+
+                                    //end sweet alart
                         }
                     })
                 },
@@ -323,7 +338,22 @@ Home page
                     .then(function (response) {
                         if(response.data.success == true) {
                             _this.$set(_this.products[index] , 'is_active' , 1);
-                            _this.successMessage = 'Product  status activated successfully';
+                           
+                              //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Product  status activated successfully'
+                                  })
+
+                                    //end sweet alart
                         }
                     })
                 },
@@ -363,7 +393,22 @@ Home page
                                     _this.products.push(data.product);
                                     //modal close
                                     document.getElementById('modalClose').click();
-                                    _this.successMessage = 'Product created successfully';
+                                   
+                                      //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Product created successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                                 if(status=='updated') {
 
@@ -371,7 +416,22 @@ Home page
                                     _this.products[_this.currentIndex] = data.product;
                                     //modal close
                                     document.getElementById('modalClose').click();
-                                    _this.successMessage = 'Product updated successfully';
+                                 
+                                      //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Product updated successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                             } else {                                
                                 for (var key in data.errors) {

@@ -188,15 +188,11 @@ Home page
                                         <br>
                                         <p class="text-muted">@{{purchase.supplier?purchase.supplier.contact:''}}</p>
                                     </div>
-                                     <div class="col-md-3 col-xs-6 b-r"> <strong>Reason</strong>
+                                     <div class="col-md-3 col-xs-6 b-r"> <strong>Address</strong>
                                         <br>
-                                        <p class="text-muted">@{{purchase.reason}}</p>
-                                    </div><div class="col-md-3 col-xs-6 b-r"> 
-                                        <strong>
-                                    Amount </strong>
-                                        <br>
-                                        <p class="text-muted">@{{purchase.amount}}</p>
+                                        <p class="text-muted">@{{purchase.supplier?purchase.supplier.address:''}}</p>
                                     </div>
+
                                     <div class="col-md-3 col-xs-6 b-r">
                                     </div>
                                 </div>
@@ -216,12 +212,14 @@ Home page
                                                 <th>Reason</th>
                                                 <th>Amount</th>
                                                 <th>Balance</th>
+                                                <th>note</th>
                                             </thead>
                                             <tbody>    
                                                 <td>S/L</td>
-                                                <td>Reason</td>
-                                                <td>Amount</td>
-                                                <td>Balance</td>
+                                                <td>@{{purchase.reason}}</td>
+                                                <td>@{{purchase.amount}}</td>
+                                                <td>@{{purchase.amount}}</td>
+                                                <td>@{{purchase.note}}</td>
                                             </tbody>
                                         </table>
                                     </div>
@@ -332,7 +330,22 @@ Home page
                                     _this.purchases.push(data.purchase);
                                     //modal close
                                     document.getElementById('modalClose').click();
-                                    _this.successMessage = 'purchase created successfully';
+                                  
+                                      //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'purchase created successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                                 if(status=='updated') {
 
@@ -341,6 +354,21 @@ Home page
                                     //modal close
                                     document.getElementById('modalClose').click();
                                     _this.successMessage = 'purchase updated successfully';
+                                      //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'purchase updated successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                             } else {                                
                                 for (var key in data.errors) {

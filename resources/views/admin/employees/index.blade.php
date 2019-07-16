@@ -387,7 +387,22 @@ Home page
                     .then(function (response) {
                         if(response.data.success == true) {
                             _this.$set(_this.employees[index] , 'is_active' , 0);
-                            _this.successMessage = 'Employee status inactivated successfully';
+                         
+                             //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Employee  status inactivated   successfully'
+                                  })
+
+                                    //end sweet alart
                         }
                     })
                 },
@@ -401,7 +416,22 @@ Home page
                     .then(function (response) {
                         if(response.data.success == true) {
                             _this.$set(_this.employees[index] , 'is_active' , 1);
-                            _this.successMessage = 'Employee status activated successfully';
+                           
+                             //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Employee  status activated   successfully'
+                                  })
+
+                                    //end sweet alart
 
                         }
                     })
@@ -450,14 +480,45 @@ Home page
                                     _this.employees.push(data.employee);
                                     //modal close
                                     document.getElementById('modalClose').click();
-                                    _this.successMessage = 'Employee created successfully';
+                                   
+                                     //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Employee created successfully'
+                                  })
+
+                                    //end sweet alart
 
                                 }
                                 if(status=='updated') {
                                     _this.employees[_this.currentIndex] = data.employee;
                                     //modal close
                                     document.getElementById('modalClose').click();
-                                    _this.successMessage = 'Employee updated successfully';
+                                    
+
+                                     //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Employee updated successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                             } else {                                
                                 for (var key in data.errors) {

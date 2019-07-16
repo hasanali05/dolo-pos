@@ -369,14 +369,44 @@ Home page
                                     _this.expenses.push(data.expense);
                                     //modal close
                                     document.getElementById('modalClose').click();
-                                    _this.successMessage = 'expense created successfully';
+                                  
+                                      //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Expense created successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                                 if(status=='updated') {
                                     
                                     _this.$set( _this.expenses, _this.currentIndex, data.expense )
                                     //modal close
                                     document.getElementById('modalClose').click();
-                                    _this.successMessage = 'expense updated successfully';
+                                   
+                                      //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Expense updated  successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                             } else {                                
                                 for (var key in data.errors) {

@@ -455,7 +455,22 @@ Home page
                                 if(status=='created') {
                                     _this.clearData();
                                     //modal close
-                                    _this.successMessage = 'Purchase created successfully';
+                                    
+                                      //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Purchase created successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                             } else {                                
                                 for (var key in data.errors) {

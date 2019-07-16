@@ -293,7 +293,22 @@ Home page
                     .then(function (response) {
                         if(response.data.success == true) {
                             _this.$set(_this.customers[index] , 'is_active' , 0);
-                            _this.successMessage = 'customer status inactivated successfully';
+                           
+                              //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'customer status inactivated  successfully'
+                                  })
+
+                                    //end sweet alart
                         }
                     })
                 },
@@ -307,7 +322,22 @@ Home page
                     .then(function (response) {
                         if(response.data.success == true) {
                             _this.$set(_this.customers[index] , 'is_active' , 1);
-                            _this.successMessage = 'customer  status activated successfully';
+                           
+                              //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'customer  status activated  successfully'
+                                  })
+
+                                    //end sweet alart
                         }
                     })
                 },
@@ -348,14 +378,44 @@ Home page
                                     _this.customers.push(data.customer);
                                     //modal close
                                     document.getElementById('modalClose').click();
-                                    _this.successMessage = 'Customer created successfully';
+                                   
+                                      //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Customer created successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                                 if(status=='updated') {
                                     
                                     _this.$set( _this.customers, _this.currentIndex, data.customer )
                                     //modal close
                                     document.getElementById('modalClose').click();
-                                    _this.successMessage = 'Customer updated successfully';
+                                    
+                                      //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Customer updated successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                             } else {                                
                                 for (var key in data.errors) {
