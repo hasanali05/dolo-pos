@@ -279,7 +279,7 @@ Home page
     <script src="{{asset('/')}}/js/axios.min.js"></script>
     <script type="text/javascript">
         const app = new Vue({
-            el: '#expenses',
+            el: '#expense',
             data: {
                 errors: [],
                 expense: {

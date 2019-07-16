@@ -42,6 +42,7 @@ Home page
                 <thead>
                     <tr>
                          <th>S/L</th>
+                        <th>Inventory Status</th>
                         <th>Unique Code</th>
                         <th>Issue Dae</th>
                         <th>Reson</th>
@@ -53,6 +54,7 @@ Home page
                 <tfoot>
                     <tr>
                         <th>S/L</th>
+                        <th>Inventory Status</th>
                         <th>Unique Code</th>
                         <th>Issue Dae</th>
                         <th>Reson</th>
@@ -65,6 +67,7 @@ Home page
                 <tbody>
                     <tr v-for="(damage, index) in damages">
                         <td>@{{index+1}}</td>
+                        <td>@{{damage.inventory?damage.inventory.status:''}}</td>
                         <td>@{{damage.inventory?damage.inventory.unique_code:''}}</td>
                         <td>@{{damage.issue_date}}</td>
                         <td>@{{damage.reason}}</td>
@@ -128,7 +131,7 @@ Home page
                                     <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
                                     <select class="form-control form-white" v-model="damage.inventory_id">
                                         <option>select Inventory</option>
-                                        <option v-for="inventory in inventories" :value="inventory.id">@{{inventory.unique_code}}</option>
+                                        <option v-for="inventory in inventories" :value="inventory.id">@{{inventory.status}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -156,13 +159,6 @@ Home page
 
 
                         </div>
-                         <div class="input-group mb-3">
-                            <button type="button" class="btn btn-info"><i class="ti-import text-white"></i></button>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="inputGroupFile01">
-                                <label class="custom-file-label" for="inputGroupFile01">Choose Image</label>
-                            </div>
-                        </div> 
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalClose">Close</button>
@@ -201,7 +197,7 @@ Home page
                                                 <br>
                                                 <p class="text-muted">@{{damage.issue_date}}</p>
                                             </div>
-                                             <div class="col-md-3 col-xs-6 b-r"> <strong>damage Date</strong>
+                                             <div class="col-md-3 col-xs-6 b-r"> <strong>damage Reason</strong>
                                                 <br>
                                                 <p class="text-muted">@{{damage.reason}}</p>
                                             </div>
@@ -289,19 +285,10 @@ Home page
                     _this.errors = [];
                     _this.damage = {
                         id: '',
-                        account_id: '1',
-                        title:'',
-                        damage_date: '',
-                        amount: '',
-                        reason: '',
-                        type: '1',
-                        account:{
-                            id:'',
-                            name:''
-                         
-                  
-                    
-                    }
+                        inventory_id:'1',
+                        issue_date: '',
+                        reason: ''
+    
                         }
                 },
                 saveData() {
@@ -350,29 +337,20 @@ Home page
                     let damage = _this.damage;
                     let count = 0; 
 
-                    if (!damage.title) {
-                        _this.errors.push("Title required.");
+                    if (!damage.issue_date) {
+                        _this.errors.push("Date required.");
                         count++;
                     }
-                     if (!damage.damage_date) {
-                        _this.errors.push("damage Date required.");
-                        count++;
-                    }
-                    if (!damage.amount) {
-                        _this.errors.push("Amount required.");
-                        count++;
-                    }
-                    if (!damage.reason) {
+                     if (!damage.reason) {
                         _this.errors.push("Reason required.");
                         count++;
                     }
-                    if (!damage.type) {
-                        _this.errors.push("Type required.");
+                    if (!damage.status) {
+                        _this.errors.push("Status required.");
                         count++;
                     }
-
-                     if (!damage.account_id) {
-                        _this.errors.push("Account name required.");
+                    if (!damage.inventory_id) {
+                        _this.errors.push("Inventory required.");
                         count++;
                     }
 
