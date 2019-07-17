@@ -42,24 +42,22 @@ Home page
                 <thead>
                     <tr>
                          <th>S/L</th>
-                        <th>Inventory Status</th>
-                        <th>Unique Code</th>
-                        <th>Issue Dae</th>
+                        <th>Product</th>
+                        <th>Supplier</th>
+                        <th>Issue Date</th>
                         <th>Reson</th>
-                        <th>Status</th>
-            
+                        <th>Status</th>            
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <th>S/L</th>
-                        <th>Inventory Status</th>
-                        <th>Unique Code</th>
-                        <th>Issue Dae</th>
+                        <th>Product</th>
+                        <th>Supplier</th>
+                        <th>Issue Date</th>
                         <th>Reson</th>
-                        <th>Status</th>
-                 
+                        <th>Status</th>                 
                         <th>Action</th>
                     </tr>
                 </tfoot>
@@ -67,8 +65,8 @@ Home page
                 <tbody>
                     <tr v-for="(damage, index) in damages">
                         <td>@{{index+1}}</td>
-                        <td>@{{damage.inventory?damage.inventory.status:''}}</td>
-                        <td>@{{damage.inventory?damage.inventory.unique_code:''}}</td>
+                        <td>@{{damage.inventory?damage.inventory.product.name:''}}</td>
+                        <td>@{{damage.inventory?damage.inventory.supplier.name:''}}</td>
                         <td>@{{damage.issue_date}}</td>
                         <td>@{{damage.reason}}</td>
                         <td>@{{damage.status}}</td>
@@ -126,12 +124,12 @@ Home page
                             </ul>
                         </div>
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-12">
                                 <div class="input-group mb-3">
                                     <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
                                     <select class="form-control form-white" v-model="damage.inventory_id">
                                         <option>select Inventory</option>
-                                        <option v-for="inventory in inventories" :value="inventory.id">@{{inventory.status}}</option>
+                                        <option v-for="inventory in inventories" :value="inventory.id">@{{inventory.product.name +' | '+ inventory.supplier.name}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -149,15 +147,6 @@ Home page
                                     
                                 </div>
                             </div>
-                            <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                    <input type="text" class="form-control" placeholder="Status" v-model="damage.status" required="">
-                                    
-                                </div>
-                            </div>
-
-
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -343,10 +332,6 @@ Home page
                     }
                      if (!damage.reason) {
                         _this.errors.push("Reason required.");
-                        count++;
-                    }
-                    if (!damage.status) {
-                        _this.errors.push("Status required.");
                         count++;
                     }
                     if (!damage.inventory_id) {

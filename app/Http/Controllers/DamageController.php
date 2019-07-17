@@ -14,7 +14,7 @@ class DamageController extends Controller
  
  	public function damagesAll()
     {
-        $damages = Damage::with('inventory')->get();
+        $damages = Damage::with('inventory', 'inventory.product', 'inventory.supplier')->get();
         return response()->json(["damages"=>$damages]);
     }
     public function addOrUpdate(Request $request)
@@ -22,9 +22,8 @@ class DamageController extends Controller
         //validate data
         $validator = \Validator::make($request->damage, [
             'inventory_id'=>'required',
-            'issue_date'=>'required|string',
+            'issue_date'=>'required|date',
             'reason'=>'required|string',
-            'status'=>'required|string',
         ]);
 
 
@@ -36,15 +35,14 @@ class DamageController extends Controller
 
             // create
 
-
             $damage = Damage::create([
             	'inventory_id' => $request->damage['inventory_id'],
                 'issue_date' => $request->damage['issue_date'],
                 'reason' => $request->damage['reason'],
-                'status' => $request->damage['status'],
+                'status' => 'damaged',
             ]);
 
-             $damage = Damage::with('account')->find($damage->id);
+             $damage = Damage::with('inventory', 'inventory.product', 'inventory.supplier')->find($damage->id);
 
             return response()->json(["success"=>true, 'status'=>'created', 'damage'=>$damage]);
         } else { 
@@ -53,10 +51,8 @@ class DamageController extends Controller
          
             //update
             $damage->update([
-          	 'inventory_id' => $request->damage['inventory_id'],
                 'issue_date' => $request->damage['issue_date'],
                 'reason' => $request->damage['reason'],
-                'status' => $request->damage['status'],
             ]);
             $damage = Damage::with('inventory')->find($damage->id);
 
