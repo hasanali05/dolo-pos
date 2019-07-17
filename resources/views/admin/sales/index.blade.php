@@ -22,9 +22,12 @@ Home page
                     <h4 class="card-title">Sale List</h4>
                     <div class="ml-auto">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#createmodel"  @click.prevent="clearData()">
-                            Create New Sale
+                            <a href="{{route('salesdetail.all')}}">
+                                <button type="button" class="btn btn-dark" >
+                             Sale
                             </button>
+                            </a>
+                            
                         </div>
                     </div>
                 </div>
@@ -308,34 +311,8 @@ Home page
                     _this.currentIndex = index;
                     _this.sale = _this.sales[index];   
                 },
-                inactivesale(index) {
-                    var _this = this;
-                    let data = {
-                        sale_id: _this.sales[index].id,
-                        is_active: 0,
-                    }
-                    axios.post('{{ route("sales.statusChange") }}',data)
-                    .then(function (response) {
-                        if(response.data.success == true) {
-                            _this.$set(_this.sales[index] , 'is_active' , 0);
-                            _this.successMessage = 'Sale status inactivated successfully';
-                        }
-                    })
-                },
-                activesale(index) {
-                    var _this = this;
-                    let data = {
-                        sale_id: _this.sales[index].id,
-                        is_active: 1,
-                    }
-                    axios.post('{{ route("sales.statusChange") }}',data)
-                    .then(function (response) {
-                        if(response.data.success == true) {
-                            _this.$set(_this.sales[index] , 'is_active' , 1);
-                              _this.successMessage = 'Sale status activated successfully';
-                        }
-                    })
-                },
+
+
                 setData(index) {
                     var _this = this;
                     _this.errors = [];
@@ -376,13 +353,43 @@ Home page
                                     _this.sales.push(data.sale);
                                     //modal close
                                     document.getElementById('modalClose').click();
-                                    _this.successMessage = 'Sale created successfully.';
+                                    
+                                      //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Sale created successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                                 if(status=='updated') {
                                     _this.sales[_this.currentIndex] = data.sale;
                                     //modal close
                                     document.getElementById('modalClose').click();
-                                    _this.successMessage = 'sale updated successfully.';
+                                  
+                                      //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'sale created successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                             } else {                                
                                 for (var key in data.errors) {

@@ -93,6 +93,7 @@ Route::prefix('admin')->group(function()
 
 		Route::get('/purchaseTransaction', 'PurchaseTransactionController@purchaseTransaction')->name('purchaseTransaction');
 		Route::get('/purchaseTransaction-all', 'PurchaseTransactionController@purchaseTransactionAll')->name('purchaseTransaction.all');
+		Route::post('/purchaseTransaction-add-or-update', 'PurchaseTransactionController@addOrUpdate')->name('purchaseTransaction.addOrUpdate');
 
 		//inventory
 		Route::get('/inventories', 'InventoryController@purchases')->name('inventories');
@@ -101,7 +102,7 @@ Route::prefix('admin')->group(function()
 		//sales (initially sale, sale detail and sale transaction will be one action)
 		Route::get('/sales', 'SaleController@sales')->name('sales');
 		Route::get('/sales-all', 'SaleController@salesAll')->name('sales.all');
-		Route::post('/sales-status-change', 'SaleController@statusChange')->name('sales.statusChange');
+		Route::get('/salesdetail-all', 'SaleController@salesdetail')->name('salesdetail.all');
 		Route::post('/sales-add-or-update', 'SaleController@addOrUpdate')->name('sales.addOrUpdate');
 		//SalesDetails
 		Route::get('/salesDetails', 'SaleDetailController@salesDetails')->name('salesDetails');
@@ -109,6 +110,7 @@ Route::prefix('admin')->group(function()
         //SaleTransection
 		Route::get('/saleTransaction', 'saleTransactionController@saleTransaction')->name('saleTransaction');
 		Route::get('/saleTransaction-all', 'saleTransactionController@saleTransactionAll')->name('saleTransaction.all');
+		Route::post('/saleTransaction-add-or-update', 'saleTransactionController@addOrUpdate')->name('saleTransaction.addOrUpdate');
 
 		//damages 
 		Route::get('/damages', 'DamageController@damages')->name('damages');

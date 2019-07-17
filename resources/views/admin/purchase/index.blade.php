@@ -374,13 +374,43 @@ Home page
                                     _this.purchases.push(data.purchase);
                                     //modal close
                                     document.getElementById('modalClose').click();
-                                    _this.successMessage = 'Purchase created successfully';
+                                   
+                                      //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Purchase created successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                                 if(status=='updated') {
                                     _this.purchases[_this.currentIndex] = data.purchase;
                                     //modal close
                                     document.getElementById('modalClose').click();
-                                    _this.successMessage = 'Purchase updated successfully';
+                                   
+                                      //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Purchase updated successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                             } else {                                
                                 for (var key in data.errors) {

@@ -125,7 +125,7 @@ Home page
 @endsection
 
 @section('content')
-<div class="row" id="purchase">
+<div class="row" id="sale">
     <div class="col-md-9">
         <div class="card border-danger">
             <div class="card-header bg-info">
@@ -141,7 +141,7 @@ Home page
                 </div>
                 <div class="col-md-6">                  
                   Products:
-                    <select class="select2 form-control custom-select" style="width: 100%; height:36px;" @change="addToPurchase($event)">
+                    <select class="select2 form-control custom-select" style="width: 100%; height:36px;" @change="addTosale($event)">
                         <option value="-1"><--- Select Product ---></option>
                         <option v-for="(product,index) in products" :value="index" :key="index">@{{ product.name }}</option>
                     </select>
@@ -164,7 +164,7 @@ Home page
 
                             </thead>
                             <tbody id="tbody">
-                                <tr v-for="(detail, index) in purchaseDetails" :key="index">
+                                <tr v-for="(detail, index) in saleDetails" :key="index">
                                   <td class="sn">@{{index+1}}</td>
                                   <td class="model">@{{detail.name}}</td>
                                   <td class="s-n"><input type="text" style="width:100%" v-model="detail.unique_code"></td>
@@ -210,7 +210,7 @@ Home page
                         </table>
                         <br>
                         <br>
-                         <button type="submit" class="btn btn-info waves-effect pull-right m-r-10" name="invoice" value="active" @click.prevent="saveData()">Purchase</button>
+                         <button type="submit" class="btn btn-info waves-effect pull-right m-r-10" name="invoice" value="active" @click.prevent="saveData()">sale</button>
                 </div>
 
 
@@ -227,32 +227,32 @@ Home page
     <div class="col-md-3">
         <div class="card border-success">
             <div class="card-header bg-info">
-                <h4 class="m-b-0 text-white">Supplier & Payments</h4></div>
+                <h4 class="m-b-0 text-white">customer & Payments</h4></div>
             <div class="card-body">
                 <div class="row">
                     <div class="bg-danger w-100 p-10">
-                      <h6 class="m-b-0 text-white">Supplier Info</h6>
+                      <h6 class="m-b-0 text-white">customer Info</h6>
                     </div>
                     <div class="col-sm-12">
 
-                        <label>Select Supplier</label>
-                        <select class="select2 form-control custom-select" style="width: 100%; height:36px;" @change="changeSupplier($event)">
-                            <option value="-1">Not registered Supplier</option>
+                        <label>Select customer</label>
+                        <select class="select2 form-control custom-select" style="width: 100%; height:36px;" @change="changecustomer($event)">
+                            <option value="-1">Not registered customer</option>
                             <optgroup>
-                                <option v-for="(supplier,index) in suppliers" :value="index" :key="index">@{{ supplier.name }}</option>
+                                <option v-for="(customer,index) in customers" :value="index" :key="index">@{{ customer.name }}</option>
                             </optgroup>
                         </select>
                     </div>
                     <div class="col-sm-12 p-t-10 p-b-10" >        
-                        <label style="font-weight: 500">Supplier information</label>
+                        <label style="font-weight: 500">customer information</label>
                         <div>
                           
-                          <template v-if="selectedSupplier"> 
-                            <p>Name: @{{selectedSupplier.name}}</p>
-                            <p>Contact: @{{selectedSupplier.contact}}</p>
-                            <p>Address: @{{selectedSupplier.address}}</p>
+                          <template v-if="selectedcustomer"> 
+                            <p>Name: @{{selectedcustomer.name}}</p>
+                            <p>Contact: @{{selectedcustomer.contact}}</p>
+                            <p>Address: @{{selectedcustomer.address}}</p>
                           </template>
-                          <p v-else class="text-alert">Supplier not selected</p>
+                          <p v-else class="text-alert">customer not selected</p>
                         </div>
                     </div>
                     <div class="bg-danger w-100 p-10">
@@ -266,8 +266,8 @@ Home page
                     </div>
 
                     <div class="col-sm-12 p-t-10 p-b-10">
-                      <label>Purchase Date</label>
-                      <input class="form-control" type="date" value="2011-08-19" v-model="purchase_date">
+                      <label>sale Date</label>
+                      <input class="form-control" type="date" value="2011-08-19" v-model="sale_date">
                     </div>
 
                     <div class="col-sm-12 p-t-10 p-b-10">
@@ -293,7 +293,7 @@ Home page
                     </div>
 
                     <div class="col-sm-12 p-t-10 p-b-10">
-                        <button type="submit" class="btn waves-effect waves-light btn-block btn-info" name="invoice" value="active" @click.prevent="saveData()">Purchase</button>
+                        <button type="submit" class="btn waves-effect waves-light btn-block btn-info" name="invoice" value="active" @click.prevent="saveData()">sale</button>
                     </div>
                 </div>
             </div>
@@ -311,30 +311,30 @@ Home page
     <script src="{{asset('/')}}/js/axios.min.js"></script>
     <script type="text/javascript">
         const app = new Vue({
-            el: '#purchase',
+            el: '#sale',
             data: {
                 errors: [],
                 successMessage:'',
 
-                suppliers: [],
+                customers: [],
                 products: [],
                 transactionAccounts: JSON.parse('{!!$transactionAccounts!!}'),
 
-                selectedSupplier: '',
+                selectedcustomer: '',
                 selectedAccount: '',
-                purchaseDetails: [],
+                saleDetails: [],
 
                 total: '',
                 convayance: '',
                 grandTotal: '',
-                purchase_date: '',
+                sale_date: '',
                 payment_amount: 0,
                 payment_note: '',
             },
             computed: {
               computedTotal () {
                 let total = 0;
-                this.purchaseDetails.forEach(function (detail) {
+                this.saleDetails.forEach(function (detail) {
                   if (detail.buying_price) {
                     total+=Number(detail.buying_price);
                   }
@@ -359,15 +359,15 @@ Home page
             },
             mounted() {
                 var _this = this;
-                _this.getAllSupplier();
+                _this.getAllcustomer();
                 _this.getAllProduct();
             },
             methods: {
-                getAllSupplier() {
+                getAllcustomer() {
                     var _this = this;
-                    axios.get('{{ route("suppliers.all") }}')
+                    axios.get('{{ route("customers.all") }}')
                     .then(function (response) {
-                        _this.suppliers = response.data.suppliers;
+                        _this.customers = response.data.customers;
                     })
                 },
                 getAllProduct() {
@@ -377,13 +377,13 @@ Home page
                         _this.products = response.data.products;
                     })
                 },
-                changeSupplier(event) 
+                changecustomer(event) 
                 { 
                     var _this = this;
                     if(event.target.value<0)
-                      _this.selectedSupplier = '';
+                      _this.selectedcustomer = '';
                     else 
-                      _this.selectedSupplier = _this.suppliers[event.target.value];
+                      _this.selectedcustomer = _this.customers[event.target.value];
                 },
                 changeAccount(event) 
                 { 
@@ -393,15 +393,15 @@ Home page
                     else 
                       _this.selectedAccount = _this.transactionAccounts[event.target.value];
                 },
-                addToPurchase(event) 
+                addTosale(event) 
                 { 
                     var _this = this;
                     if(event.target.value>=0) 
-                      _this.purchaseDetails.push(_this.products[event.target.value]);
+                      _this.saleDetails.push(_this.products[event.target.value]);
                 },
                 removeRow(index) 
                 {   
-                  this.purchaseDetails.splice(index, 1);
+                  this.saleDetails.splice(index, 1);
                 },           
                 clearData() {
                     var _this = this;
@@ -409,18 +409,18 @@ Home page
                     _this.errors= [];
                     _this.successMessage='';
 
-                    _this.suppliers= [];
+                    _this.customers= [];
                     _this.products= [];
                     _this.transactionAccounts= JSON.parse('{!!$transactionAccounts!!}');
 
-                    _this.selectedSupplier= '';
+                    _this.selectedcustomer= '';
                     _this.selectedAccount= '';
-                    _this.purchaseDetails= [];
+                    _this.saleDetails= [];
 
                     _this.total= '';
                     _this.convayance= '';
                     _this.grandTotal= '';
-                    _this.purchase_date= '';
+                    _this.sale_date= '';
                     _this.payment_amount= 0;
                     _this.payment_note= '';
                 },
@@ -431,18 +431,18 @@ Home page
                     // if(_this.validate()){
                         //save data
                         let data = {
-                            supplier: _this.selectedSupplier,
+                            customer: _this.selectedcustomer,
                             account: _this.selectedAccount,
-                            detail: _this.purchaseDetails,
+                            detail: _this.saleDetails,
 
-                            purchase: {
+                            sale: {
                               convayance: _this.convayance,
-                              purchase_date: _this.purchase_date,
+                              sale_date: _this.sale_date,
                               payment: _this.payment_amount,
                               note: _this.payment_note,
                             }
                         }
-                        axios.post('{{ route("purchases.addOrUpdate") }}', data)
+                        axios.post('{{ route("sales.addOrUpdate") }}', data)
                         .then(function (response) {
                             let data = response.data;
                             let status = response.data.status;
@@ -455,7 +455,7 @@ Home page
                                 if(status=='created') {
                                     _this.clearData();
                                     //modal close
-                                    
+                                  
                                       //sweet alrat
 
                                     const Toast = Swal.mixin({
@@ -467,7 +467,7 @@ Home page
 
                                     Toast.fire({
                                       type: 'success',
-                                      title: 'Purchase created successfully'
+                                      title: 'sale created successfully'
                                   })
 
                                     //end sweet alart
@@ -485,17 +485,17 @@ Home page
                 validate() {           
                     var _this = this; 
                     _this.errors = [];
-                    let purchase = _this.purchase;
+                    let sale = _this.sale;
                     let count = 0; 
-                    if (!_this.selectedSupplier) {
-                        _this.errors.push("You must have to select a supplier first.");
+                    if (!_this.selectedcustomer) {
+                        _this.errors.push("You must have to select a customer first.");
                         count++;
                     }
-                    if (_this.purchaseDetails.length < 1) {
+                    if (_this.saleDetails.length < 1) {
                         _this.errors.push("You must have to select some product.");
                         count++;
                     }
-                    _this.purchaseDetails.forEach(function (detail) {
+                    _this.saleDetails.forEach(function (detail) {
                       if(!detail.buying_price) {
                           _this.errors.push("Add buying prices to all product.");
                           count++;
@@ -509,8 +509,8 @@ Home page
                         _this.errors.push("You must have to select an account.");
                         count++;
                     }
-                    if (!_this.purchase_date) {
-                        _this.errors.push("Select a purchase date.");
+                    if (!_this.sale_date) {
+                        _this.errors.push("Select a sale date.");
                         count++;
                     }
                      if (!_this.payment_amount) {

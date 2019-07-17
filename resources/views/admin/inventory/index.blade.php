@@ -14,6 +14,7 @@ Home page
 @endsection
 
 @section('content')
+
 <div class="row" id="inventory">
     <div class="col-12">
         <div class="card">

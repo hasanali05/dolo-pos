@@ -35,6 +35,7 @@ class SaleSeeder extends Seeder
         echo "Customer seeded .... \n";
         // this seed not working so i do anather seed
         factory(App\Sale::class,20)->create();
+        factory(App\SaleTransaction::class,20)->create();
 
 
         

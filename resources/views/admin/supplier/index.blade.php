@@ -311,7 +311,22 @@ Home page
                     .then(function (response) {
                         if(response.data.success == true) {
                             _this.$set(_this.suppliers[index] , 'is_active' , 0);
-                            _this.successMessage = 'Supplier status inactivated successfully';
+                            
+                              //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Supplier status inactivated successfully'
+                                  })
+
+                                    //end sweet alart
                         }
                     })
                 },
@@ -325,7 +340,22 @@ Home page
                     .then(function (response) {
                         if(response.data.success == true) {
                             _this.$set(_this.suppliers[index] , 'is_active' , 1);
-                            _this.successMessage = 'Supplier  status activated successfully';
+                           
+                              //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Supplier  status activated  successfully'
+                                  })
+
+                                    //end sweet alart
                         }
                     })
                 },
@@ -369,14 +399,44 @@ Home page
                                     _this.suppliers.push(data.supplier);
                                     //modal close
                                     document.getElementById('modalClose').click();
-                                    _this.successMessage = 'Supplier created successfully';
+                                   
+                                      //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Supplier created successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                                 if(status=='updated') {
                                     
                                     _this.$set( _this.suppliers, _this.currentIndex, data.supplier )
                                     //modal close
                                     document.getElementById('modalClose').click();
-                                    _this.successMessage = 'Supplier updated successfully';
+                                
+                                      //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Supplier updated successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                             } else {                                
                                 for (var key in data.errors) {

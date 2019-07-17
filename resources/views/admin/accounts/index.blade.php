@@ -282,6 +282,21 @@ Home page
                     .then(function (response) {
                         if(response.data.success == true) {
                             _this.$set(_this.accounts[index] , 'is_active' , 0);
+                            //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Account  status inactivated   successfully'
+                                  })
+
+                                    //end sweet alart
                         }
                     })
                 },
@@ -295,6 +310,21 @@ Home page
                     .then(function (response) {
                         if(response.data.success == true) {
                             _this.$set(_this.accounts[index] , 'is_active' , 1);
+                            //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Account  status activated   successfully'
+                                  })
+
+                                    //end sweet alart
                         }
                     })
                 },
@@ -330,13 +360,43 @@ Home page
                                     _this.accounts.push(data.account);
                                     //modal close
                                     document.getElementById('modalClose').click();
-                                    _this.successMessage = 'Account created successfully.';
+                                    
+                                    //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Account created successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                                 if(status=='updated') {
                                     _this.accounts[_this.currentIndex] = data.account;
                                     //modal close
                                     document.getElementById('modalClose').click();
-                                    _this.successMessage = 'Account updated successfully.';
+                                 
+                                    //sweet alrat
+
+                                    const Toast = Swal.mixin({
+                                      toast: true,
+                                      position: 'top-end',
+                                      showConfirmButton: false,
+                                      timer: 3000
+                                  });
+
+                                    Toast.fire({
+                                      type: 'success',
+                                      title: 'Account updated successfully'
+                                  })
+
+                                    //end sweet alart
                                 }
                             } else {                                
                                 for (var key in data.errors) {
