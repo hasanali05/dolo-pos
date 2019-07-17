@@ -38,18 +38,17 @@ class PurchaseTransactionController extends Controller
 
             // create
 
-
             $purchase = PurchaseTransaction::create([
                 'supplier_id' => $request->purchase['supplier_id'],
                 'reason' => $request->purchase['reason'],
                 'amount' => $request->purchase['amount'],
                 'note' => $request->purchase['note'],
             ]);
-
                 
             $purchase = PurchaseTransaction::with('supplier')->find($purchase->id);
             return response()->json(["success"=>true, 'status'=>'created', 'purchase'=>$purchase]);
         } else { 
+            return $request;
             $purchase = PurchaseTransaction::find($request->purchase['id']);   
             if(!$purchase) return response()->json(["success"=>true, 'status'=>'somethingwrong']);        
          
@@ -60,7 +59,7 @@ class PurchaseTransactionController extends Controller
                 'amount' => $request->purchase['amount'],
                 'note' => $request->purchase['note'],
             ]);
-             $purchase = PurchaseTransaction::with('supplier')->find($purchase->id);
+            $purchase = PurchaseTransaction::with('supplier')->find($purchase->id);
             
 
             return response()->json(["success"=>true, 'status'=>'updated', 'purchase'=>$purchase]);

@@ -29,72 +29,56 @@ Home page
                     </button>
                 </div>
 
-            <table class="table table-bordered table-striped" data-mobile-responsive="true" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>S/L</th>
-                        <th>Purchase Name</th>
-                        <th>Inventory Date</th>
-                        <th>price Amount</th>
-                        <th>warranty_duration </th>
-                        <th>warranty_type </th>
-                        <th>unique_code </th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                       <th>S/L</th>
-                        <th>Purchase Name</th>
-                        <th>Inventory Date</th>
-                        <th>price Amount</th>
-                        <th>warranty_duration </th>
-                        <th>warranty_type </th>
-                        <th>unique_code </th>
-                        <th>Action</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                <tbody>
-                    <tr v-for="(purchasesDetail, index) in purchasesDetails">
-                        <td>@{{index+1}}</td>
-                        <td>@{{purchasesDetail.purchase?purchasesDetail.purchase.name:''}}</td>
-                        <td>@{{purchasesDetail.inventory?purchasesDetail.inventory.name:''}}</td>
-                        <td>@{{purchasesDetail.price}}</td>
-                        <td>@{{purchasesDetail.warranty_duration}}</td>>
-                        <td>@{{purchasesDetail.warranty_type}}</td>>
-                        <td>@{{purchasesDetail.unique_code}}</td>
-
-         
-                        <td> 
-                            <button class="btn btn-info btn-icon-split"  data-toggle="modal" data-target="#supplyDetail" @click="setData(index)">
-                                <span class="icon text-white" >
-                                    <i class="fas fa-eye"></i>
-                                </span>
-                            </button>    
-                            <button class="btn btn-warning btn-icon-split"   data-toggle="modal" data-target="#createmodel"  @click="setData(index)">
-                                <span class="icon text-white">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </span>
-                            </button>                                  
-                        </td>
-
-                    </tr>
-                </tbody>
-            </table>
-<!-- <nav aria-label="..." style="float: right">
-<ul class="pagination pagination-sm">
-<li class="page-item disabled">
-<a class="page-link" href="javascript:void(0)" tabindex="-1">Previous</a>
-</li>
-<li class="page-item"><a class="page-link" href="javascript:void(0)">1</a></li>
-<li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
-<li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-<li class="page-item">
-<a class="page-link" href="javascript:void(0)">Next</a>
-</li>
-</ul>
-</nav> -->
+                <table class="table table-bordered table-striped" data-mobile-responsive="true" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>S/L</th>
+                            <th>Purchase Name</th>
+                            <th>Inventory Date</th>
+                            <th>price Amount</th>
+                            <th>warranty_duration </th>
+                            <th>warranty_type </th>
+                            <th>unique_code </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                           <th>S/L</th>
+                            <th>Purchase Name</th>
+                            <th>Inventory Date</th>
+                            <th>price Amount</th>
+                            <th>warranty_duration </th>
+                            <th>warranty_type </th>
+                            <th>unique_code </th>
+                            <th>Action</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <tr v-for="(purchasesDetail, index) in purchasesDetails">
+                            <td>@{{index+1}}</td>
+                            <td>@{{purchasesDetail.purchase?purchasesDetail.purchase.name:''}}</td>
+                            <td>@{{purchasesDetail.inventory?purchasesDetail.inventory.name:''}}</td>
+                            <td>@{{purchasesDetail.price}}</td>
+                            <td>@{{purchasesDetail.warranty_duration}}</td>
+                            <td>@{{purchasesDetail.warranty_type}}</td>
+                            <td>@{{purchasesDetail.unique_code}}</td>
+             
+                            <td> 
+                                <button class="btn btn-info btn-icon-split"  data-toggle="modal" data-target="#supplyDetail" @click="setData(index)">
+                                    <span class="icon text-white" >
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                </button>    
+                                <button class="btn btn-warning btn-icon-split"   data-toggle="modal" data-target="#createmodel"  @click="setData(index)">
+                                    <span class="icon text-white">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </span>
+                                </button>                                  
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -215,7 +199,7 @@ Home page
             },
             mounted() {
                 var _this = this;
-                _this.getAllData();
+                // _this.getAllData();
             },
             methods: {
                 getAllData() {

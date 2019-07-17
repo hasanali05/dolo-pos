@@ -119,37 +119,20 @@ Home page
                                     </select>
                                 </div>
                             </div>
-                          
                             <div class="col-6">
                                 <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
-                                    <select class="form-control form-white" placeholder="Choose status" v-model="saleTransaction.reason">
-                                        
-                                        <option :value="3">Collection</option>
-                            
-                                      
-                                    </select>
-                                </div>
-                            </div>
-                                <div class="col-6">
-                                <div class="input-group mb-3">
                                     <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                    <input type="text" class="form-control" placeholder="Price" v-model="saleTransaction.amount" required="">
-                                    <input type="hidden" class="form-control" v-model="saleTransaction.id">
+                                    <input type="text" class="form-control" placeholder="Amount" v-model="saleTransaction.amount" required="">
                                 </div>
                             </div>
                                 <div class="col-6">
                                 <div class="input-group mb-3">
                                     <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
 
-                                    <textarea v-model="saleTransaction.note" placeholder="write somethings" style="width: 325px"></textarea>
-                                 
+                                    <textarea v-model="saleTransaction.note" placeholder="write somethings" style="width: 325px"></textarea>                                
                                    
                                 </div>
                             </div>
-                         
-                           
-                         
                         </div>
 
                     </div>
@@ -236,9 +219,6 @@ Home page
             </div>
         </div>
     </div>
-
-
-
 </div>
 
 

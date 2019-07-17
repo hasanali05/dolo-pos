@@ -24,7 +24,7 @@ class Inventory extends Model
     }
     
     public function purchase(){
-    	return $this->belongsTo(Purchase::class,'purchase_id');
+    	return $this->belongsTo(PurchaseDetail::class, 'purchase_id', 'id');
     }
     public function sale(){
         return $this->belongsTo(Sale::class,'sale_id');

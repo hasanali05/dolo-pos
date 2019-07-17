@@ -143,7 +143,7 @@ Home page
                   Products:
                     <select class="select2 form-control custom-select" style="width: 100%; height:36px;" @change="addTosale($event)">
                         <option value="-1"><--- Select Product ---></option>
-                        <option v-for="(product,index) in products" :value="index" :key="index">@{{ product.name }}</option>
+                        <option v-for="(inventory,index) in products" :value="index" :key="index">@{{ inventory.product.name }}</option>
                     </select>
                 </div>
               </div>
@@ -155,10 +155,10 @@ Home page
                               <tr>
                                   <th class="sn">#</th>
                                   <th class="model">Product name</th>
+                                  <th class="model">Supplier name</th>
                                   <th class="s-n">unique code</th>
-                                  <th class="s-n">Warrenty<br><span class="text-info" style="font-size: 12px;">(Default : 0 days)</span></th>
-                                  <th class="unit">Buy Price (BDT)</th>
-                                  <th class="total">Sell Price (BDT)</th>
+                                  <th class="s-n">Warrenty</th>
+                                  <th class="unit">Price (BDT)</th>
                                   <th class="action">Action</th>
                               </tr>
 
@@ -166,17 +166,12 @@ Home page
                             <tbody id="tbody">
                                 <tr v-for="(detail, index) in saleDetails" :key="index">
                                   <td class="sn">@{{index+1}}</td>
-                                  <td class="model">@{{detail.name}}</td>
-                                  <td class="s-n"><input type="text" style="width:100%" v-model="detail.unique_code"></td>
+                                  <td class="model">@{{detail.product.name}}</td>
+                                  <td class="model">@{{detail.supplier.name}}</td>
+                                  <td class="s-n">@{{detail.unique_code}}</td>
                                   <td class="unit">
-                                    <input type="number" min="0" style="width:48%" v-model="detail.warranty_duration">
-                                    <select style="width:48%; height: 100%;" v-model="detail.warranty_type">
-                                      <option value="days">days</option>
-                                      <option value="months">months</option>
-                                      <option value="years">years</option>
-                                    </select>
+                                    <span>@{{ detail.purchase.warranty_duration}} @{{ detail.purchase.warranty_type }}</span>
                                   </td>
-                                  <td class="unit"><input type="number" min="1" style="width:100%" v-model="detail.buying_price"></td>
                                   <td class="total"><input type="number" min="1" style="width:100%" v-model="detail.selling_price"></td>
                                   <td class="action">
                                     <a data-toggle="tooltip" data-original-title="Remove" @click.prevent="removeRow(index)">
@@ -335,8 +330,8 @@ Home page
               computedTotal () {
                 let total = 0;
                 this.saleDetails.forEach(function (detail) {
-                  if (detail.buying_price) {
-                    total+=Number(detail.buying_price);
+                  if (detail.selling_price) {
+                    total+=Number(detail.selling_price);
                   }
                 })
                 this.total = total;
@@ -372,9 +367,9 @@ Home page
                 },
                 getAllProduct() {
                     var _this = this;
-                    axios.get('{{ route("products.all") }}')
+                    axios.get('{{ route("inventories.all") }}')
                     .then(function (response) {
-                        _this.products = response.data.products;
+                        _this.products = response.data.inventories;
                     })
                 },
                 changecustomer(event) 

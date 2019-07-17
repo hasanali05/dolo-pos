@@ -36,49 +36,49 @@ Home page
                     </button>
                 </div>
 
-            <table class="table table-bordered table-striped" data-mobile-responsive="true" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                         <th>S/L</th>
-                        <th>Suppler Name</th>
-                        <th>Reason</th>
-                        <th>amount</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                          <th>S/L</th>
-                        <th>Suppler Name</th>
-                        <th>Reason</th>  
-                        <th>amount</th>   
-                        <th>Action</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                <tbody>
-                    <tr v-for="(purchase, index) in purchases">
-                        <td>@{{index+1}}</td>
-                        <td>@{{purchase.supplier?purchase.supplier.name:''}}</td>
-                        <td>@{{purchase.reason}}</td>
-                        <td>@{{purchase.amount}}</td>
-                        <td> 
-                            <button class="btn btn-info btn-icon-split"  data-toggle="modal" data-target="#supplyDetail" @click="setData(index)">
-                                <span class="icon text-white" >
-                                    <i class="fas fa-eye"></i>
-                                </span>
-                            </button> 
-                            <button class="btn btn-warning btn-icon-split"   data-toggle="modal" data-target="#createmodel"  @click="setData(index)">
-                                <span class="icon text-white">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </span>
-                            </button>   
-                                 
-                        </td>
+                <table class="table table-bordered table-striped" data-mobile-responsive="true" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                             <th>S/L</th>
+                            <th>Suppler Name</th>
+                            <th>Reason</th>
+                            <th>amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                              <th>S/L</th>
+                            <th>Suppler Name</th>
+                            <th>Reason</th>  
+                            <th>amount</th>   
+                            <th>Action</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                    <tbody>
+                        <tr v-for="(purchase, index) in purchases">
+                            <td>@{{index+1}}</td>
+                            <td>@{{purchase.supplier?purchase.supplier.name:''}}</td>
+                            <td>@{{purchase.reason}}</td>
+                            <td>@{{purchase.amount}}</td>
+                            <td> 
+                                <button class="btn btn-info btn-icon-split"  data-toggle="modal" data-target="#supplyDetail" @click="setData(index)">
+                                    <span class="icon text-white" >
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                </button> 
+                                <button class="btn btn-warning btn-icon-split"   data-toggle="modal" data-target="#createmodel"  @click="setData(index)">
+                                    <span class="icon text-white">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </span>
+                                </button>   
+                                     
+                            </td>
 
-                    </tr>
-                </tbody>
-            </table>
+                        </tr>
+                    </tbody>
+                </table>
 
             </div>
         </div>
@@ -86,157 +86,139 @@ Home page
 
 
 
-<div class="modal fade" id="createmodel" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal fade" id="createmodel" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <form action="javascript:void(0)" method="POST">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="createModalLabel"><i class="ti-marker-alt mr-2"></i> Create New purchase</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div v-if="errors.length" class="alert alert-danger">
+                                <b>Please correct the following error(s):</b>
+                                <ul>
+                                    <li v-for="error in errors">@{{ error }}</li>
+                                </ul>
+                            </div>
+                            <div class="row">
+
+                                   <div class="col-6">
+                                    <div class="input-group mb-3">
+                                        <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
+                                        <select class="form-control form-white" placeholder="Choose Supplier" v-model="purchase.supplier_id">
+                                            
+                                            <option  v-for="supplier in suppliers" :value="supplier.id">@{{supplier.name}}</option>                                
+                                          
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-group mb-3">
+                                        <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                        <input type="text" class="form-control" placeholder="Amount" v-model="purchase.amount" required="">
+                                    </div>
+                                </div>
+                                    <div class="col-6">
+                                    <div class="input-group mb-3">
+                                        <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+
+                                        <textarea v-model="purchase.note" placeholder="write somethings" style="width: 325px"></textarea>                                    
+                                       
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalClose">Close</button>
+                            <button type="submit" class="btn btn-info" @click.prevent="clearData()"><i class="ti-close"></i> Clear data</button>
+                            <button type="submit" class="btn btn-success" @click.prevent="saveData()" v-if="!purchase.id"><i class="ti-save"></i> Save</button>
+                            <button type="submit" class="btn btn-primary" @click.prevent="saveData()" v-if="purchase.id"><i class="ti-save"></i> Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+
+
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="employeeDetailLabel" aria-modal="true" id="supplyDetail">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <form action="javascript:void(0)" method="POST">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="createModalLabel"><i class="ti-marker-alt mr-2"></i> Create New purchase</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="employeeDetailLabel">Purchase details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-xlg-12 col-md-12">
+                            <div class="card mb-0">
+                                <div class="card-title">Supplier info</div>
+                                <div class="card-body">
+                                    <div class="row"> 
+                                        <div class="col-md-3 col-xs-6 b-r"> <strong>supplier Name</strong>
+                                            <br>
+                                            <p class="text-muted">@{{purchase.supplier?purchase.supplier.name:''}}</p>
+                                        </div><div class="col-md-3 col-xs-6 b-r"> 
+                                            <strong> supplier Contact </strong>
+                                            <br>
+                                            <p class="text-muted">@{{purchase.supplier?purchase.supplier.contact:''}}</p>
+                                        </div>
+                                         <div class="col-md-3 col-xs-6 b-r"> <strong>Address</strong>
+                                            <br>
+                                            <p class="text-muted">@{{purchase.supplier?purchase.supplier.address:''}}</p>
+                                        </div>
 
-                        <div v-if="errors.length" class="alert alert-danger">
-                            <b>Please correct the following error(s):</b>
-                            <ul>
-                                <li v-for="error in errors">@{{ error }}</li>
-                            </ul>
+                                        <div class="col-md-3 col-xs-6 b-r">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Column -->
                         </div>
-                        <div class="row">
-
-                               <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
-                                    <select class="form-control form-white" placeholder="Choose Supplier" v-model="purchase.supplier_id">
-                                        
-                                        <option  v-for="supplier in suppliers" :value="supplier.id">@{{supplier.name}}</option>
-                            
-                                      
-                                    </select>
+                        <div class="col-lg-12 col-xlg-12 col-md-12">
+                            <div class="card mb-0">
+                                <div class="card-title">Transaction Detail</div>
+                                <div class="card-body">
+                                    <div class="row"> 
+                                        <div class="col-md-12 col-xs-12 b-r">
+                                            <table class="table table-bordered table-striped">
+                                                <thead>
+                                                    <th>S/L</th>
+                                                    <th>Reason</th>
+                                                    <th>Amount</th>
+                                                    <th>Balance</th>
+                                                    <th>note</th>
+                                                </thead>
+                                                <tbody>    
+                                                    <td>S/L</td>
+                                                    <td>@{{purchase.reason}}</td>
+                                                    <td>@{{purchase.amount}}</td>
+                                                    <td>@{{purchase.amount}}</td>
+                                                    <td>@{{purchase.note}}</td>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                          
-                            <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
-                                    <select class="form-control form-white" placeholder="Choose status" v-model="purchase.reason">
-                                        
-                                        <option :value="3">Payment</option>
-                            
-                                      
-                                    </select>
-                                </div>
-                            </div>
-                                <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                    <input type="text" class="form-control" placeholder="Price" v-model="purchase.amount" required="">
-                                    <input type="hidden" class="form-control" v-model="purchase.id">
-                                </div>
-                            </div>
-                                <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-
-                                    <textarea v-model="purchase.note" placeholder="write somethings" style="width: 325px"></textarea>
-                                 
-                                   
-                                </div>
-                            </div>
-                         
-                           
-                         
                         </div>
-
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalClose">Close</button>
-                        <button type="submit" class="btn btn-info" @click.prevent="clearData()"><i class="ti-close"></i> Clear data</button>
-                        <button type="submit" class="btn btn-success" @click.prevent="saveData()" v-if="!purchase.id"><i class="ti-save"></i> Save</button>
-                        <button type="submit" class="btn btn-primary" @click.prevent="saveData()" v-if="purchase.id"><i class="ti-save"></i> Update</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"  v-on:click="counter += 1" >Close</button>
                     </div>
-                </form>
-            </div>
-        </div>
-        
-    </div>
-
-
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="employeeDetailLabel" aria-modal="true" id="supplyDetail">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="employeeDetailLabel">Purchase details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-12 col-xlg-12 col-md-12">
-                        <div class="card mb-0">
-                            <div class="card-title">Supplier info</div>
-                            <div class="card-body">
-                                <div class="row"> 
-                                    <div class="col-md-3 col-xs-6 b-r"> <strong>supplier Name</strong>
-                                        <br>
-                                        <p class="text-muted">@{{purchase.supplier?purchase.supplier.name:''}}</p>
-                                    </div><div class="col-md-3 col-xs-6 b-r"> 
-                                        <strong> supplier Contact </strong>
-                                        <br>
-                                        <p class="text-muted">@{{purchase.supplier?purchase.supplier.contact:''}}</p>
-                                    </div>
-                                     <div class="col-md-3 col-xs-6 b-r"> <strong>Address</strong>
-                                        <br>
-                                        <p class="text-muted">@{{purchase.supplier?purchase.supplier.address:''}}</p>
-                                    </div>
-
-                                    <div class="col-md-3 col-xs-6 b-r">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Column -->
-                    </div>
-                    <div class="col-lg-12 col-xlg-12 col-md-12">
-                        <div class="card mb-0">
-                            <div class="card-title">Transaction Detail</div>
-                            <div class="card-body">
-                                <div class="row"> 
-                                    <div class="col-md-12 col-xs-12 b-r">
-                                        <table class="table table-bordered table-striped">
-                                            <thead>
-                                                <th>S/L</th>
-                                                <th>Reason</th>
-                                                <th>Amount</th>
-                                                <th>Balance</th>
-                                                <th>note</th>
-                                            </thead>
-                                            <tbody>    
-                                                <td>S/L</td>
-                                                <td>@{{purchase.reason}}</td>
-                                                <td>@{{purchase.amount}}</td>
-                                                <td>@{{purchase.amount}}</td>
-                                                <td>@{{purchase.note}}</td>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"  v-on:click="counter += 1" >Close</button>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
-
-
 
 @endsection
 

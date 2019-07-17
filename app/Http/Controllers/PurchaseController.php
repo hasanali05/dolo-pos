@@ -38,7 +38,7 @@ class PurchaseController extends Controller
             'purchase.purchase_date'=>'required|date',
             'purchase.convayance'=>'nullable|numeric',
             'purchase.payment'=>'nullable|numeric',
-            'purchase.note'=>'nullable|text',
+            'purchase.note'=>'nullable|string',
         ]);
 
         if ($validator->fails()) {
@@ -71,7 +71,7 @@ class PurchaseController extends Controller
             $product = $detail;
             $total += $product['buying_price'];
             // create details 
-            PurchaseDetail::create([
+            $purchaseDetail = PurchaseDetail::create([
                 'purchase_id' => $purchase->id,
                 'product_id' => $product['id'],
                 'price' => $product['buying_price'],
@@ -90,7 +90,7 @@ class PurchaseController extends Controller
                 'status' => 'inventory',
 
                 'supplier_id' => $supplier['id'],
-                'purchase_id' => $purchase->id,
+                'purchase_id' => $purchaseDetail->id,
             ]);
         }
         // update transaction

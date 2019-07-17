@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Sale;
 use App\Customer;
+use App\SaleDetail;
+use App\SaleTransaction;
+use App\Inventory;
 use Auth;
 
 class SaleController extends Controller
@@ -27,8 +30,7 @@ class SaleController extends Controller
 
 
     public function addOrUpdate(Request $request) 
-    {
-        
+    {        
         $validator = \Validator::make($request->all(), [
             'account'=>'required',
             'customer'=>'required',
@@ -41,7 +43,7 @@ class SaleController extends Controller
             'sale.sale_date'=>'required|date',
             'sale.convayance'=>'nullable|numeric',
             'sale.payment'=>'nullable|numeric',
-            'sale.note'=>'nullable|text',
+            'sale.note'=>'nullable|string',
         ]);
 
         if ($validator->fails()) {
@@ -71,33 +73,39 @@ class SaleController extends Controller
         ]);
         $total = 0;
         foreach ($request['detail'] as $detail) {
-            $product = $detail;
-            $total += $product['buying_price'];
+            $inventory = $detail;
+            $product = $detail['product'];
+            $total += $inventory['selling_price'];
+            $days = 0;
+            if(array_key_exists('purchase', $inventory) && $inventory['purchase']['warranty_type'] == 'days') {
+                $days = $inventory['purchase']['warranty_duration'];
+            } else if(array_key_exists('purchase', $inventory) && $inventory['purchase']['warranty_type'] == 'months') {
+                $days = $inventory['purchase']['warranty_duration']*30;
+            } else if(array_key_exists('purchase', $inventory) && $inventory['purchase']['warranty_type'] == 'years') {
+                $days = $inventory['purchase']['warranty_duration']*365;
+            }
             // create details 
-            saleDetail::create([
+            SaleDetail::create([
                 'sale_id' => $sale->id,
-                'product_id' => $product['id'],
-                'price' => $product['buying_price'],
-                'warranty_duration' => array_key_exists('warranty_duration', $product)?  $product['warranty_duration'] : 0,
-                'warranty_type' => array_key_exists('warranty_type', $product)?  $product['warranty_type']: 'days',
-                'unique_code' => $product['unique_code'],
+                'inventory_id' => $inventory['id'],
+                'price' => $inventory['selling_price'],
+                'warranty_duration' => array_key_exists('purchase', $inventory)?  $inventory['purchase']['warranty_duration'] : 0,
+                'warranty_type' => array_key_exists('purchase', $inventory)?  $inventory['purchase']['warranty_type']: 'days',
+                'warranty_start' => now(),
+                'warranty_end' => now()->add($days, 'day'),
+                'unique_code' => $inventory['unique_code'],
             ]);
-            // add inventory
-            Inventory::create([
-                'product_id' => $product['id'],
-                'unique_code' => $product['unique_code'],
-                'quantity' => 1,
-
-                'buying_price' => $product['buying_price'],
-                'selling_price' => array_key_exists('selling_price', $product)?$product['selling_price']:$product['buying_price'],
-                'status' => 'inventory',
+            // update inventory
+            Inventory::where('id','=',$inventory['id'])->update([
+                'selling_price' => $inventory['selling_price'],
+                'status' => 'sold',
 
                 'customer_id' => $customer['id'],
                 'sale_id' => $sale->id,
             ]);
         }
         // update transaction
-        saleTransaction::create([
+        SaleTransaction::create([
             'customer_id' => $customer['id'],
             'reason' => 'sale',
             'amount' => (-1)*($total-$saleData['convayance']),
@@ -109,9 +117,9 @@ class SaleController extends Controller
             'payment' => $saleData['payment'],
             'due' => $total-$saleData['convayance']-$saleData['payment'],
         ]);      
-        saleTransaction::create([
+        SaleTransaction::create([
             'customer_id' => $customer['id'],
-            'reason' => 'payment',
+            'reason' => 'collection',
             'amount' => $saleData['payment'],
             'note' => $saleData['note'],
         ]);
