@@ -16,7 +16,7 @@ class SaleDetailController extends Controller
 
     public function salesDetailAll()
     {
-    	$saleDetails = SaleDetail::with('sale','inventory')->get();
+    	$saleDetails = SaleDetail::with('sale','inventory','inventory.product')->get();
         return response()->json(["saleDetails"=>$saleDetails]);
     }
 }

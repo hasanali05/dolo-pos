@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Damage;
+Use App\Product;
+Use App\Supplier;
+
 
 class DamageController extends Controller
 {
@@ -14,7 +17,7 @@ class DamageController extends Controller
  
  	public function damagesAll()
     {
-        $damages = Damage::with('inventory', 'inventory.product', 'inventory.supplier')->get();
+        $damages = Damage::with('inventory', 'inventory.product','inventory.product.category', 'inventory.supplier')->get();
         return response()->json(["damages"=>$damages]);
     }
     public function addOrUpdate(Request $request)

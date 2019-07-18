@@ -58,7 +58,7 @@ Home page
                 <tbody>
                     <tr v-for="(saleDetail, index) in saleDetails">
                         <td>@{{index+1}}</td>
-                        <td>@{{saleDetail.inventory.product?saleDetail.inventory.product.name:''}}</td>
+                        <td>@{{saleDetail.inventory?saleDetail.inventory.product.name:''}}</td>
                         <td>@{{saleDetail.inventory?saleDetail.inventory.quantity:''}}</td>
                         <td>@{{saleDetail.sale?saleDetail.sale.sale_date:''}}</td>
                         <td>@{{saleDetail.sale?saleDetail.sale.amount:''}}</td>
