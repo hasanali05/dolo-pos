@@ -37,6 +37,19 @@
                 <li class="sidebar-item"><a href="{{route('purchaseTransaction')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Purchase Transaction</span></a></li>
             </ul>
         </li>
+        <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-compress"></i><span class="hide-menu">Report Module</span></a>
+            <ul aria-expanded="false" class="collapse first-level">
+                <li class="sidebar-item"><a href="{{route('admin.incomeExpense')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Income Expense</span></a></li> 
+                <li class="sidebar-item"><a href="{{route('admin.inventoryReport')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Inventory</span></a></li>
+                <li class="sidebar-item"><a href="{{route('admin.ledger')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Ledger</span></a></li>
+                <li class="sidebar-item"><a href="{{route('admin.purchase')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Purchase</span></a></li>
+                <li class="sidebar-item"><a href="{{route('admin.sale')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Sale</span></a></li>
+                <li class="sidebar-item"><a href="{{route('admin.supplier')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Supplier</span></a></li>
+                <li class="sidebar-item"><a href="{{route('admin.customer')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Customer</span></a></li>
+                 <li class="sidebar-item"><a href="{{route('admin.dueReceive')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> due receivable report summery</span></a></li>
+                  <li class="sidebar-item"><a href="{{route('admin.duePay')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> due pay report summery</span></a></li>
+            </ul>
+        </li>
         <!-- <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-compress"></i><span class="hide-menu">Dropdown Link</span></a>
             <ul aria-expanded="false" class="collapse first-level">
                 <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Second Level Item</span></a></li>
