@@ -261,6 +261,7 @@ Home page
                     <div class="col-sm-12 p-t-10 p-b-10">
                       <label>Payment From</label>
                       <select class="select2 form-control custom-select" style="width: 100%; height:36px;"  @change="changeAccount($event)">
+                          <option value=""> --- Select payment account ---</option>
                           <option v-for="(account, index) in transactionAccounts" :value="index">@{{account.name}}</option>
                       </select>
                     </div>
@@ -423,6 +424,9 @@ Home page
                     _this.purchase_date= '';
                     _this.payment_amount= 0;
                     _this.payment_note= '';
+
+                    _this.getAllSupplier();
+                    _this.getAllProduct();
                 },
                 saveData() {
                     var _this = this;

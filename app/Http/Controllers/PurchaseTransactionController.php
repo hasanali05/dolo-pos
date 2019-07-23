@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\PurchaseTransaction;
 use App\Supplier;
+use App\Ledger;
+use App\Account;
+use Auth;
 
 class PurchaseTransactionController extends Controller
 {
@@ -24,7 +27,7 @@ class PurchaseTransactionController extends Controller
         //validate data
         $validator = \Validator::make($request->purchase, [
             'supplier_id'=>'required',
-            'reason'=>'required',
+            'account_id'=>'required',
             'amount'=>'required',
             'note'=>'required',
         ]);
@@ -40,23 +43,53 @@ class PurchaseTransactionController extends Controller
 
             $purchase = PurchaseTransaction::create([
                 'supplier_id' => $request->purchase['supplier_id'],
-                'reason' => $request->purchase['reason'],
+                'reason' => 'payment',
                 'amount' => $request->purchase['amount'],
                 'note' => $request->purchase['note'],
             ]);
+
+            $supplier = Supplier::find($request->purchase['supplier_id']);
+
+            $ledgerSupplier = new Ledger;
+            $ledgerSupplier->entry_date = now();
+            $ledgerSupplier->account_id = $supplier->account_id;
+            $ledgerSupplier->detail = $purchase->id;
+            $ledgerSupplier->type = 'payment';
+
+            $ledgerSupplier->debit = $request->purchase['amount'];
+            $ledgerSupplier->credit = 0;
+            $ledgerSupplier->balance = $request->purchase['amount'];
+
+            $ledgerSupplier->created_by = Auth::user()->id;
+            $ledgerSupplier->modified_by = Auth::user()->id;
+            $ledgerSupplier->save();
+
+
+            $ledgerTransaction = new Ledger;
+            $ledgerTransaction->entry_date = now();
+            $ledgerTransaction->account_id = $request->purchase['account_id'];
+            $ledgerTransaction->detail = $purchase->id;
+            $ledgerTransaction->type = 'payment';
+
+            $ledgerTransaction->debit = 0;
+            $ledgerTransaction->credit = $purchase['amount'];
+            $ledgerTransaction->balance = (-1)*$purchase['amount'];
+
+            $ledgerTransaction->created_by = Auth::user()->id;
+            $ledgerTransaction->modified_by = Auth::user()->id;
+            $ledgerTransaction->save();
+
+
+
                 
             $purchase = PurchaseTransaction::with('supplier')->find($purchase->id);
             return response()->json(["success"=>true, 'status'=>'created', 'purchase'=>$purchase]);
         } else { 
-            return $request;
             $purchase = PurchaseTransaction::find($request->purchase['id']);   
             if(!$purchase) return response()->json(["success"=>true, 'status'=>'somethingwrong']);        
          
             //update
             $purchase->update([
-                'supplier_id' => $request->purchase['supplier_id'],
-                'reason' => $request->purchase['reason'],
-                'amount' => $request->purchase['amount'],
                 'note' => $request->purchase['note'],
             ]);
             $purchase = PurchaseTransaction::with('supplier')->find($purchase->id);

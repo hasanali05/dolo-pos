@@ -7,17 +7,20 @@ use App\Purchase;
 use App\PurchaseDetail;
 use App\Inventory;
 use App\PurchaseTransaction;
+use App\Ledger;
+use App\Account;
+use Auth;
 
 class PurchaseController extends Controller
 {
     public function purchases()
     {
-    	return view('admin.purchase.index');
+        return view('admin.purchase.index');
     }
 
- 	 public function purchasesAll()
+    public function purchasesAll()
     {
-        $purchases = Purchase::with('supplier')->get();
+        $purchases = Purchase::with('supplier', 'supplies', 'supplies.product')->get();
         return response()->json(["purchases"=>$purchases]);
     }
 
@@ -46,8 +49,8 @@ class PurchaseController extends Controller
         }
         foreach ($request['detail'] as $detail) {
             $validator = \Validator::make($detail, [
-                // 'unique_code'=>'required|string|unique:purchase_details,unique_code',
-                // 'buying_price'=>'required|numeric',
+                'unique_code'=>'required|string|unique:purchase_details,unique_code',
+                'buying_price'=>'required|numeric',
             ]);
 
             if ($validator->fails()) {
@@ -112,6 +115,99 @@ class PurchaseController extends Controller
             'amount' => $purchaseData['payment'],
             'note' => $purchaseData['note'],
         ]);
+
+        $inventoryAccount = Account::where('name', '=', 'Inventory')
+            ->where('group', '=', 'Capital')
+            ->where('sub_group', '=', 'Capital')
+            ->first();
+
+        if(!$inventoryAccount) {
+            $inventoryAccount = Account::create([
+                'name'=>'Inventory',
+                'group'=>'Capital',
+                'sub_group'=>'Capital',
+                'is_active'=>1,
+                'created_by'=>Auth::user()->id,
+            ]);
+        }
+
+        $ledgerInventory = new Ledger;
+        $ledgerInventory->entry_date = $purchaseData['purchase_date'];
+        $ledgerInventory->account_id = $inventoryAccount->id;
+        $ledgerInventory->detail = $purchase->id;
+        $ledgerInventory->type = 'purchase';
+
+        $ledgerInventory->debit = $total;
+        $ledgerInventory->credit = 0;
+        $ledgerInventory->balance = $total;
+
+        $ledgerInventory->created_by = Auth::user()->id;
+        $ledgerInventory->modified_by = Auth::user()->id;
+        $ledgerInventory->save();
+
+
+        $ledgerSupplier = new Ledger;
+        $ledgerSupplier->entry_date = $purchaseData['purchase_date'];
+        $ledgerSupplier->account_id = $supplier['id'];
+        $ledgerSupplier->detail = $purchase->id;
+        $ledgerSupplier->type = 'purchase';
+
+        $ledgerSupplier->debit = $purchaseData['payment']-$purchaseData['convayance'];
+        $ledgerSupplier->credit = $total;
+        $ledgerSupplier->balance = $total-$purchaseData['payment']-$purchaseData['convayance'];
+
+        $ledgerSupplier->created_by = Auth::user()->id;
+        $ledgerSupplier->modified_by = Auth::user()->id;
+        $ledgerSupplier->save();
+
+
+        if($purchaseData['convayance'] > 0) {
+            $convayanceAccount = Account::where('name', '=', 'Convayance')
+            ->where('group', '=', 'Capital')
+            ->where('sub_group', '=', 'Capital')
+            ->first();
+
+            if(!$convayanceAccount) {
+                $convayanceAccount = Account::create([
+                    'name'=>'Convayance',
+                    'group'=>'Capital',
+                    'sub_group'=>'Capital',
+                    'is_active'=>1,
+                    'created_by'=>Auth::user()->id,
+                ]);
+            }
+
+            $ledgerConvayance = new Ledger;
+            $ledgerConvayance->entry_date = $purchaseData['purchase_date'];
+            $ledgerConvayance->account_id = $convayanceAccount->id;
+            $ledgerConvayance->detail = $purchase->id;
+            $ledgerConvayance->type = 'purchase';
+
+            $ledgerConvayance->debit = 0;
+            $ledgerConvayance->credit = $purchaseData['convayance'];
+            $ledgerConvayance->balance = (-1)*$purchaseData['convayance'];
+
+            $ledgerConvayance->created_by = Auth::user()->id;
+            $ledgerConvayance->modified_by = Auth::user()->id;
+            $ledgerConvayance->save();
+        }
+        
+
+
+        $ledgerAsset = new Ledger;
+        $ledgerAsset->entry_date = $purchaseData['purchase_date'];
+        $ledgerAsset->account_id = $account['id'];
+        $ledgerAsset->detail = $purchase->id;
+        $ledgerAsset->type = 'purchase';
+
+        $ledgerAsset->debit = 0;
+        $ledgerAsset->credit = $purchaseData['payment'];
+        $ledgerAsset->balance = (-1)*$purchaseData['payment'];
+
+        $ledgerAsset->created_by = Auth::user()->id;
+        $ledgerAsset->modified_by = Auth::user()->id;
+        $ledgerAsset->save();
+
         return response()->json(["success"=>true, 'status'=>'created']);
     }
 

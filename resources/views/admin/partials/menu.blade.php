@@ -33,7 +33,7 @@
             <ul aria-expanded="false" class="collapse first-level">
                 <li class="sidebar-item"><a href="{{route('suppliers')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Supplier</span></a></li>
                 <li class="sidebar-item"><a href="{{route('purchases')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Purchase </span></a></li>
-                <li class="sidebar-item"><a href="{{route('purchasesDetails')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Purchase Detail</span></a></li>
+                {{--<li class="sidebar-item"><a href="{{route('purchasesDetails')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Purchase Detail</span></a></li>--}}
                 <li class="sidebar-item"><a href="{{route('purchaseTransaction')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Purchase Transaction</span></a></li>
             </ul>
         </li>
