@@ -71,11 +71,6 @@ Home page
                         <td>@{{expense.amount}}</td>
                         <td>@{{expense.reason}}</td>
                         <td>@{{expense.type}}</td>
-                        
-
-      
-
-
                         <td> 
                             <button class="btn btn-info btn-icon-split"  data-toggle="modal" data-target="#supplyDetail" @click="setData(index)">
                                 <span class="icon text-white" >
@@ -92,19 +87,6 @@ Home page
                     </tr>
                 </tbody>
             </table>
-<!-- <nav aria-label="..." style="float: right">
-<ul class="pagination pagination-sm">
-<li class="page-item disabled">
-<a class="page-link" href="javascript:void(0)" tabindex="-1">Previous</a>
-</li>
-<li class="page-item"><a class="page-link" href="javascript:void(0)">1</a></li>
-<li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
-<li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-<li class="page-item">
-<a class="page-link" href="javascript:void(0)">Next</a>
-</li>
-</ul>
-</nav> -->
             </div>
         </div>
     </div>
@@ -135,8 +117,9 @@ Home page
                                     <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
                                     <select class="form-control form-white" v-model="expense.account_id">
                                         <option>select Account Name</option>
-                                        <option v-for="account in accounts" :value="account.id">@{{account.name}}</option>
+                                        <option v-for="account in transactionAccounts" :value="account.id">@{{account.name}}</option>
                                     </select>
+                                    <span class="alart alert-info" v-if="expense.id">*You cannot update account. If you need, just make another expense entry or contact with developer.</span>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -157,7 +140,7 @@ Home page
                                 <div class="input-group mb-3">
                                     <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
                                     <input type="text" class="form-control" placeholder="Amount" v-model="expense.amount" required="">
-                                    
+                                    <span class="alart alert-info" v-if="expense.id">*You cannot update amount. If you need, just make another expense entry or contact with developer.</span>                                    
                                 </div>
                             </div>
                             <div class="col-6">
@@ -176,17 +159,7 @@ Home page
                                     </select>
                                 </div>
                             </div>
-
-
-                         
                         </div>
-                        <!-- <div class="input-group mb-3">
-                            <button type="button" class="btn btn-info"><i class="ti-import text-white"></i></button>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="inputGroupFile01">
-                                <label class="custom-file-label" for="inputGroupFile01">Choose Image</label>
-                            </div>
-                        </div> -->
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalClose">Close</button>
@@ -200,70 +173,61 @@ Home page
         
     </div>
 
-
-            <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="employeeDetailLabel" aria-modal="true" id="supplyDetail">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="employeeDetailLabel">Expense detail</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <!-- Column -->
-                            <div class="col-lg-12 col-xlg-12 col-md-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            
-                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Account Name</strong>
-                                                <br>
-                                                <p class="text-muted">@{{expense.account?expense.account.name:''}}</p>
-                                            </div><div class="col-md-3 col-xs-6 b-r"> <strong>Title</strong>
-                                                <br>
-                                                <p class="text-muted">@{{expense.title}}</p>
-                                            </div>
-                                             <div class="col-md-3 col-xs-6 b-r"> <strong>Expense Date</strong>
-                                                <br>
-                                                <p class="text-muted">@{{expense.expense_date}}</p>
-                                            </div>
-                                            
-                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Amount</strong>
-                                                <br>
-                                                <p class="text-muted">@{{expense.amount}}</p>
-                                            </div> 
-                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Reason</strong>
-                                                <br>
-                                                <p class="text-muted">@{{expense.reason}}</p>
-                                            </div>
-                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Type</strong>
-                                                <br>
-                                                <p class="text-muted">@{{expense.type}}</p>
-                                            </div>
-
-
-
-
-
-
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="employeeDetailLabel" aria-modal="true" id="supplyDetail">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="employeeDetailLabel">Expense detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <!-- Column -->
+                        <div class="col-lg-12 col-xlg-12 col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        
+                                        <div class="col-md-3 col-xs-6 b-r"> <strong>Account Name</strong>
+                                            <br>
+                                            <p class="text-muted">@{{expense.account?expense.account.name:''}}</p>
+                                        </div><div class="col-md-3 col-xs-6 b-r"> <strong>Title</strong>
+                                            <br>
+                                            <p class="text-muted">@{{expense.title}}</p>
                                         </div>
-
+                                         <div class="col-md-3 col-xs-6 b-r"> <strong>Expense Date</strong>
+                                            <br>
+                                            <p class="text-muted">@{{expense.expense_date}}</p>
+                                        </div>
+                                        
+                                        <div class="col-md-3 col-xs-6 b-r"> <strong>Amount</strong>
+                                            <br>
+                                            <p class="text-muted">@{{expense.amount}}</p>
+                                        </div> 
+                                        <div class="col-md-3 col-xs-6 b-r"> <strong>Reason</strong>
+                                            <br>
+                                            <p class="text-muted">@{{expense.reason}}</p>
+                                        </div>
+                                        <div class="col-md-3 col-xs-6 b-r"> <strong>Type</strong>
+                                            <br>
+                                            <p class="text-muted">@{{expense.type}}</p>
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
-                            <!-- Column -->
                         </div>
+                        <!-- Column -->
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"  v-on:click="counter += 1" >Close</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"  v-on:click="counter += 1" >Close</button>
                 </div>
             </div>
         </div>
-    
-
+    </div>
 
 </div>
 
@@ -289,7 +253,7 @@ Home page
                     expense_date: '',
                     amount: '',
                     reason: '',
-                    type: '1',
+                    type: 'unusual',
                     account: {
                         id:'',
                         name: ''
@@ -297,23 +261,14 @@ Home page
                 },
                 currentIndex: 0,
                 expenses: [],               
-                accounts: [],               
+                transactionAccounts: JSON.parse('{!!$transactionAccounts!!}'),               
                 successMessage:'',
             },
             mounted() {
                 var _this = this;
                 _this.getAllData();
-                _this.getAllAccountData();
             },
             methods: {
-                getAllAccountData() {
-                    var _this = this;
-                    axios.get('{{ route("accounts.all") }}')
-                    .then(function (response) {
-                        _this.accounts = response.data.accounts;
-                    })
-                },
-
                 getAllData(){
                       var _this = this;
                     axios.get('{{ route("expenses.all") }}')
@@ -338,15 +293,12 @@ Home page
                         expense_date: '',
                         amount: '',
                         reason: '',
-                        type: '1',
+                        type: 'unusual',
                         account:{
                             id:'',
-                            name:''
-                         
-                  
-                    
-                    }
+                            name:'' 
                         }
+                    }
                 },
                 saveData() {
                     var _this = this;
