@@ -257,7 +257,94 @@ Home page
             </div>
         </div>
 
+ 
 
+    </div>
+
+
+
+     <div class="modal fade" id="createmodel" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <form action="javascript:void(0)" method="POST">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="createModalLabel"><i class="ti-marker-alt mr-2"></i> Create New Wrentry</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div v-if="errors.length" class="alert alert-danger">
+                                <b>Please correct the following error(s):</b>
+                                <ul>
+                                    <li v-for="error in errors">@{{ error }}</li>
+                                </ul>
+                            </div>
+                            <div class="row">
+
+                                   <div class="col-6">
+                                    <div class="input-group mb-3">
+                                        <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
+                                        <select class="form-control form-white" placeholder="Choose Supplier" v-model="warrant.inventory">
+                                              <option  v-for="inventory in inventories" :value="inventory">@{{inventory.product?inventory.product.name:''}}</option>
+                                                                          
+                                          
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-group mb-3">
+                                        <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                        <input type="date" class="form-control" placeholder="Issue Date" v-model="warrant.issue_date" required="">
+                                        <input type="hidden" class="form-control" v-model="warrant.id">
+                                    </div>
+                                </div>
+                                   <div class="col-6">
+                                    <div class="input-group mb-3">
+                                        <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                        <input type="text" class="form-control" placeholder="Reason" v-model="warrant.reason" required="">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-group mb-3">
+                                        <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                        <input type="date" class="form-control" placeholder=" Return Date" v-model="warrant.return_date" required="">
+                                    </div>
+                                </div>
+
+                                   <div class="col-6">
+                                    <div class="input-group mb-3">
+                                        <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
+                                        <select class="form-control form-white" placeholder="Choose Supplier" v-model="warrant.status">
+
+                                            <option value="pending">pending</option>
+                                            <option value="accepted">accepted</option>
+                                            <option value="declined">declined</option>
+                                            <option value="solved">solved</option>
+                                            <option value="returned">returned</option>
+                                            <option value="refunded">returned</option>
+                                              
+                                                                          
+                                          
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                             
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalClose">Close</button>
+                            <button type="submit" class="btn btn-info" @click.prevent="clearData()"><i class="ti-close"></i> Clear data</button>
+                            <button type="submit" class="btn btn-success" @click.prevent="saveData()" v-if="!warrant.id"><i class="ti-save"></i> Save</button>
+                            <button type="submit" class="btn btn-primary" @click.prevent="saveData()" v-if="warrant.id"><i class="ti-save"></i> Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
 </div>
 
 
@@ -290,8 +377,7 @@ Home page
                        
                     },
                     inventory:{
-                        id:'',
-                      
+                        id:'',     
                     },
                     sale:{
                         id:'',
@@ -300,15 +386,13 @@ Home page
                 },
                 currentIndex: 0,
                 warranties: [],                
-                categories: [],                
+                inventories: [],                
                 successMessage:'',
             },
             mounted() {
                 var _this = this;
                 _this.getAllData();
-                _this.getAllPurchase();
                 _this.getAllInventory();
-                _this.getAllsale();
             },
             methods: {
                 getAllData() {
@@ -318,27 +402,15 @@ Home page
                         _this.warranties = response.data.warranties;
                     })
                 },
-                getAllPurchase() {
-                    var _this = this;
-                    axios.get('{{ route("productCategories.all") }}')
-                    .then(function (response) {
-                        _this.categories = response.data.categories;
-                    })
-                },
+           
                  getAllInventory() {
                     var _this = this;
-                    axios.get('{{ route("productCategories.all") }}')
+                    axios.get('{{ route("inventories.all") }}')
                     .then(function (response) {
-                        _this.categories = response.data.categories;
+                        _this.inventories = response.data.inventories;
                     })
                 },
-                 getAllsale() {
-                    var _this = this;
-                    axios.get('{{ route("productCategories.all") }}')
-                    .then(function (response) {
-                        _this.categories = response.data.categories;
-                    })
-                },
+             
                 setData(index) {
                     var _this = this;
                     _this.errors = [];
@@ -350,16 +422,16 @@ Home page
                 clearData() {
                     var _this = this;
                     _this.errors = [];
-                    _this.product= {
-                        id: '',
-                        name: '',
-                        detail: '',
-                        category_id: 1,
-                        is_active: '1',
-                        category:{
-                            id:'',
-                            name:''
-                        }
+                    _this.warrant= {
+                     id: '',
+                     warranty_duration: '',
+                     warranty_type: '',
+                     warranty_start: '',
+                     warranty_end: '',
+                     issue_date: '',
+                     reason: '',
+                     return_date: '',
+                     status: '',
                     }
                 },
                 saveData() {
@@ -367,9 +439,9 @@ Home page
                     if(_this.validate()){
                         //save data
                         let data = {
-                            product: _this.product
+                            warranty: _this.warrant
                         }
-                        axios.post('{{ route("products.addOrUpdate") }}', data)
+                        axios.post('{{ route("warranties.addOrUpdate") }}', data)
                         .then(function (response) {
                             let data = response.data;
                             let status = response.data.status;
@@ -380,7 +452,7 @@ Home page
                                     alert("something Wrong. Try Again.")
                                 }
                                 if(status=='created') {
-                                    _this.products.push(data.product);
+                                    _this.warranties.push(data.warranty);
                                     //modal close
                                     document.getElementById('modalClose').click();
                                    
@@ -395,15 +467,15 @@ Home page
 
                                     Toast.fire({
                                       type: 'success',
-                                      title: 'Product created successfully'
+                                      title: 'warrant created successfully'
                                   })
 
                                     //end sweet alart
                                 }
                                 if(status=='updated') {
 
-                                    _this.$set( _this.products, _this.currentIndex, data.product )
-                                    _this.products[_this.currentIndex] = data.product;
+                                    _this.$set( _this.warranties, _this.currentIndex, data.warranty )
+                                    _this.warranties[_this.currentIndex] = data.warranty;
                                     //modal close
                                     document.getElementById('modalClose').click();
                                  
@@ -418,7 +490,7 @@ Home page
 
                                     Toast.fire({
                                       type: 'success',
-                                      title: 'Product updated successfully'
+                                      title: 'warrant updated successfully'
                                   })
 
                                     //end sweet alart
@@ -436,19 +508,23 @@ Home page
                 validate() {           
                     var _this = this; 
                     _this.errors = [];
-                    let product = _this.product;
+                    let warrant = _this.warrant;
                     let count = 0; 
 
-                    if (!product.name) {
-                        _this.errors.push("Name required.");
+                    if (!warrant.reason) {
+                        _this.errors.push("reason required.");
                         count++;
                     }
-                     if (!product.detail) {
-                        _this.errors.push("detail required.");
+                     if (!warrant.return_date) {
+                        _this.errors.push("Return date Date required.");
                         count++;
                     }
-                     if (!product.category_id) {
-                        _this.errors.push("category name required.");
+                     if (!warrant.issue_date) {
+                        _this.errors.push("Issue date required.");
+                        count++;
+                    }
+                     if (!warrant.inventory.id) {
+                        _this.errors.push("product name name required.");
                         count++;
                     }
 
