@@ -166,7 +166,7 @@ Home page
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="employeeDetailLabel">damage detail</h5>
+                        <h5 class="modal-title" id="employeeDetailLabel">Damage Details</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
@@ -177,20 +177,53 @@ Home page
                             <div class="col-lg-12 col-xlg-12 col-md-12">
                                 <div class="card">
                                     <div class="card-body">
+                                        <div class="card-title" style="color:red">Product Detail</div>
                                         <div class="row">
                                             
-                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Unique Code</strong>
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Product Name</strong>
                                                 <br>
-                                                <p class="text-muted">@{{damage.inventory?damage.inventory.unique_code:''}}</p>
-                                            </div><div class="col-md-3 col-xs-6 b-r"> <strong>Issue Date</strong>
-                                                <br>
-                                                <p class="text-muted">@{{damage.issue_date}}</p>
+                                                <p class="text-muted">@{{damage.inventory?damage.inventory.product?damage.inventory.product.name:'':''}}</p>
                                             </div>
-                                             <div class="col-md-3 col-xs-6 b-r"> <strong>damage Reason</strong>
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Product Category</strong>
                                                 <br>
-                                                <p class="text-muted">@{{damage.reason}}</p>
+                                                <p class="text-muted">@{{damage.inventory?damage.inventory.product.category?damage.inventory.product.category.name:'':''}}</p>
                                             </div>
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Buying Price</strong>
+                                                <br>
+                                                <p class="text-muted">@{{damage.inventory?damage.inventory.buying_price:''}}</p>
+                                            </div>
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Selling Price</strong>
+                                                <br>
+                                                <p class="text-muted">@{{damage.inventory?damage.inventory.selling_price:''}}</p>
+                                            </div>
+                   
                                         
+                                        </div>
+                                        <div class="card-title" style="color:red">Supply Detail</div>
+                                        <div class="row">
+                                             <div class="col-md-3 col-xs-6 b-r"> <strong>   Supplier Name</strong>
+                                                <br>
+                                                <p class="text-muted">@{{damage.inventory?damage.inventory.supplier?damage.inventory.supplier.name:'':''}}</p>
+                                            </div>
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong>   Supply Date </strong>
+                                                <br>
+                                                <p class="text-muted">Date Nai</p>
+                                            </div>
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong>   Unique Code </strong>
+                                                <br>
+                                                <p class="text-muted">Khuje Pai ni</p>
+                                            </div>
+                                        </div>
+                                         <div class="card-title" style="color:red">Damage Detail</div>
+                                        <div class="row">
+                                             <div class="col-md-3 col-xs-6 b-r"> <strong>   Issue Date</strong>
+                                                <br>
+                                                <p class="text-muted">@{{damage?damage.issue_date:''}}</p>
+                                            </div>
+                                            <div class="col-md-3 col-xs-6 b-r"> <strong>   Reson</strong>
+                                                <br>
+                                                <p class="text-muted">@{{damage?damage.reason:''}}</p>
+                                            </div>
                                         </div>
 
                                     </div>
@@ -234,6 +267,14 @@ Home page
                     inventories: {
                         id:'',
                         unique_code: ''
+                    },
+                    product: {
+                        id:'',
+                        name: ''
+                    },
+                     supplier: {
+                        id:'',
+                        name: ''
                     }
                 },
                 currentIndex: 0,

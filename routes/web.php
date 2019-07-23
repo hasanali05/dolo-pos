@@ -61,6 +61,26 @@ Route::prefix('admin')->group(function()
 		Route::post('/productCategories-status-change', 'ProductCategoryController@statusChange')->name('productCategories.statusChange');
 		Route::post('/productCategories-add-or-update', 'ProductCategoryController@addOrUpdate')->name('productCategories.addOrUpdate');
 
+		//report
+         Route::get('/incomeExpense',  'ReportController@incomeExpense')->name('admin.incomeExpense');
+         Route::post('/incomeExpense',  'ReportController@incomeExpenseGet')->name('admin.incomeExpense');
+        Route::get('/inventory',  'ReportController@inventoryReport')->name('admin.inventoryReport');
+         Route::post('/inventory',  'ReportController@inventoryReportGet')->name('admin.inventoryReport');
+        Route::get('/Ledger',  'ReportController@ledgerReport')->name('admin.ledger');
+         Route::post('/Ledger',  'ReportController@ledgerReportGet')->name('admin.ledger');
+         Route::get('/purchase',  'ReportController@purchaseReport')->name('admin.purchase');
+         Route::post('/purchase',  'ReportController@purchaseReportGet')->name('admin.purchase');
+         Route::get('/sale',  'ReportController@saleReport')->name('admin.sale');
+         Route::post('/sale',  'ReportController@saleReportGet')->name('admin.sale');
+         Route::get('/supplier',  'ReportController@supplierReport')->name('admin.supplier');
+         Route::post('/supplier',  'ReportController@supplierReportGet')->name('admin.supplier');
+         Route::get('/customer',  'ReportController@customerReport')->name('admin.customer');
+         Route::post('/customer',  'ReportController@customerReportGet')->name('admin.customer');
+         Route::get('/dueReceive',  'ReportController@dueReceive')->name('admin.dueReceive');
+         Route::post('/dueReceive',  'ReportController@dueReceivGet')->name('admin.dueReceive');
+         Route::get('/duePaySummery',  'ReportController@duePaySummery')->name('admin.duePay');
+         Route::post('/duePaySummery',  'ReportController@duePaySummeryGet')->name('admin.duePay');
+
 		//products
 		Route::get('/products', 'ProductController@products')->name('products');
 		Route::get('/products-all', 'ProductController@productsAll')->name('products.all');
