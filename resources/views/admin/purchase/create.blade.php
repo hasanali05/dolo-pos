@@ -143,7 +143,7 @@ Home page
                   Products:
                     <select class="select2 form-control custom-select" style="width: 100%; height:36px;" @change="addToPurchase($event)">
                         <option value="-1"><--- Select Product ---></option>
-                        <option v-for="(product,index) in products" :value="index" :key="index">@{{ product.name }}</option>
+                        <option v-for="(product,index) in products" :value="index" :key="index">@{{ product.name+" | "+ product.category?product.category.name:'' }}</option>
                     </select>
                 </div>
               </div>
@@ -431,8 +431,7 @@ Home page
                 saveData() {
                     var _this = this;
                     _this.errors = [];
-                    if(1){
-                    // if(_this.validate()){
+                    if(_this.validate()){
                         //save data
                         let data = {
                             supplier: _this.selectedSupplier,
@@ -463,18 +462,19 @@ Home page
                                       //sweet alrat
 
                                     const Toast = Swal.mixin({
-                                      toast: true,
-                                      position: 'top-end',
-                                      showConfirmButton: false,
-                                      timer: 3000
-                                  });
+                                        toast: true,
+                                        position: 'top-end',
+                                        showConfirmButton: false,
+                                        timer: 3000
+                                    });
 
-                                    Toast.fire({
-                                      type: 'success',
-                                      title: 'Purchase created successfully'
-                                  })
-
+                                      Toast.fire({
+                                        type: 'success',
+                                        title: 'Purchase created successfully'
+                                    })
                                     //end sweet alart
+                                    _this.getAllSupplier();
+                                    _this.getAllProduct();
                                 }
                             } else {                                
                                 for (var key in data.errors) {

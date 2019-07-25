@@ -93,7 +93,7 @@ Home page
             <div class="modal-content">
                 <form action="javascript:void(0)" method="POST">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="createModalLabel"><i class="ti-marker-alt mr-2"></i> Create New Sale</h5>
+                        <h5 class="modal-title" id="createModalLabel"><i class="ti-marker-alt mr-2"></i> Create New Payment</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -108,29 +108,36 @@ Home page
                         </div>
                         <div class="row">
 
-                               <div class="col-6">
+                            <div class="col-6">
                                 <div class="input-group mb-3">
                                     <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
                                     <select class="form-control form-white" placeholder="Choose Customer" v-model="saleTransaction.customer_id">
-                                        
                                         <option  v-for="customer in customers" :value="customer.id">@{{customer.name}}</option>
-                            
-                                      
                                     </select>
+                                    <span class="alart alert-info" v-if="saleTransaction.id">*You cannot update customer. If you need, just make another transaction or contact with developer.</span>  
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group mb-3">
+                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                    <textarea v-model="saleTransaction.note" placeholder="write somethings" style="width: 325px"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group mb-3">
+                                    <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
+                                    <select class="form-control form-white" placeholder="Choose Account" v-model="saleTransaction.account_id">     
+                                        <option v-for="(account, index) in transactionAccounts" :value="account.id">@{{account.name}}</option>  
+                                    </select>
+                                    <span class="alart alert-info" v-if="saleTransaction.id">*You cannot update account. If you need, just make another transaction or contact with developer.</span>  
+                                    <span class="alart alert-warning w-100" v-else>*Collection account</span>  
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="input-group mb-3">
                                     <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
                                     <input type="text" class="form-control" placeholder="Amount" v-model="saleTransaction.amount" required="">
-                                </div>
-                            </div>
-                                <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-
-                                    <textarea v-model="saleTransaction.note" placeholder="write somethings" style="width: 325px"></textarea>                                
-                                   
+                                    <span class="alart alert-info" v-if="saleTransaction.id">*You cannot update amount. If you need, just make another transaction or contact with developer.</span>  
                                 </div>
                             </div>
                         </div>
@@ -161,24 +168,21 @@ Home page
                     <div class="row">
                         <div class="col-lg-12 col-xlg-12 col-md-12">
                             <div class="card mb-0">
-                                <div class="card-title">customer info</div>
+                                <div class="card-title">Sale info</div>
                                 <div class="card-body">
                                     <div class="row"> 
-                                        <div class="col-md-3 col-xs-6 b-r"> <strong>customer Name</strong>
+                                        <div class="col-md-6 col-xs-6 b-r"> <strong>customer Name</strong>
                                             <br>
                                             <p class="text-muted">@{{saleTransaction.customer?saleTransaction.customer.name:''}}</p>
-                                        </div>
-                                        <div class="col-md-3 col-xs-6 b-r"> 
+                                        </div><div class="col-md-6 col-xs-6 b-r"> 
                                             <strong> customer Contact </strong>
                                             <br>
                                             <p class="text-muted">@{{saleTransaction.customer?saleTransaction.customer.contact:''}}</p>
                                         </div>
-                                        <div class="col-md-3 col-xs-6 b-r"> <strong>Address</strong>
+                                         <div class="col-md-6 col-xs-6 b-r"> <strong>Address</strong>
                                             <br>
                                             <p class="text-muted">@{{saleTransaction.customer?saleTransaction.customer.address:''}}</p>
                                         </div>
-                                      
-                                      
                                     </div>
                                 </div>
                             </div>
@@ -186,30 +190,25 @@ Home page
                         </div>
                         <div class="col-lg-12 col-xlg-12 col-md-12">
                             <div class="card mb-0">
-                                <div class="card-title">Transaction Detail</div>
+                                <div class="card-title">Transaction info</div>
                                 <div class="card-body">
                                     <div class="row"> 
-                                        <div class="col-md-12 col-xs-12 b-r">
-                                            <table class="table table-bordered table-striped">
-                                                <thead>
-                                                    <th>S/L</th>
-                                                    <th>Reason</th>
-                                                    <th>Amount</th>
-                                                    <th>Balance</th>
-                                                    <th>Note</th>
-                                                </thead>
-                                                <tbody>    
-                                                    <td>S/L</td>
-                                                    <td>@{{saleTransaction.reason}}</td>
-                                                    <td>@{{saleTransaction.amount}}</td>
-                                                    <td>@{{saleTransaction.amount}}</td>
-                                                    <td>@{{saleTransaction.note}}</td>
-                                                </tbody>
-                                            </table>
+                                        <div class="col-md-6 col-xs-6 b-r"> <strong>Reason</strong>
+                                            <br>
+                                            <p class="text-muted">@{{saleTransaction?saleTransaction.reason:''}}</p>
+                                        </div><div class="col-md-6 col-xs-6 b-r"> 
+                                            <strong> Amount</strong>
+                                            <br>
+                                            <p class="text-muted">@{{saleTransaction?saleTransaction.amount:''}}</p>
+                                        </div>
+                                         <div class="col-md-6 col-xs-6 b-r"> <strong>Note</strong>
+                                            <br>
+                                            <p class="text-muted">@{{saleTransaction?saleTransaction.note:''}}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <!-- Column -->
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -238,6 +237,7 @@ Home page
             el: '#saleTransactions',
             data: {
                 errors: [],
+                transactionAccounts: JSON.parse('{!!$transactionAccounts!!}'),
                 saleTransaction: {
                     id: '',
                     reason: 3,

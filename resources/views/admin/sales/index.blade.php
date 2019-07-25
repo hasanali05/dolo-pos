@@ -38,215 +38,153 @@ Home page
                     </button>
                 </div>
  
-            <table class="table table-bordered" width="100%" cellspacing="0">
-                <thead style="text-align: center;">
-                    <tr>
-                        <th>S/L</th>
-                        <th>Customer Name</th>
-                        <th>Sale Date</th>
-                        <th>Amount</th>
-                        <th>Commission</th>
-                        <th>Payment</th>
-                        <th>Due</th>
-                       <!-- <th>Active/Not</th>-->
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>S/L</th>
-                        <th>Customer Name</th>
-                        <th>Sale Date</th>
-                        <th>Amount</th>
-                        <th>Commission</th>
-                        <th>Payment</th>
-                        <th>Due</th>
-                     
-                        <th>Action</th>
-                    </tr>
-                </tfoot>
-                <tbody style="text-align: center;">
-                    <tr v-for="(sale, index) in sales">
-                        <td>@{{index+1}}</td>
-                        <td>@{{sale.customer?sale.customer.name:"Empty"}}</td>
-                        <td>@{{sale.sale_date}}</td>
-                        <td>@{{sale.amount}}</td>
-                        <td>@{{sale.commission}}</td>
-                        <td>@{{sale.payment}}</td>
-                        <td>@{{sale.due}}</td>
-                       <!-- <td>
-                            <span class="badge badge-success" v-if="sale.is_active == 1">Active</span>
-                            <button class="btn btn-danger" v-if="sale.is_active == 1" @click.prevent="inactivesale(index)">In-activate-it</button> 
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead style="text-align: center;">
+                        <tr>
+                            <th>S/L</th>
+                            <th>Customer Name</th>
+                            <th>Sale Date</th>
+                            <th>Sale Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>S/L</th>
+                            <th>Customer Name</th>
+                            <th>Sale Date</th>
+                            <th>Sale Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </tfoot>
+                    <tbody style="text-align: center;">
+                        <tr v-for="(sale, index) in sales">
+                            <td>@{{index+1}}</td>
+                            <td>@{{sale.customer?sale.customer.name:''}}</td>
+                            <td>@{{sale.sale_date}}</td>
+                            <td>@{{sale.amount}}</td>
+             
+                            <td> 
+                                <button class="btn btn-info btn-icon-split"  data-toggle="modal" data-target="#saleDetail" @click="setData(index)">
+                                    <span class="icon text-white" >
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                </button>                                   
+                            </td>
 
-                            <span class="badge badge-danger" v-if="sale.is_active == 0">In-active</span>
-                            <button class="btn btn-success" v-if="sale.is_active == 0" @click.prevent="activesale(index)">Active-it</button> 
-                        </td>-->
-                        <td>     
-                            <button class="btn btn-info btn-icon-split"  data-toggle="modal" data-target="#saleDetail" @click="setData(index)">
-                                <span class="icon text-white" >
-                                    <i class="fas fa-eye"></i>
-                                </span>
-                            </button> 
-                            <button class="btn btn-warning btn-icon-split"   data-toggle="modal" data-target="#createmodel"  @click="setData(index)">
-                                <span class="icon text-white">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </span>
-                            </button>                                  
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-<!-- <nav aria-label="..." style="float: right">
-<ul class="pagination pagination-sm">
-<li class="page-item disabled">
-<a class="page-link" href="javascript:void(0)" tabindex="-1">Previous</a>
-</li>
-<li class="page-item"><a class="page-link" href="javascript:void(0)">1</a></li>
-<li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
-<li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-<li class="page-item">
-<a class="page-link" href="javascript:void(0)">Next</a>
-</li>
-</ul>
-</nav> -->
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
     
-        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="employeeDetailLabel" aria-modal="true" id="saleDetail">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="employeeDetailLabel">Sale Detail</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <!-- Column -->
-                            <div class="col-lg-12 col-xlg-12 col-md-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Customer Name</strong>
-                                                <br>
-                                                <p class="text-muted">@{{sale.customer?sale.customer.name: ''}}</p>
-                                            </div>
-                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Sale Date</strong>
-                                                <br>
-                                                <p class="text-muted">@{{sale.sale_date}}</p>
-                                            </div>
-                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Amount</strong>
-                                                <br>
-                                                <p class="text-muted">@{{sale.amount}}</p>
-                                            </div>
-                                          <!--  <div class="col-md-3 col-xs-6"> <strong>Active</strong>
-                                                <br>
-                                                <h3 >
-                                                    <span class="badge badge-success" v-if="account.is_active == 1">Active
-                                                    </span>
-                                                    <span class="badge badge-danger" v-else>Inactive
-                                                    </span>
-                                                </h3>
-                                            </div>-->
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="employeeDetailLabel" aria-modal="true" id="saleDetail">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="employeeDetailLabel">Sale detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-xlg-12 col-md-12">
+                            <div class="card mb-0">
+                                <div class="card-title">Customer info</div>
+                                <div class="card-body">
+                                    <div class="row"> 
+                                        <div class="col-md-3 col-xs-6 b-r"> <strong>customer Name</strong>
+                                            <br>
+                                            <p class="text-muted">@{{sale.customer?sale.customer.name:''}}</p>
+                                        </div><div class="col-md-3 col-xs-6 b-r"> 
+                                            <strong> customer Contact </strong>
+                                            <br>
+                                            <p class="text-muted">@{{sale.customer?sale.customer.contact:''}}</p>
+                                        </div>
+                                         <div class="col-md-3 col-xs-6 b-r"> <strong>Address</strong>
+                                            <br>
+                                            <p class="text-muted">@{{sale.customer?sale.customer.address:''}}</p>
+                                        </div>
+
+                                        <div class="col-md-3 col-xs-6 b-r">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!-- Column -->
                         </div>
+                        <div class="col-lg-12 col-xlg-12 col-md-12">
+                            <div class="card mb-0">
+                                <div class="card-title">Sale info</div>
+                                <div class="card-body">
+                                    <div class="row"> 
+                                        <div class="col-md-6 col-xs-6 b-r"> <strong>Sale Date</strong>
+                                            <br>
+                                            <p class="text-muted">@{{sale?sale.sale_date:''}}</p>
+                                        </div>
+                                        <div class="col-md-6 col-xs-6 b-r"> <strong>Total Sale</strong>
+                                            <br>
+                                            <p class="text-muted">@{{sale?sale.amount:''}}</p>
+                                        </div>
+                                        <div class="col-md-6 col-xs-6 b-r"> <strong>Total Convyance</strong>
+                                            <br>
+                                            <p class="text-muted">@{{sale?sale.commission:''}}</p>
+                                        </div>
+                                        <div class="col-md-6 col-xs-6 b-r"> <strong>Total Paid</strong>
+                                            <br>
+                                            <p class="text-muted">@{{sale?sale.payment:''}}</p>
+                                        </div>
+                                        <div class="col-md-6 col-xs-6 b-r"> <strong>Total Due</strong>
+                                            <br>
+                                            <p class="text-muted">@{{sale?sale.due:''}}</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Column -->
+                        </div>
+                        <div class="col-lg-12 col-xlg-12 col-md-12" v-if="sale.details">
+                            <div class="card mb-0">
+                                <div class="card-title">Sale Detail</div>
+                                <div class="card-body">
+                                    <div class="row"> 
+                                        <div class="col-md-12 col-xs-12 b-r">
+                                            <table class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S/L</th>
+                                                        <th>Product</th>
+                                                        <th>Unique code</th>
+                                                        <th>Price</th>
+                                                        <th>Warranty</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>    
+                                                    <tr v-for="(sale,index) in sale.details">
+                                                        <td>@{{index+1}}</td>
+                                                        <td>@{{sale.inventory?sale.inventory.product.name:''}}</td>
+                                                        <td>@{{sale.unique_code}}</td>
+                                                        <td>@{{sale.price}}</td>
+                                                        <td>@{{sale.warranty_duration}} @{{sale.warranty_type}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"  v-on:click="counter += 1" >Close</button>
                 </div>
             </div>
         </div>
-
-
-
-    <div class="modal fade" id="createmodel" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <form action="javascript:void(0)" method="POST">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="createModalLabel"><i class="ti-marker-alt mr-2"></i> Create New Sale</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <div v-if="errors.length" class="alert alert-danger">
-                            <b>Please correct the following error(s):</b>
-                            <ul>
-                                <li v-for="error in errors">@{{ error }}</li>
-                            </ul>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                    <select class="form-control form-white" v-model="sale.customer_id">
-                                        <option>--select Customer Name--</option>
-                                        <option v-for="customer in customers" :value="customer.id">@{{customer.name}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                     <input type="date" class="form-control" placeholder="date" v-model="sale.sale_date">
-                       
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                     <input type="number" class="form-control" placeholder="amount" v-model="sale.amount">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                     <input type="number" class="form-control" placeholder="commission" v-model="sale.commission">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                     <input type="number" class="form-control" placeholder="payment" v-model="sale.payment">
-                                </div>
-                            </div>
-                             <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                     <input type="number" class="form-control" placeholder="due" v-model="sale.due">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
-                                    <select class="form-control form-white" placeholder="Choose status" v-model="sale.is_active">
-                                        <option value="1">Active</option>
-                                        <option value="0">In-active</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalClose">Close</button>
-                        <button type="submit" class="btn btn-info" @click.prevent="clearData()"><i class="ti-close"></i> Clear data</button>
-                        <button type="submit" class="btn btn-success" @click.prevent="saveData()" v-if="!sale.id"><i class="ti-save"></i> Save</button>
-                        <button type="submit" class="btn btn-primary" @click.prevent="saveData()" v-if="sale.id"><i class="ti-save"></i> Update</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    </div>  
 </div>
 
 

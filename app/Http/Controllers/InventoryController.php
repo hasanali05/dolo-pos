@@ -11,9 +11,14 @@ class InventoryController extends Controller
     	return view('admin.inventory.index');
     }
 
-     public function inventoriesAll()
+    public function inventoriesAll()
     {
         $inventories = Inventory::with('product', 'product.category','supplier','customer','purchase','sale')->get();
+        return response()->json(["inventories"=>$inventories]);
+    }
+    public function inventoriesProdducts()
+    {
+        $inventories = Inventory::with('product', 'product.category','supplier','customer','purchase','sale')->where('inventories.status','=','inventory')->get();
         return response()->json(["inventories"=>$inventories]);
     }
 }

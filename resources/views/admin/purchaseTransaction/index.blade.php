@@ -91,7 +91,7 @@ Home page
                 <div class="modal-content">
                     <form action="javascript:void(0)" method="POST">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="createModalLabel"><i class="ti-marker-alt mr-2"></i> Create New purchase</h5>
+                            <h5 class="modal-title" id="createModalLabel"><i class="ti-marker-alt mr-2"></i> Create New collection</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
