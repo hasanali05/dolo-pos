@@ -62,24 +62,29 @@ Route::prefix('admin')->group(function()
 		Route::post('/productCategories-add-or-update', 'ProductCategoryController@addOrUpdate')->name('productCategories.addOrUpdate');
 
 		//report
-         Route::get('/incomeExpense',  'ReportController@incomeExpense')->name('admin.incomeExpense');
-         Route::post('/incomeExpense',  'ReportController@incomeExpenseGet')->name('admin.incomeExpense');
-        Route::get('/inventory',  'ReportController@inventoryReport')->name('admin.inventoryReport');
-         Route::post('/inventory',  'ReportController@inventoryReportGet')->name('admin.inventoryReport');
-        Route::get('/Ledger',  'ReportController@ledgerReport')->name('admin.ledger');
-         Route::post('/Ledger',  'ReportController@ledgerReportGet')->name('admin.ledger');
-         Route::get('/purchase',  'ReportController@purchaseReport')->name('admin.purchase');
-         Route::post('/purchase',  'ReportController@purchaseReportGet')->name('admin.purchase');
-         Route::get('/sale',  'ReportController@saleReport')->name('admin.sale');
-         Route::post('/sale',  'ReportController@saleReportGet')->name('admin.sale');
-         Route::get('/supplier',  'ReportController@supplierReport')->name('admin.supplier');
-         Route::post('/supplier',  'ReportController@supplierReportGet')->name('admin.supplier');
-         Route::get('/customer',  'ReportController@customerReport')->name('admin.customer');
-         Route::post('/customer',  'ReportController@customerReportGet')->name('admin.customer');
-         Route::get('/dueReceive',  'ReportController@dueReceive')->name('admin.dueReceive');
-         Route::post('/dueReceive',  'ReportController@dueReceivGet')->name('admin.dueReceive');
-         Route::get('/duePaySummery',  'ReportController@duePaySummery')->name('admin.duePay');
-         Route::post('/duePaySummery',  'ReportController@duePaySummeryGet')->name('admin.duePay');
+		Route::get('/overview',  'ReportController@overviewReport')->name('report.overview');
+		Route::post('/overview',  'ReportController@overviewReportGet')->name('report.overview');
+
+
+
+		Route::get('/incomeExpense',  'ReportController@incomeExpense')->name('report.incomeExpense');
+		Route::post('/incomeExpense',  'ReportController@incomeExpenseGet')->name('report.incomeExpense');
+		Route::get('/inventory',  'ReportController@inventoryReport')->name('report.inventoryReport');
+		Route::post('/inventory',  'ReportController@inventoryReportGet')->name('report.inventoryReport');
+		Route::get('/Ledger',  'ReportController@ledgerReport')->name('report.ledger');
+		Route::post('/Ledger',  'ReportController@ledgerReportGet')->name('report.ledger');
+		Route::get('/purchase',  'ReportController@purchaseReport')->name('report.purchase');
+		Route::post('/purchase',  'ReportController@purchaseReportGet')->name('report.purchase');
+		Route::get('/sale',  'ReportController@saleReport')->name('report.sale');
+		Route::post('/sale',  'ReportController@saleReportGet')->name('report.sale');
+		Route::get('/supplier',  'ReportController@supplierReport')->name('report.supplier');
+		Route::post('/supplier',  'ReportController@supplierReportGet')->name('report.supplier');
+		Route::get('/customer',  'ReportController@customerReport')->name('report.customer');
+		Route::post('/customer',  'ReportController@customerReportGet')->name('report.customer');
+		Route::get('/dueReceive',  'ReportController@dueReceive')->name('report.dueReceive');
+		Route::post('/dueReceive',  'ReportController@dueReceivGet')->name('report.dueReceive');
+		Route::get('/duePaySummery',  'ReportController@duePaySummery')->name('report.duePay');
+		Route::post('/duePaySummery',  'ReportController@duePaySummeryGet')->name('report.duePay');
 
 		//products
 		Route::get('/products', 'ProductController@products')->name('products');

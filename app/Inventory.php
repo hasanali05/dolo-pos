@@ -29,4 +29,8 @@ class Inventory extends Model
     public function sale(){
         return $this->belongsTo(SaleDetail::class,'sale_id','id');
     }
+    public function damage()
+    {
+        return $this->hasMany(Damage::class);
+    }
 }
