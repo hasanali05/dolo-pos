@@ -7,6 +7,10 @@ use Auth;
 
 class AdminController extends Controller
 {
+	public function dashboard()
+	{
+		return redirect()->route('salesdetail.all');
+	}
 	public function index()
 	{
 		return view('admin.pages.index');

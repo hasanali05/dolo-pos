@@ -521,6 +521,10 @@ Home page
                         _this.errors.push("you must have to select payment amount.");
                         count++;
                     }
+                     if (!_this.convayance) {
+                        _this.errors.push("you must have to add convayance. If no convayance then write 0.");
+                        count++;
+                    }
 
                     if(count==0) return true;
                     else return false;

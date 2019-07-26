@@ -62,8 +62,8 @@ Route::prefix('admin')->group(function()
 		Route::post('/productCategories-add-or-update', 'ProductCategoryController@addOrUpdate')->name('productCategories.addOrUpdate');
 
 		//report
-		Route::get('/overview',  'ReportController@overviewReport')->name('report.overview');
-		Route::post('/overview',  'ReportController@overviewReportGet')->name('report.overview');
+		Route::get('/overview',  'ReportController@overview')->name('report.overview');
+		Route::post('/overview',  'ReportController@overviewGet')->name('report.overview');
 
 
 

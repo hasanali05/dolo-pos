@@ -39,17 +39,8 @@
         </li>
         <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-compress"></i><span class="hide-menu">Report Module</span></a>
             <ul aria-expanded="false" class="collapse first-level">
-                <li class="sidebar-item"><a href="{{route('admin.ledger')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Ledger</span></a></li>
-                <li class="sidebar-item"><a href="{{route('admin.purchase')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Supplier</span></a></li>
-                <li class="sidebar-item"><a href="{{route('admin.sale')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Customer</span></a></li>
-                <li class="sidebar-item"><a href="{{route('admin.supplier')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Summery</span></a></li>
+                <li class="sidebar-item"><a href="{{route('report.overview')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Summery</span></a></li>
             </ul>
         </li>
-        <!-- <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-compress"></i><span class="hide-menu">Dropdown Link</span></a>
-            <ul aria-expanded="false" class="collapse first-level">
-                <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Second Level Item</span></a></li>
-                <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Second Level Item</span></a></li>
-            </ul>
-        </li> -->
     </ul>
 </nav>

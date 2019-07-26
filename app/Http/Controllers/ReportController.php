@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Account;
 use App\Purchase;
+use App\Supplier;
+use App\Customer;
 
 use Illuminate\Http\Request;
 
@@ -22,41 +24,78 @@ class ReportController extends Controller
             $expense = [];
             $profitLoss = [];
 
-            $income_accounts = Account::where('group', 'Income')->get();
-            $expenses_accounts = Account::where('group', 'Expense')->get();
-            $incomes = [];
-            $expenses = [];
-            $limit = count($income_accounts);
-
             $from_date = $request->from_date;
             $to_date = $request->to_date;
             $to_date = str_replace('-', '/', $to_date);
             $to_date = date('Y-m-d',strtotime($to_date . "+1 days"));
 
+            $suppliers = Supplier::with('account')->select('account_id')->groupBy('account_id')->get();
+            $limit = count($suppliers);
+            $suppliers_sum = 0;
             for ($i=0; $i < $limit; $i++) {
-                $sum = $income_accounts[$i]->ledgers
-                        ->where('ledgers.created_at','>=', $from_date)
-                        ->where('ledgers.created_at','<', $to_date)
-                        ->sum('balance');
-                if($sum > 0) {
-                    $income_accounts[$i]['amount']=$sum;
-                    array_push($incomes, $income_accounts[$i]);
-                }
+                $sum = $suppliers[$i]->account->ledgers
+                        ->where('entry_date','>=', $from_date)
+                        ->where('entry_date','<', $to_date)
+                        ->sum('credit');
+                $suppliers_sum += $sum;
             }
-            $limit = count($expenses_accounts);
+
+            $customers = Customer::with('account')->select('account_id')->groupBy('account_id')->get();
+            $limit = count($customers);
+            $customers_sum = 0;
             for ($i=0; $i < $limit; $i++) {
-                $sum = $expenses_accounts[$i]->ledgers
-                        ->where('created_at','>=', $from_date)
-                        ->where('created_at','<', $to_date)
-                        ->sum('balance');
-                if($sum > 0) {
-                    $expenses_accounts[$i]['amount']=$sum;
-                    array_push($incomes, $expenses_accounts[$i]);
-                }
+                $sum = $customers[$i]->account->ledgers
+                        ->where('entry_date','>=', $from_date)
+                        ->where('entry_date','<', $to_date)
+                        ->sum('debit');
+                $customers_sum += $sum;
             }
+
+            $inventoryAccount = Account::where('name', '=', 'Inventory')
+                ->where('group', '=', 'Capital')
+                ->where('sub_group', '=', 'Capital')
+                ->first();
+            if($inventoryAccount){
+                $inventory_sum = $inventoryAccount->ledgers
+                    ->where('entry_date','>=', $from_date)
+                    ->where('entry_date','<', $to_date)
+                    ->sum('balance');
+            } else {
+                $inventory_sum = 0; 
+            }
+
+            $expenseAccount = Account::where('name', '=', 'Shop expense')
+                ->where('group', '=', 'Expense')
+                ->where('sub_group', '=', 'Expense')
+                ->first();
+            if($expenseAccount){
+                $expense_sum = $expenseAccount->ledgers
+                    ->where('entry_date','>=', $from_date)
+                    ->where('entry_date','<', $to_date)
+                    ->sum('balance');
+            } else {
+                $expense_sum = 0;
+            }
+            
+            $profitLossAccount = Account::where('name', '=', 'Profit & Loss')
+                ->where('group', '=', 'Capital')
+                ->where('sub_group', '=', 'Profit & Loss')
+                ->first();
+            if($profitLossAccount){
+                $profit_loss_sum = $profitLossAccount->ledgers
+                    ->where('entry_date','>=', $from_date)
+                    ->where('entry_date','<', $to_date)
+                    ->sum('balance');
+            } else {
+                $profit_loss_sum = 0;
+            }
+
             return response()->json([
-                'incomes'=>$incomes,
-                'expenses'=>$expenses,
+                'purchases'=>$suppliers_sum,
+                'sales'=>$customers_sum,
+                'inventory'=>$inventory_sum,
+                'expenses'=>$expense_sum,
+                'profitLoss'=>$profit_loss_sum,
             ]);
         }
         return back()->with('info', 'Unauthorised access.');

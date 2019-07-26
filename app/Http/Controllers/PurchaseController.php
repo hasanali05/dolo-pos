@@ -148,7 +148,7 @@ class PurchaseController extends Controller
 
         $ledgerSupplier = new Ledger;
         $ledgerSupplier->entry_date = $purchaseData['purchase_date'];
-        $ledgerSupplier->account_id = $supplier['id'];
+        $ledgerSupplier->account_id = $supplier['account_id'];
         $ledgerSupplier->detail = $purchase->id;
         $ledgerSupplier->type = 'purchase';
 
