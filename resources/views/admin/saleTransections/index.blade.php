@@ -110,7 +110,7 @@ Home page
 
                                <div class="col-6">
                                 <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
+                                    <button type="button" class="btn btn-info"><i class="fas fa-angle-double-down"></i></button>
                                     <select class="form-control form-white" placeholder="Choose Customer" v-model="saleTransaction.customer_id">
                                         
                                         <option  v-for="customer in customers" :value="customer.id">@{{customer.name}}</option>
@@ -121,13 +121,13 @@ Home page
                             </div>
                             <div class="col-6">
                                 <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                    <button type="button" class="btn btn-info"><i class="ti-notepad text-white"></i></button>
                                     <input type="text" class="form-control" placeholder="Amount" v-model="saleTransaction.amount" required="">
                                 </div>
                             </div>
                                 <div class="col-6">
                                 <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                    <button type="button" class="btn btn-info"><i class="far fa-keyboard"></i></button>
 
                                     <textarea v-model="saleTransaction.note" placeholder="write somethings" style="width: 325px"></textarea>                                
                                    

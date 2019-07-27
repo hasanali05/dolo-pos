@@ -126,7 +126,7 @@ Home page
                         <div class="row">
                             <div class="col-12">
                                 <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
+                                    <button type="button" class="btn btn-info"><i class="fas fa-angle-double-down"></i></button>
                                     <select class="form-control form-white" v-model="damage.inventory_id">
                                         <option>select Inventory</option>
                                         <option v-for="inventory in inventories" :value="inventory.id">@{{inventory.product.name +' | '+ inventory.supplier.name}}</option>
@@ -135,14 +135,14 @@ Home page
                             </div>
                             <div class="col-6">
                                 <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                    <button type="button" class="btn btn-info"><i class="far fa-calendar-alt"></i></button>
                                     <input type="date" class="form-control" placeholder="Issue Date" v-model="damage.issue_date" required="">
                                     <input type="hidden" class="form-control" v-model="damage.id">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                    <button type="button" class="btn btn-info"><i class="far fa-keyboard"></i></button>
                                     <input type="text" class="form-control" placeholder="Reson" v-model="damage.reason" required="">
                                     
                                 </div>

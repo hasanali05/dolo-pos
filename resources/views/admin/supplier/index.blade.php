@@ -131,7 +131,7 @@ Home page
                         <div class="row">
                             <div class="col-6">
                                 <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
+                                    <button type="button" class="btn btn-info"><i class="fas fa-angle-double-down"></i></button>
                                     <select class="form-control form-white" v-model="supplier.account_id">
                                         <option>select Account Name</option>
                                         <option v-for="account in accounts" :value="account.id">@{{account.name}}</option>
@@ -147,14 +147,14 @@ Home page
                             </div>
                             <div class="col-6">
                                 <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                    <button type="button" class="btn btn-info"><i class="fas fa-phone"></i></button>
                                     <input type="text" class="form-control" placeholder="contact" v-model="supplier.contact" required="">
                                     
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                    <button type="button" class="btn btn-info"> <i class="far fa-address-card"></i></button>
                                     <input type="text" class="form-control" placeholder="Address" v-model="supplier.address" required="">
                                     
                                 </div>

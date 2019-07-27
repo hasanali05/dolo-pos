@@ -139,7 +139,7 @@ Home page
                             </div>
                             <div class="col-6">
                                 <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
+                                    <button type="button" class="btn btn-info"><i class="fas fa-angle-double-down"></i></button>
                                     <select class="form-control form-white" placeholder="Choose status" v-model="product.category_id">
                                         
                                         <option  v-for="category in categories" :value="category.id">@{{category.name}}</option>

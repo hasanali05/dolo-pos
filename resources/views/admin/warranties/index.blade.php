@@ -285,7 +285,7 @@ Home page
 
                                    <div class="col-6">
                                     <div class="input-group mb-3">
-                                        <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
+                                        <button type="button" class="btn btn-info"><i class="fas fa-angle-double-down"></i></button>
                                         <select class="form-control form-white" placeholder="Choose Supplier" v-model="warrant.inventory">
                                               <option  v-for="inventory in inventories" :value="inventory">@{{inventory.product?inventory.product.name:''}}</option>
                                                                           
@@ -295,27 +295,27 @@ Home page
                                 </div>
                                 <div class="col-6">
                                     <div class="input-group mb-3">
-                                        <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                        <button type="button" class="btn btn-info"><i class="far fa-calendar-alt"></i></button>
                                         <input type="date" class="form-control" placeholder="Issue Date" v-model="warrant.issue_date" required="">
                                         <input type="hidden" class="form-control" v-model="warrant.id">
                                     </div>
                                 </div>
                                    <div class="col-6">
                                     <div class="input-group mb-3">
-                                        <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                        <button type="button" class="btn btn-info"><i class="far fa-keyboard"></i></button>
                                         <input type="text" class="form-control" placeholder="Reason" v-model="warrant.reason" required="">
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="input-group mb-3">
-                                        <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                        <button type="button" class="btn btn-info"><i class="far fa-calendar-alt"></i></button>
                                         <input type="date" class="form-control" placeholder=" Return Date" v-model="warrant.return_date" required="">
                                     </div>
                                 </div>
 
                                    <div class="col-6">
                                     <div class="input-group mb-3">
-                                        <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
+                                        <button type="button" class="btn btn-info"><i class="fas fa-angle-double-down"></i></button>
                                         <select class="form-control form-white" placeholder="Choose Supplier" v-model="warrant.status">
 
                                             <option value="pending">pending</option>
