@@ -281,6 +281,11 @@ Home page
                          <textarea class="form-control" rows="3" v-model="payment_note" placeholder="Write some note if any..."></textarea>
                     </div>
 
+                    <div class="col-sm-12 p-t-10 p-b-10">
+                      <label>Redeem Date</label>
+                      <input class="form-control" type="date" value="2011-08-19" v-model="redeem_date">
+                    </div>
+
                     <div class="col-sm-12 p-t-10 p-b-10" >        
                         <label style="font-weight: 500">Account information</label>
                         <div>                          
@@ -329,6 +334,7 @@ Home page
                 convayance: '',
                 grandTotal: '',
                 purchase_date: '',
+                redeem_date: '',
                 payment_amount: 0,
                 payment_note: '',
             },
@@ -422,6 +428,7 @@ Home page
                     _this.convayance= '';
                     _this.grandTotal= '';
                     _this.purchase_date= '';
+                    _this.redeem_date= '';
                     _this.payment_amount= 0;
                     _this.payment_note= '';
 
@@ -441,6 +448,7 @@ Home page
                             purchase: {
                               convayance: _this.convayance,
                               purchase_date: _this.purchase_date,
+                              redeem_date: _this.redeem_date,
                               payment: _this.payment_amount,
                               note: _this.payment_note,
                             }

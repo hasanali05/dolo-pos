@@ -61,7 +61,12 @@ Route::prefix('admin')->group(function()
 		Route::post('/productCategories-status-change', 'ProductCategoryController@statusChange')->name('productCategories.statusChange');
 		Route::post('/productCategories-add-or-update', 'ProductCategoryController@addOrUpdate')->name('productCategories.addOrUpdate');
 
-		//report
+
+		//redeems all
+		Route::get('/redeem',  'ReportController@redeem')->name('report.redeem');
+		Route::get('/redeems-all', 'ReportController@redeemsAll')->name('redeems.all');
+		Route::post('/redeems-redeemed', 'ReportController@redeemsRedeemed')->name('redeems.redeemed');
+
 		Route::get('/overview',  'ReportController@overview')->name('report.overview');
 		Route::post('/overview',  'ReportController@overviewGet')->name('report.overview');
 

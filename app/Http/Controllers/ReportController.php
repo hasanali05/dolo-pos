@@ -5,11 +5,34 @@ use App\Account;
 use App\Purchase;
 use App\Supplier;
 use App\Customer;
+use App\PurchaseTransaction;
 
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
+    public function redeem()
+    {
+        return view('admin.report.redeem');
+    }
+    public function redeemsAll()
+    {
+        $redeems = PurchaseTransaction::with('supplier')
+                        ->where('redeem_date','>=', today())
+                        ->get();
+        return response()->json(["redeems"=>$redeems]);
+    }
+    public function redeemsRedeemed(Request $request)
+    {
+        $redeem = PurchaseTransaction::find($request->redeem_id);
+        if($redeem) {
+            $redeem->redeem_status = 'redeemed';
+            $redeem->save();
+            return response()->json(["success"=>true]);
+        } else {
+            return response()->json(["success"=>false]);
+        }
+    }
     public function overview()
     {
         return view('admin.report.overview');

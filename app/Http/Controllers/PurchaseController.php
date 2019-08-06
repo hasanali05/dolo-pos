@@ -39,6 +39,7 @@ class PurchaseController extends Controller
             'supplier.id'=>'required|numeric|exists:suppliers,id',
 
             'purchase.purchase_date'=>'required|date',
+            'purchase.redeem_date'=>'nullable|date',
             'purchase.convayance'=>'nullable|numeric',
             'purchase.payment'=>'nullable|numeric',
             'purchase.note'=>'nullable|string',
@@ -96,25 +97,6 @@ class PurchaseController extends Controller
                 'purchase_id' => $purchaseDetail->id,
             ]);
         }
-        // update transaction
-        PurchaseTransaction::create([
-            'supplier_id' => $supplier['id'],
-            'reason' => 'purchase',
-            'amount' => (-1)*($total-$purchaseData['convayance']),
-        ]);
-        // update purchase  
-        $purchase->update([
-            'amount' => $total,
-            'commission' => $purchaseData['convayance'],
-            'payment' => $purchaseData['payment'],
-            'due' => $total-$purchaseData['convayance']-$purchaseData['payment'],
-        ]);      
-        PurchaseTransaction::create([
-            'supplier_id' => $supplier['id'],
-            'reason' => 'payment',
-            'amount' => $purchaseData['payment'],
-            'note' => $purchaseData['note'],
-        ]);
 
         $inventoryAccount = Account::where('name', '=', 'Inventory')
             ->where('group', '=', 'Capital')
@@ -207,6 +189,29 @@ class PurchaseController extends Controller
         $ledgerAsset->created_by = Auth::user()->id;
         $ledgerAsset->modified_by = Auth::user()->id;
         $ledgerAsset->save();
+
+        // update transaction
+        PurchaseTransaction::create([
+            'supplier_id' => $supplier['id'],
+            'reason' => 'purchase',
+            'amount' => (-1)*($total-$purchaseData['convayance']),
+            'ledger_id' => $ledgerSupplier->id,
+        ]);
+        // update purchase  
+        $purchase->update([
+            'amount' => $total,
+            'commission' => $purchaseData['convayance'],
+            'payment' => $purchaseData['payment'],
+            'due' => $total-$purchaseData['convayance']-$purchaseData['payment'],
+        ]);      
+        PurchaseTransaction::create([
+            'supplier_id' => $supplier['id'],
+            'reason' => 'payment',
+            'amount' => $purchaseData['payment'],
+            'note' => $purchaseData['note'],
+            'ledger_id' => $ledgerAsset->id,
+            'redeem_date' => $purchaseData['redeem_date'],
+        ]);
 
         return response()->json(["success"=>true, 'status'=>'created']);
     }

@@ -42,5 +42,14 @@
                 <li class="sidebar-item"><a href="{{route('report.overview')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Summery</span></a></li>
             </ul>
         </li>
+        <li class="sidebar-item">
+            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('report.redeem')}}" aria-expanded="false">
+                <i class="mdi mdi-calendar-check"></i>
+                <span class="hide-menu">Redeem Calendar </span>
+                @if($redeems > 0)
+                <span class="badge badge-danger text-white badge-pill ml-auto mr-3 font-medium px-2 py-1">{{$redeems}}</span>
+                @endif
+            </a>
+        </li>
     </ul>
 </nav>
