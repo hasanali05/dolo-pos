@@ -42,6 +42,11 @@ class AppServiceProvider extends ServiceProvider
             $liabilityAccounts = \App\Account::where('group', '=', 'Expense')
                             ->orWhere('group', '=', 'Liability')->get();
             $view->with('liabilityAccounts', json_encode($liabilityAccounts));
+
+            $redeems = \App\PurchaseTransaction::with('supplier')
+                        ->where('redeem_date','=', today())
+                        ->count();
+            $view->with('redeems', $redeems);
         });
     }
 

@@ -3,10 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\softDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Purchase extends Model
 {
+    use SoftDeletes;
     protected $dates = ['deleted_at'];
     protected $table = 'purchases';
 
@@ -14,6 +15,10 @@ class Purchase extends Model
 
     public function supplier(){
     	return $this->belongsTo(Supplier::class,'supplier_id');
+    }
+
+    public function supplies(){
+    	return $this->hasMany(PurchaseDetail::class,'purchase_id','id');
     }
 
 }

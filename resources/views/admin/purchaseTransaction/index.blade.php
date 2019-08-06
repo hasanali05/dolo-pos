@@ -91,7 +91,7 @@ Home page
                 <div class="modal-content">
                     <form action="javascript:void(0)" method="POST">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="createModalLabel"><i class="ti-marker-alt mr-2"></i> Create New purchase</h5>
+                            <h5 class="modal-title" id="createModalLabel"><i class="ti-marker-alt mr-2"></i> Create New collection</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
@@ -106,28 +106,39 @@ Home page
                             </div>
                             <div class="row">
 
-                                   <div class="col-6">
+                                <div class="col-6">
                                     <div class="input-group mb-3">
                                         <button type="button" class="btn btn-info"><i class="fas fa-angle-double-down"></i></button>
                                         <select class="form-control form-white" placeholder="Choose Supplier" v-model="purchase.supplier_id">
                                             
-                                            <option  v-for="supplier in suppliers" :value="supplier.id">@{{supplier.name}}</option>                                
-                                          
+                                            <option  v-for="supplier in suppliers" :value="supplier.id">@{{supplier.name}}</option>
                                         </select>
+                                        <span class="alart alert-info" v-if="purchase.id">*You cannot update supplier. If you need, just make another transaction or contact with developer.</span>  
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="input-group mb-3">
                                         <button type="button" class="btn btn-info"> <i class="far fa-keyboard"></i></i></button>
-                                        <input type="text" class="form-control" placeholder="Amount" v-model="purchase.amount" required="">
-                                    </div>
-                                </div>
-                                    <div class="col-6">
-                                    <div class="input-group mb-3">
-                                        <button type="button" class="btn btn-info"><i class="ti-notepad text-white"></i></button>
 
                                         <textarea v-model="purchase.note" placeholder="write somethings" style="width: 325px"></textarea>                                    
                                        
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-group mb-3">
+                                        <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
+                                        <select class="form-control form-white" placeholder="Choose Supplier" v-model="purchase.account_id">     
+                                            <option v-for="(account, index) in transactionAccounts" :value="account.id">@{{account.name}}</option>  
+                                        </select>
+                                        <span class="alart alert-info" v-if="purchase.id">*You cannot update account. If you need, just make another transaction or contact with developer.</span>  
+                                        <span class="alart alert-warning w-100" v-else>*Payment account</span>  
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-group mb-3">
+                                        <button type="button" class="btn btn-info"><i class="ti-notepad text-white"></i></button>
+                                        <input type="text" class="form-control" placeholder="Amount" v-model="purchase.amount" required="">
+                                        <span class="alart alert-info" v-if="purchase.id">*You cannot update amount. If you need, just make another transaction or contact with developer.</span>  
                                     </div>
                                 </div>
                             </div>
@@ -162,20 +173,17 @@ Home page
                                 <div class="card-title">Supplier info</div>
                                 <div class="card-body">
                                     <div class="row"> 
-                                        <div class="col-md-3 col-xs-6 b-r"> <strong>supplier Name</strong>
+                                        <div class="col-md-6 col-xs-6 b-r"> <strong>supplier Name</strong>
                                             <br>
                                             <p class="text-muted">@{{purchase.supplier?purchase.supplier.name:''}}</p>
-                                        </div><div class="col-md-3 col-xs-6 b-r"> 
+                                        </div><div class="col-md-6 col-xs-6 b-r"> 
                                             <strong> supplier Contact </strong>
                                             <br>
                                             <p class="text-muted">@{{purchase.supplier?purchase.supplier.contact:''}}</p>
                                         </div>
-                                         <div class="col-md-3 col-xs-6 b-r"> <strong>Address</strong>
+                                         <div class="col-md-6 col-xs-6 b-r"> <strong>Address</strong>
                                             <br>
                                             <p class="text-muted">@{{purchase.supplier?purchase.supplier.address:''}}</p>
-                                        </div>
-
-                                        <div class="col-md-3 col-xs-6 b-r">
                                         </div>
                                     </div>
                                 </div>
@@ -184,30 +192,25 @@ Home page
                         </div>
                         <div class="col-lg-12 col-xlg-12 col-md-12">
                             <div class="card mb-0">
-                                <div class="card-title">Transaction Detail</div>
+                                <div class="card-title">Transaction info</div>
                                 <div class="card-body">
                                     <div class="row"> 
-                                        <div class="col-md-12 col-xs-12 b-r">
-                                            <table class="table table-bordered table-striped">
-                                                <thead>
-                                                    <th>S/L</th>
-                                                    <th>Reason</th>
-                                                    <th>Amount</th>
-                                                    <th>Balance</th>
-                                                    <th>note</th>
-                                                </thead>
-                                                <tbody>    
-                                                    <td>S/L</td>
-                                                    <td>@{{purchase.reason}}</td>
-                                                    <td>@{{purchase.amount}}</td>
-                                                    <td>@{{purchase.amount}}</td>
-                                                    <td>@{{purchase.note}}</td>
-                                                </tbody>
-                                            </table>
+                                        <div class="col-md-6 col-xs-6 b-r"> <strong>Reason</strong>
+                                            <br>
+                                            <p class="text-muted">@{{purchase?purchase.reason:''}}</p>
+                                        </div><div class="col-md-6 col-xs-6 b-r"> 
+                                            <strong> Amount</strong>
+                                            <br>
+                                            <p class="text-muted">@{{purchase?purchase.amount:''}}</p>
+                                        </div>
+                                         <div class="col-md-6 col-xs-6 b-r"> <strong>Note</strong>
+                                            <br>
+                                            <p class="text-muted">@{{purchase?purchase.note:''}}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <!-- Column -->
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -233,6 +236,7 @@ Home page
             el: '#purchaseTransaction',
             data: {
                 errors: [],
+                transactionAccounts: JSON.parse('{!!$transactionAccounts!!}'),
                 purchase: {
                     id: '',
                     reason: 3,

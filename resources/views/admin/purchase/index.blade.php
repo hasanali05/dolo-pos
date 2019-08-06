@@ -72,196 +72,76 @@ Home page
                                 <span class="icon text-white" >
                                     <i class="fas fa-eye"></i>
                                 </span>
-                            </button>    
-                            <button class="btn btn-warning btn-icon-split"   data-toggle="modal" data-target="#createmodel"  @click="setData(index)">
-                                <span class="icon text-white">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </span>
-                            </button>                                  
+                            </button>                                   
                         </td>
 
                     </tr>
                 </tbody>
             </table>
-<!-- <nav aria-label="..." style="float: right">
-<ul class="pagination pagination-sm">
-<li class="page-item disabled">
-<a class="page-link" href="javascript:void(0)" tabindex="-1">Previous</a>
-</li>
-<li class="page-item"><a class="page-link" href="javascript:void(0)">1</a></li>
-<li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
-<li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-<li class="page-item">
-<a class="page-link" href="javascript:void(0)">Next</a>
-</li>
-</ul>
-</nav> -->
             </div>
         </div>
     </div>
 
-
-<div class="modal fade" id="createmodel" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="employeeDetailLabel" aria-modal="true" id="supplyDetail">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
-                <form action="javascript:void(0)" method="POST">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="createModalLabel"><i class="ti-marker-alt mr-2"></i> Create New Purchase</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="employeeDetailLabel">Purchase detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-xlg-12 col-md-12">
+                            <div class="card mb-0">
+                                <div class="card-title">Supplier info</div>
+                                <div class="card-body">
+                                    <div class="row"> 
+                                        <div class="col-md-3 col-xs-6 b-r"> <strong>supplier Name</strong>
+                                            <br>
+                                            <p class="text-muted">@{{purchase.supplier?purchase.supplier.name:''}}</p>
+                                        </div><div class="col-md-3 col-xs-6 b-r"> 
+                                            <strong> supplier Contact </strong>
+                                            <br>
+                                            <p class="text-muted">@{{purchase.supplier?purchase.supplier.contact:''}}</p>
+                                        </div>
+                                         <div class="col-md-3 col-xs-6 b-r"> <strong>Address</strong>
+                                            <br>
+                                            <p class="text-muted">@{{purchase.supplier?purchase.supplier.address:''}}</p>
+                                        </div>
 
-
-                        <div v-if="errors.length" class="alert alert-danger">
-                            <b>Please correct the following error(s):</b>
-                            <ul>
-                                <li v-for="error in errors">@{{ error }}</li>
-                            </ul>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
-                                    <select class="form-control form-white" v-model="purchase.supplier.id">
-                                        
-                                        <option v-for="purchase in purchases">@{{purchase.supplier?purchase.supplier.name:''}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                    <input type="date" class="form-control" placeholder="Purchase Date" v-model="purchase.purchase_date" required="">
-                                    <input type="hidden" class="form-control" v-model="purchase.id">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                    <input type="text" class="form-control" placeholder="Amount" v-model="purchase.amount" required="">
-                                    
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                    <input type="text" class="form-control" placeholder="Commission" v-model="purchase.commission" required="">
-                                    
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                    <input type="text" class="form-control" placeholder="Payment" v-model="purchase.payment" required="">
-                                    
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
-                                    <input type="text" class="form-control" placeholder="Due" v-model="purchase.due" required="">
-                                    
-                                </div>
-                            </div>
-
-
-                            <div class="col-6">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
-                                    <select class="form-control form-white" v-model="purchase.is_active">
-                                        <option value="1">Active</option>
-                                        <option value="0">In-active</option>
-                                    </select>
-                                </div>
-                            </div>
-                         
-                        </div>
-                        <!-- <div class="input-group mb-3">
-                            <button type="button" class="btn btn-info"><i class="ti-import text-white"></i></button>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="inputGroupFile01">
-                                <label class="custom-file-label" for="inputGroupFile01">Choose Image</label>
-                            </div>
-                        </div> -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalClose">Close</button>
-                        <button type="submit" class="btn btn-info" @click.prevent="clearData()"><i class="ti-close"></i> Clear data</button>
-                        <button type="submit" class="btn btn-success" @click.prevent="saveData()" v-if="!purchase.id"><i class="ti-save"></i> Save</button>
-                        <button type="submit" class="btn btn-primary" @click.prevent="saveData()" v-if="purchase.id"><i class="ti-save"></i> Update</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        
-    </div>
-
-
-            <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="employeeDetailLabel" aria-modal="true" id="supplyDetail">
-            <div class="modal-dialog modal-xl" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="employeeDetailLabel">Purchase detail</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <!-- Column -->
-                            <div class="col-lg-4 col-xlg-3 col-md-5">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <center class="mt-4"> <img src="{{ asset('/') }}/template/assets/images/users/5.jpg" class="rounded-circle" width="150" />
-                                            <h4 class="card-title mt-2"></h4>
-                                            <h6 class="card-subtitle"></h6>
-
-                                            <span class="badge badge-success" v-if="purchase.is_active == 1">Active</span>
-                                            <span class="badge badge-danger" v-if="purchase.is_active == 0">In-active</span>
-
-                                        </center>
+                                        <div class="col-md-3 col-xs-6 b-r">
+                                        </div>
                                     </div>
-
                                 </div>
                             </div>
                             <!-- Column -->
-                            <!-- Column -->
-                            <div class="col-lg-8 col-xlg-9 col-md-7">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            
-                                            <div class="col-md-3 col-xs-6 b-r"> <strong>supplier Name</strong>
-                                                <br>
-                                                <p class="text-muted">@{{purchase.supplier?purchase.supplier.name:''}}</p>
-                                            </div><div class="col-md-3 col-xs-6 b-r"> <strong>Purchase Date</strong>
-                                                <br>
-                                                <p class="text-muted">@{{purchase.purchase_date}}</p>
-                                            </div>
-                                             <div class="col-md-3 col-xs-6 b-r"> <strong>Amount</strong>
-                                                <br>
-                                                <p class="text-muted">@{{purchase.amount}}</p>
-                                            </div>
-                                             <div class="col-md-3 col-xs-6 b-r"> <strong>Commission</strong>
-                                                <br>
-                                                <p class="text-muted">@{{purchase.commission}}</p>
-                                            </div>
-                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Payment</strong>
-                                                <br>
-                                                <p class="text-muted">@{{purchase.payment}}</p>
-                                            </div>
-                                            <div class="col-md-3 col-xs-6 b-r"> <strong>Due</strong>
-                                                <br>
-                                                <p class="text-muted">@{{purchase.due}}</p>
-                                            </div>
-
-
-
-
-
-
+                        </div>
+                        <div class="col-lg-12 col-xlg-12 col-md-12">
+                            <div class="card mb-0">
+                                <div class="card-title">Purchase info</div>
+                                <div class="card-body">
+                                    <div class="row"> 
+                                        <div class="col-md-6 col-xs-6 b-r"> <strong>Purchase Date</strong>
+                                            <br>
+                                            <p class="text-muted">@{{purchase?purchase.purchase_date:''}}</p>
+                                        </div>
+                                        <div class="col-md-6 col-xs-6 b-r"> <strong>Total Purchase</strong>
+                                            <br>
+                                            <p class="text-muted">@{{purchase?purchase.amount:''}}</p>
+                                        </div>
+                                        <div class="col-md-6 col-xs-6 b-r"> <strong>Total Convyance</strong>
+                                            <br>
+                                            <p class="text-muted">@{{purchase?purchase.commission:''}}</p>
+                                        </div>
+                                        <div class="col-md-6 col-xs-6 b-r"> <strong>Total Paid</strong>
+                                            <br>
+                                            <p class="text-muted">@{{purchase?purchase.payment:''}}</p>
+                                        </div>
+                                        <div class="col-md-6 col-xs-6 b-r"> <strong>Total Due</strong>
+                                            <br>
+                                            <p class="text-muted">@{{purchase?purchase.due:''}}</p>
                                         </div>
 
                                     </div>
@@ -269,16 +149,45 @@ Home page
                             </div>
                             <!-- Column -->
                         </div>
+                        <div class="col-lg-12 col-xlg-12 col-md-12" v-if="purchase.supplies">
+                            <div class="card mb-0">
+                                <div class="card-title">Purchase Detail</div>
+                                <div class="card-body">
+                                    <div class="row"> 
+                                        <div class="col-md-12 col-xs-12 b-r">
+                                            <table class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S/L</th>
+                                                        <th>Product</th>
+                                                        <th>Unique code</th>
+                                                        <th>Price</th>
+                                                        <th>Warranty</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>    
+                                                    <tr v-for="(supply,index) in purchase.supplies">
+                                                        <td>@{{index+1}}</td>
+                                                        <td>@{{supply.product?supply.product.name:''}}</td>
+                                                        <td>@{{supply.unique_code}}</td>
+                                                        <td>@{{supply.price}}</td>
+                                                        <td>@{{supply.warranty_duration}} @{{supply.warranty_type}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"  v-on:click="counter += 1" >Close</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"  v-on:click="counter += 1" >Close</button>
                 </div>
             </div>
         </div>
-    
-
-
+    </div>  
 </div>
 
 
@@ -330,132 +239,6 @@ Home page
                     _this.errors = [];
                     _this.currentIndex = index;
                     _this.purchase = _this.purchases[index];
-                },
-
-           
-                clearData() {
-                    var _this = this;
-                    _this.errors = [];
-                    _this.purchase = {
-                        id: '',
-                        purchase_date: '',
-                        amount: '',
-                        commission: '',
-                        payment: '',
-                        due: '',
-                        is_active: '1',
-                        supplier:{
-                            id:'',
-                            name:''
-                         
-                  
-                    
-                    }
-                        }
-                },
-                saveData() {
-                    var _this = this;
-                    if(_this.validate()){
-                        //save data
-                        let data = {
-                            purchase: _this.purchase
-                        }
-                        axios.post('{{ route("purchases.addOrUpdate") }}', data)
-                        .then(function (response) {
-                            let data = response.data;
-                            let status = response.data.status;
-                            if(response.data.success == true) {
-                                //modal close
-                                if (status=='somethingwrong') {
-                                    // _this.errors.push("Something wrong. Try again.");
-                                    alert("something Wrong. Try Again.")
-                                }
-                                if(status=='created') {
-                                    _this.purchases.push(data.purchase);
-                                    //modal close
-                                    document.getElementById('modalClose').click();
-                                   
-                                      //sweet alrat
-
-                                    const Toast = Swal.mixin({
-                                      toast: true,
-                                      position: 'top-end',
-                                      showConfirmButton: false,
-                                      timer: 3000
-                                  });
-
-                                    Toast.fire({
-                                      type: 'success',
-                                      title: 'Purchase created successfully'
-                                  })
-
-                                    //end sweet alart
-                                }
-                                if(status=='updated') {
-                                    _this.purchases[_this.currentIndex] = data.purchase;
-                                    //modal close
-                                    document.getElementById('modalClose').click();
-                                   
-                                      //sweet alrat
-
-                                    const Toast = Swal.mixin({
-                                      toast: true,
-                                      position: 'top-end',
-                                      showConfirmButton: false,
-                                      timer: 3000
-                                  });
-
-                                    Toast.fire({
-                                      type: 'success',
-                                      title: 'Purchase updated successfully'
-                                  })
-
-                                    //end sweet alart
-                                }
-                            } else {                                
-                                for (var key in data.errors) {
-                                    data.errors[key].forEach(function(element) {
-                                        _this.errors.push(element);
-                                    });
-                                }
-                            }
-                        }) 
-                    }
-                },
-                validate() {           
-                    var _this = this; 
-                    _this.errors = [];
-                    let purchase = _this.purchase;
-                    let count = 0; 
-
-                    if (!purchase.purchase_date) {
-                        _this.errors.push("Purchase date required.");
-                        count++;
-                    }
-                     if (!purchase.amount) {
-                        _this.errors.push("Amount required.");
-                        count++;
-                    }
-                    if (!purchase.commission) {
-                        _this.errors.push("Commission required.");
-                        count++;
-                    }
-
-                     if (!purchase.payment) {
-                        _this.errors.push("Payment required.");
-                        count++;
-                    }
-                     if (!purchase.due) {
-                        _this.errors.push("Due required.");
-                        count++;
-                    }
-                     if (!purchase.supplier.id) {
-                        _this.errors.push("Supplier name required.");
-                        count++;
-                    }
-
-                    if(count==0) return true;
-                    else return false;
                 },
 
                 wait(ms){

@@ -11,7 +11,7 @@ class Damage extends Model
     protected $fillable = [ 'inventory_id', 'issue_date', 'reason', 'status' ];
 
 
-     public function inventory()
+    public function inventory()
     {
         return $this->belongsTo(Inventory::class);
     }

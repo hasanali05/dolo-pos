@@ -13,7 +13,7 @@ class SaleDetail extends Model
     {
         return $this->belongsTo(Sale::class);
     }
-     public function inventory()
+    public function inventory()
     {
         return $this->belongsTo(Inventory::class);
     }

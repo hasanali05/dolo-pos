@@ -143,7 +143,7 @@ Home page
                   Products:
                     <select class="select2 form-control custom-select" style="width: 100%; height:36px;" @change="addToPurchase($event)">
                         <option value="-1"><--- Select Product ---></option>
-                        <option v-for="(product,index) in products" :value="index" :key="index">@{{ product.name }}</option>
+                        <option v-for="(product,index) in products" :value="index" :key="index">@{{ product.name+" | "+ product.category?product.category.name:'' }}</option>
                     </select>
                 </div>
               </div>
@@ -261,6 +261,7 @@ Home page
                     <div class="col-sm-12 p-t-10 p-b-10">
                       <label>Payment From</label>
                       <select class="select2 form-control custom-select" style="width: 100%; height:36px;"  @change="changeAccount($event)">
+                          <option value=""> --- Select payment account ---</option>
                           <option v-for="(account, index) in transactionAccounts" :value="index">@{{account.name}}</option>
                       </select>
                     </div>
@@ -278,6 +279,11 @@ Home page
                     <div class="col-sm-12 p-t-10 p-b-10">
                          <label>Transaction Note</label>
                          <textarea class="form-control" rows="3" v-model="payment_note" placeholder="Write some note if any..."></textarea>
+                    </div>
+
+                    <div class="col-sm-12 p-t-10 p-b-10">
+                      <label>Redeem Date</label>
+                      <input class="form-control" type="date" value="2011-08-19" v-model="redeem_date">
                     </div>
 
                     <div class="col-sm-12 p-t-10 p-b-10" >        
@@ -328,6 +334,7 @@ Home page
                 convayance: '',
                 grandTotal: '',
                 purchase_date: '',
+                redeem_date: '',
                 payment_amount: 0,
                 payment_note: '',
             },
@@ -421,14 +428,17 @@ Home page
                     _this.convayance= '';
                     _this.grandTotal= '';
                     _this.purchase_date= '';
+                    _this.redeem_date= '';
                     _this.payment_amount= 0;
                     _this.payment_note= '';
+
+                    _this.getAllSupplier();
+                    _this.getAllProduct();
                 },
                 saveData() {
                     var _this = this;
                     _this.errors = [];
-                    if(1){
-                    // if(_this.validate()){
+                    if(_this.validate()){
                         //save data
                         let data = {
                             supplier: _this.selectedSupplier,
@@ -438,6 +448,7 @@ Home page
                             purchase: {
                               convayance: _this.convayance,
                               purchase_date: _this.purchase_date,
+                              redeem_date: _this.redeem_date,
                               payment: _this.payment_amount,
                               note: _this.payment_note,
                             }
@@ -459,18 +470,19 @@ Home page
                                       //sweet alrat
 
                                     const Toast = Swal.mixin({
-                                      toast: true,
-                                      position: 'top-end',
-                                      showConfirmButton: false,
-                                      timer: 3000
-                                  });
+                                        toast: true,
+                                        position: 'top-end',
+                                        showConfirmButton: false,
+                                        timer: 3000
+                                    });
 
-                                    Toast.fire({
-                                      type: 'success',
-                                      title: 'Purchase created successfully'
-                                  })
-
+                                      Toast.fire({
+                                        type: 'success',
+                                        title: 'Purchase created successfully'
+                                    })
                                     //end sweet alart
+                                    _this.getAllSupplier();
+                                    _this.getAllProduct();
                                 }
                             } else {                                
                                 for (var key in data.errors) {
@@ -515,6 +527,10 @@ Home page
                     }
                      if (!_this.payment_amount) {
                         _this.errors.push("you must have to select payment amount.");
+                        count++;
+                    }
+                     if (!_this.convayance) {
+                        _this.errors.push("you must have to add convayance. If no convayance then write 0.");
                         count++;
                     }
 

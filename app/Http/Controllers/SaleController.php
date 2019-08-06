@@ -8,6 +8,8 @@ use App\Customer;
 use App\SaleDetail;
 use App\SaleTransaction;
 use App\Inventory;
+use App\Ledger;
+use App\Account;
 use Auth;
 
 class SaleController extends Controller
@@ -23,11 +25,9 @@ class SaleController extends Controller
 	}
     public function salesAll()
     {
-        $sales = Sale::with('customer')->get();
+        $sales = Sale::with('customer', 'details', 'details.inventory.product')->get();
         return response()->json(["sales"=>$sales]);
     }
-
-
 
     public function addOrUpdate(Request $request) 
     {        
@@ -72,10 +72,12 @@ class SaleController extends Controller
             'due' => 0,
         ]);
         $total = 0;
+        $total_buying_price = 0;
         foreach ($request['detail'] as $detail) {
             $inventory = $detail;
             $product = $detail['product'];
             $total += $inventory['selling_price'];
+            $total_buying_price += $inventory['buying_price'];
             $days = 0;
             if(array_key_exists('purchase', $inventory) && $inventory['purchase']['warranty_type'] == 'days') {
                 $days = $inventory['purchase']['warranty_duration'];
@@ -85,7 +87,7 @@ class SaleController extends Controller
                 $days = $inventory['purchase']['warranty_duration']*365;
             }
             // create details 
-            SaleDetail::create([
+            $sale_detail = SaleDetail::create([
                 'sale_id' => $sale->id,
                 'inventory_id' => $inventory['id'],
                 'price' => $inventory['selling_price'],
@@ -101,7 +103,7 @@ class SaleController extends Controller
                 'status' => 'sold',
 
                 'customer_id' => $customer['id'],
-                'sale_id' => $sale->id,
+                'sale_id' => $sale_detail->id,
             ]);
         }
         // update transaction
@@ -123,6 +125,143 @@ class SaleController extends Controller
             'amount' => $saleData['payment'],
             'note' => $saleData['note'],
         ]);
+
+        // asset account. cash  +      
+        $ledgerAsset = new Ledger;
+        $ledgerAsset->entry_date = $saleData['sale_date'];
+        $ledgerAsset->account_id = $account['id'];
+        $ledgerAsset->detail = $sale->id;
+        $ledgerAsset->type = 'sale';
+
+        $ledgerAsset->debit = $saleData['payment'];
+        $ledgerAsset->credit = 0;
+        $ledgerAsset->balance = $saleData['payment'];
+
+        $ledgerAsset->created_by = Auth::user()->id;
+        $ledgerAsset->modified_by = Auth::user()->id;
+        $ledgerAsset->save();
+        // hit inventory -
+        $inventoryAccount = Account::where('name', '=', 'Inventory')
+            ->where('group', '=', 'Capital')
+            ->where('sub_group', '=', 'Capital')
+            ->first();
+
+        if(!$inventoryAccount) {
+            $inventoryAccount = Account::create([
+                'name'=>'Inventory',
+                'group'=>'Capital',
+                'sub_group'=>'Capital',
+                'is_active'=>1,
+                'created_by'=>Auth::user()->id,
+            ]);
+        }
+
+        $ledgerInventory = new Ledger;
+        $ledgerInventory->entry_date = $saleData['sale_date'];
+        $ledgerInventory->account_id = $inventoryAccount->id;
+        $ledgerInventory->detail = $sale->id;
+        $ledgerInventory->type = 'sale';
+
+        $ledgerInventory->debit = 0;
+        $ledgerInventory->credit = $total_buying_price;
+        $ledgerInventory->balance = (-1)*$total_buying_price;
+
+        $ledgerInventory->created_by = Auth::user()->id;
+        $ledgerInventory->modified_by = Auth::user()->id;
+        $ledgerInventory->save();
+        // profit loss +/-
+
+        $profitLossAccount = Account::where('name', '=', 'Profit & Loss')
+            ->where('group', '=', 'Capital')
+            ->where('sub_group', '=', 'Profit & Loss')
+            ->first();
+
+            if(!$profitLossAccount) {
+                $profitLossAccount = Account::create([
+                    'name'=>'Profit & Loss',
+                    'group'=>'Capital',
+                    'sub_group'=>'Profit & Loss',
+                    'is_active'=>1,
+                    'created_by'=>Auth::user()->id,
+                ]);
+            }
+        if($total >= $total_buying_price){
+            // profit
+            $ledgerProfitLoss = new Ledger;
+            $ledgerProfitLoss->entry_date = $saleData['sale_date'];
+            $ledgerProfitLoss->account_id = $profitLossAccount->id;
+            $ledgerProfitLoss->detail = $sale->id;
+            $ledgerProfitLoss->type = 'sale';
+
+            $ledgerProfitLoss->debit = 0;
+            $ledgerProfitLoss->credit = $total-$total_buying_price;
+            $ledgerProfitLoss->balance = (-1)*($total-$total_buying_price);
+
+            $ledgerProfitLoss->created_by = Auth::user()->id;
+            $ledgerProfitLoss->modified_by = Auth::user()->id;
+            $ledgerProfitLoss->save();
+        } else {
+            // loss
+            $ledgerProfitLoss = new Ledger;
+            $ledgerProfitLoss->entry_date = $saleData['sale_date'];
+            $ledgerProfitLoss->account_id = $profitLossAccount->id;
+            $ledgerProfitLoss->detail = $sale->id;
+            $ledgerProfitLoss->type = 'sale';
+
+            $ledgerProfitLoss->debit = $total-$total_buying_price;
+            $ledgerProfitLoss->credit = 0;
+            $ledgerProfitLoss->balance = $total-$total_buying_price;
+
+            $ledgerProfitLoss->created_by = Auth::user()->id;
+            $ledgerProfitLoss->modified_by = Auth::user()->id;
+            $ledgerProfitLoss->save();
+        }
+        // customer transaction with receivable(opt) +/- 
+        $ledgerCustomer = new Ledger;
+        $ledgerCustomer->entry_date = $saleData['sale_date'];
+        $ledgerCustomer->account_id = $customer['account_id'];
+        $ledgerCustomer->detail = $sale->id;
+        $ledgerCustomer->type = 'sale';
+
+        $ledgerCustomer->debit = $total-$saleData['convayance'];
+        $ledgerCustomer->credit = $saleData['payment'];
+        $ledgerCustomer->balance = $total-$saleData['payment']-$saleData['convayance'];
+
+        $ledgerCustomer->created_by = Auth::user()->id;
+        $ledgerCustomer->modified_by = Auth::user()->id;
+        $ledgerCustomer->save();
+        // convyance + (opt)
+        if($saleData['convayance'] > 0) {
+            $convayanceAccount = Account::where('name', '=', 'Convayance')
+            ->where('group', '=', 'Capital')
+            ->where('sub_group', '=', 'Capital')
+            ->first();
+
+            if(!$convayanceAccount) {
+                $convayanceAccount = Account::create([
+                    'name'=>'Convayance',
+                    'group'=>'Capital',
+                    'sub_group'=>'Capital',
+                    'is_active'=>1,
+                    'created_by'=>Auth::user()->id,
+                ]);
+            }
+
+            $ledgerConvayance = new Ledger;
+            $ledgerConvayance->entry_date = $saleData['sale_date'];
+            $ledgerConvayance->account_id = $convayanceAccount->id;
+            $ledgerConvayance->detail = $sale->id;
+            $ledgerConvayance->type = 'sale';
+
+            $ledgerConvayance->debit = $saleData['convayance'];
+            $ledgerConvayance->credit = 0;
+            $ledgerConvayance->balance = $saleData['convayance'];
+
+            $ledgerConvayance->created_by = Auth::user()->id;
+            $ledgerConvayance->modified_by = Auth::user()->id;
+            $ledgerConvayance->save();
+        }
+
         return response()->json(["success"=>true, 'status'=>'created']);
     }
 }

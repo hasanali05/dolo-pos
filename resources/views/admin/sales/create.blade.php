@@ -143,7 +143,7 @@ Home page
                   Products:
                     <select class="select2 form-control custom-select" style="width: 100%; height:36px;" @change="addTosale($event)">
                         <option value="-1"><--- Select Product ---></option>
-                        <option v-for="(inventory,index) in products" :value="index" :key="index">@{{ inventory.product.name }}</option>
+                        <option v-for="(inventory,index) in products" :value="index" :key="index">@{{ inventory.product.name + " | " + inventory.supplier.name}}</option>
                     </select>
                 </div>
               </div>
@@ -254,7 +254,7 @@ Home page
                       <h6 class="m-b-0 text-white">Payment Info</h6>
                     </div>
                     <div class="col-sm-12 p-t-10 p-b-10">
-                      <label>Payment From</label>
+                      <label>Payment Collection to</label>
                       <select class="select2 form-control custom-select" style="width: 100%; height:36px;"  @change="changeAccount($event)">
                           <option v-for="(account, index) in transactionAccounts" :value="index">@{{account.name}}</option>
                       </select>
@@ -318,6 +318,7 @@ Home page
                 selectedcustomer: '',
                 selectedAccount: '',
                 saleDetails: [],
+                selectList: [],
 
                 total: '',
                 convayance: '',
@@ -355,7 +356,7 @@ Home page
             mounted() {
                 var _this = this;
                 _this.getAllcustomer();
-                _this.getAllProduct();
+                _this.getInventoryProduct();
             },
             methods: {
                 getAllcustomer() {
@@ -365,9 +366,9 @@ Home page
                         _this.customers = response.data.customers;
                     })
                 },
-                getAllProduct() {
+                getInventoryProduct() {
                     var _this = this;
-                    axios.get('{{ route("inventories.all") }}')
+                    axios.get('{{ route("inventories.prodducts") }}')
                     .then(function (response) {
                         _this.products = response.data.inventories;
                     })
@@ -391,11 +392,31 @@ Home page
                 addTosale(event) 
                 { 
                     var _this = this;
-                    if(event.target.value>=0) 
-                      _this.saleDetails.push(_this.products[event.target.value]);
+                    if(event.target.value>=0) {  
+                      let selectedIndex = _this.products[event.target.value].id;                    
+                      let index = _this.selectList.indexOf(selectedIndex);
+                      if(index == -1) {
+                        //not found
+                        _this.selectList.push(selectedIndex);
+                        _this.saleDetails.push(_this.products[event.target.value]);
+                      } else {  
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000
+                        });                      
+                        Toast.fire({
+                            type: 'warning',
+                            title: 'Product already added.'
+                        })
+                      }
+                    }
                 },
                 removeRow(index) 
                 {   
+                  let selectedIndex = this.selectList.indexOf(this.saleDetails[index].id);
+                  this.selectList.splice( selectedIndex, 1 );
                   this.saleDetails.splice(index, 1);
                 },           
                 clearData() {
@@ -406,6 +427,7 @@ Home page
 
                     _this.customers= [];
                     _this.products= [];
+                    _this.selectList= [];
                     _this.transactionAccounts= JSON.parse('{!!$transactionAccounts!!}');
 
                     _this.selectedcustomer= '';
@@ -422,8 +444,7 @@ Home page
                 saveData() {
                     var _this = this;
                     _this.errors = [];
-                    if(1){
-                    // if(_this.validate()){
+                    if(_this.validate()){
                         //save data
                         let data = {
                             customer: _this.selectedcustomer,
@@ -454,18 +475,20 @@ Home page
                                       //sweet alrat
 
                                     const Toast = Swal.mixin({
-                                      toast: true,
-                                      position: 'top-end',
-                                      showConfirmButton: false,
-                                      timer: 3000
-                                  });
+                                        toast: true,
+                                        position: 'top-end',
+                                        showConfirmButton: false,
+                                        timer: 3000
+                                    });
 
-                                    Toast.fire({
-                                      type: 'success',
-                                      title: 'sale created successfully'
-                                  })
-
+                                      Toast.fire({
+                                        type: 'success',
+                                        title: 'sale created successfully'
+                                    })
                                     //end sweet alart
+                                    //fetch updated inventory
+                                    _this.getAllcustomer();
+                                    _this.getInventoryProduct();
                                 }
                             } else {                                
                                 for (var key in data.errors) {

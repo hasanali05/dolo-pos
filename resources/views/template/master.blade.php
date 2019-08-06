@@ -50,7 +50,7 @@
             <!-- footer -->
             <!-- ============================================================== -->
             <footer class="footer text-center">
-                   All Rights Reserved by Mediusware . Developed by <a href="https://mediusware.com/">Mediusware Team</a>.
+                   All Rights Reserved by Mediusware . Developed by <a href="mailto:hasan.bubt.40@gmail.com">Teamoutlaws</a>.
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->

@@ -26,8 +26,8 @@ class CreateLedgersTable extends Migration
             $table->double('credit', 8, 2)->default(0);
             $table->double('balance', 8, 2)->default(0);
 
-            $table->integer('created_by')->unsigned()->default(1);
-            $table->integer('modified_by')->unsigned()->default(1);
+            $table->integer('created_by')->unsigned()->default(1)->nullable();
+            $table->integer('modified_by')->unsigned()->default(1)->nullable();
             
             $table->string('note')->nullable();
             $table->softDeletes();

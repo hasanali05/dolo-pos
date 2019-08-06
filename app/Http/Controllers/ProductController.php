@@ -15,7 +15,7 @@ class ProductController extends Controller
 
  	 public function productsAll()
     {
-        $products = Product::with('category')->get();
+        $products = Product::with('category')->where('is_active','=',1)->get();
         return response()->json(["products"=>$products]);
     }
 

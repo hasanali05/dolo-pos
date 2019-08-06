@@ -14,7 +14,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-    	return redirect()->route('employee.login');
+    	return redirect()->route('admin.dashboard');
+        return redirect()->route('employee.login');
     }
     public function page404()
     {

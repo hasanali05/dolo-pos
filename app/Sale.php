@@ -14,9 +14,9 @@ class Sale extends Model
     {
         return $this->belongsTo(Customer::class);
     }
-    public function detail()
+    public function details()
     {
-        return $this->hasOne(SaleDetail::class);
+        return $this->hasMany(SaleDetail::class);
     }
     public function warranty()
     {
