@@ -108,16 +108,17 @@ Home page
 
                                 <div class="col-6">
                                     <div class="input-group mb-3">
-                                        <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
-                                        <select class="form-control form-white" placeholder="Choose Supplier" v-model="purchase.supplier_id">         
-                                            <option  v-for="supplier in suppliers" :value="supplier.id">@{{supplier.name}}</option>    
+                                        <button type="button" class="btn btn-info"><i class="fas fa-angle-double-down"></i></button>
+                                        <select class="form-control form-white" placeholder="Choose Supplier" v-model="purchase.supplier_id">
+                                            
+                                            <option  v-for="supplier in suppliers" :value="supplier.id">@{{supplier.name}}</option>
                                         </select>
                                         <span class="alart alert-info" v-if="purchase.id">*You cannot update supplier. If you need, just make another transaction or contact with developer.</span>  
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="input-group mb-3">
-                                        <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                        <button type="button" class="btn btn-info"> <i class="far fa-keyboard"></i></i></button>
 
                                         <textarea v-model="purchase.note" placeholder="write somethings" style="width: 325px"></textarea>                                    
                                        
@@ -135,7 +136,7 @@ Home page
                                 </div>
                                 <div class="col-6">
                                     <div class="input-group mb-3">
-                                        <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                        <button type="button" class="btn btn-info"><i class="ti-notepad text-white"></i></button>
                                         <input type="text" class="form-control" placeholder="Amount" v-model="purchase.amount" required="">
                                         <span class="alart alert-info" v-if="purchase.id">*You cannot update amount. If you need, just make another transaction or contact with developer.</span>  
                                     </div>

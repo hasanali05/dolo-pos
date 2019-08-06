@@ -181,7 +181,7 @@ Home page
                             </div>
                             <div class="col-6">
                                 <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                    <button type="button" class="btn btn-info"><i class="fas fa-angle-down"></i></button>
                                     <select class="form-control form-white" placeholder="Sub Group" v-model="account.group">
                                         <option v-for="group in groups" :value="group">@{{group}}</option>
                                     </select>
@@ -189,7 +189,7 @@ Home page
                             </div>
                             <div class="col-6">
                                 <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                    <button type="button" class="btn btn-info"><i class="fas fa-angle-down"></i></i></button>
 
                                     <select class="form-control form-white" placeholder="Sub Group" v-model="account.sub_group">
                                         <option v-for="subGroup in subGroups" :value="subGroup">@{{subGroup}}</option>

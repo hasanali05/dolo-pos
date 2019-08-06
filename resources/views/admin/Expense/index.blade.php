@@ -114,7 +114,7 @@ Home page
                         <div class="row">
                             <div class="col-6">
                                 <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-wand text-white"></i></button>
+                                    <button type="button" class="btn btn-info"><i class="fas fa-angle-down"></i></button>
                                     <select class="form-control form-white" v-model="expense.account_id">
                                         <option>select Account Name</option>
                                         <option v-for="account in transactionAccounts" :value="account.id">@{{account.name}}</option>
@@ -124,28 +124,28 @@ Home page
                             </div>
                             <div class="col-6">
                                 <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                    <button type="button" class="btn btn-info"><i class="far fa-keyboard"></i></button>
                                     <input type="text" class="form-control" placeholder="Title" v-model="expense.title" required="">
                                     <input type="hidden" class="form-control" v-model="expense.id">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                    <button type="button" class="btn btn-info"><i class="far fa-calendar-alt"></i></button>
                                     <input type="date" class="form-control" placeholder="Expense Date" v-model="expense.expense_date" required="">
                                     
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                    <button type="button" class="btn btn-info"><i class="far fa-keyboard"></i></button>
                                     <input type="text" class="form-control" placeholder="Amount" v-model="expense.amount" required="">
                                     <span class="alart alert-info" v-if="expense.id">*You cannot update amount. If you need, just make another expense entry or contact with developer.</span>                                    
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i class="ti-user text-white"></i></button>
+                                    <button type="button" class="btn btn-info"><i class="far fa-keyboard"></i></i></button>
                                     <input type="text" class="form-control" placeholder="Reason" v-model="expense.reason" required="">
                                     
                                 </div>
