@@ -146,6 +146,11 @@ Home page
                         <option v-for="(inventory,index) in products" :value="index" :key="index">@{{ inventory.product.name + " | " + inventory.supplier.name}}</option>
                     </select>
                 </div>
+                <div class="col-md-6"> 
+                    Bar code / Unique code
+                    <input type="text" class="form-control" id="barcodeScanner" aria-describedby="barcodeHelp" placeholder="Scan / Enter barcode">
+                    <small id="barcodeHelp" class="form-text text-muted">Click on the input and scan by barcode scanner.</small>
+                </div>
               </div>
               <div class="row">
                 <div class="table-responsive products">
