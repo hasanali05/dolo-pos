@@ -148,7 +148,7 @@ Home page
                 </div>
                 <div class="col-md-6"> 
                     Bar code / Unique code
-                    <input type="text" class="form-control" id="barcodeScanner" aria-describedby="barcodeHelp" placeholder="Scan / Enter barcode">
+                    <input type="text" class="form-control" id="barcodeScanner" aria-describedby="barcodeHelp" placeholder="Scan / Enter barcode" @blur="scannerScaned()" v-model="sacnedCode">
                     <small id="barcodeHelp" class="form-text text-muted">Click on the input and scan by barcode scanner.</small>
                 </div>
               </div>
@@ -466,7 +466,8 @@ Home page
                         name: ''
                     }
                 },
-                accounts: JSON.parse('{!!$receivableAccounts!!}'),    
+                accounts: JSON.parse('{!!$receivableAccounts!!}'),  
+                sacnedCode: '',  
 
                 customers: [],
                 products: [],
@@ -516,7 +517,31 @@ Home page
                 _this.getInventoryProduct();
             },
             methods: {
-              
+                scannerScaned(){
+                  let found = -1;
+                  for (let index = 0; index < this.products.length; index++) {
+                    const product = this.products[index];
+                    if(product.unique_code == this.sacnedCode) {
+                      found = index;
+                      break;
+                    }
+                  }
+                  if(found == -1) {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000
+                        });                      
+                        Toast.fire({
+                            type: 'warning',
+                            title: 'Product not found.'
+                        })
+                  } else {
+                    this.findProductAndAdd(found);
+                  }
+                  
+                },
                 clearCustomerData() {
                     var _this = this;
                     _this.errors = [];
@@ -663,16 +688,14 @@ Home page
                     else 
                       _this.selectedAccount = _this.transactionAccounts[event.target.value];
                 },
-                addTosale(event) 
-                { 
+                findProductAndAdd(value){
                     var _this = this;
-                    if(event.target.value>=0) {  
-                      let selectedIndex = _this.products[event.target.value].id;                    
+                      let selectedIndex = _this.products[value].id;                    
                       let index = _this.selectList.indexOf(selectedIndex);
                       if(index == -1) {
                         //not found
                         _this.selectList.push(selectedIndex);
-                        _this.saleDetails.push(_this.products[event.target.value]);
+                        _this.saleDetails.push(_this.products[value]);
                       } else {  
                         const Toast = Swal.mixin({
                             toast: true,
@@ -685,6 +708,11 @@ Home page
                             title: 'Product already added.'
                         })
                       }
+                },
+                addTosale(event) 
+                { 
+                    if(event.target.value>=0) {  
+                      this.findProductAndAdd(event.target.value);
                     }
                 },
                 removeRow(index) 
