@@ -14,4 +14,8 @@ class Account extends Model
     	return $this->hasMany(Ledger::class);
     }
 
+    public function getBalanceAttribute($value)
+    {
+        return $this->ledgers->sum('balance');
+    }
 }

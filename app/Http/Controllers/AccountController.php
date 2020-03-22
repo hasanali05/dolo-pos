@@ -14,7 +14,10 @@ class AccountController extends Controller
 	}
     public function accountsAll()
     {
-        $accounts = Account::all();
+        $accounts = Account::all();        
+        foreach ($accounts as $account) {
+            $account['balance'] = $account->balance;
+        }
         return response()->json(["accounts"=>$accounts]);
     }
     public function statusChange(Request $request)

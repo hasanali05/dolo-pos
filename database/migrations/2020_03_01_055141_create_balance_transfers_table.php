@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDamagesTable extends Migration
+class CreateBalanceTransfersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,12 @@ class CreateDamagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('damages', function (Blueprint $table) {
+        Schema::create('balance_transfers', function (Blueprint $table) {
             $table->bigIncrements('id');
-
-            $table->integer('inventory_id')->unsigned();
-            $table->integer('quantity')->default(1);
-
-            $table->string('issue_date')->nullable();
-            $table->string('reason')->nullable();
-            $table->enum('status', ['damaged', 'refunded', 'sold'])->default('damaged')->nullable();
-
+            $table->integer('from_account_id')->unsigned()->nullable();
+            $table->integer('to_account_id')->unsigned()->nullable();
+            $table->double('amount', 16, 2)->default(0);
+            $table->string('note')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -35,6 +31,6 @@ class CreateDamagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('damages');
+        Schema::dropIfExists('balance_transfers');
     }
 }

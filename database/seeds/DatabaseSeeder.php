@@ -17,13 +17,13 @@ class DatabaseSeeder extends Seeder
         $this->call(AuthenticateSeeder::class);
 
         $this->call(AccountSeeder::class);
-        // $this->call(ExpenseSeeder::class);
+        $this->call(ExpenseSeeder::class);
 
-        // $this->call(InventorySeeder::class);
-        // $this->call(PurchaseSeeder::class);
+        $this->call(InventorySeeder::class);
+        $this->call(PurchaseSeeder::class);
         
-        // $this->call(SaleSeeder::class);
-        // $this->call(DamageWarrentySeeder::class);
+        $this->call(SaleSeeder::class);
+        $this->call(DamageWarrentySeeder::class);
 
         echo "Database seeded .... \n";
     }

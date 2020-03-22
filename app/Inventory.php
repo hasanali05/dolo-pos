@@ -4,14 +4,31 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Inventory extends Model
+class Inventory extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
     use SoftDeletes;
-     protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at'];
     protected $table = 'inventories';
 
-    protected $fillable=['product_id','unique_code','quantity','buying_price','selling_price','status','supplier_id','purchase_id','customer_id','sale_id'];
+    protected $fillable=['product_id','unique_code','quantity', 'sold_quantity', 'qty_type', 'buying_price','selling_price','status','supplier_id','purchase_id','customer_id','sale_id'];
+
+    protected $auditInclude = [
+        'product_id',
+        'unique_code',
+        'quantity',
+        'sold_quantity',
+        'qty_type',
+        'buying_price',
+        'selling_price',
+        'status',
+        'supplier_id',
+        'purchase_id',
+        'customer_id',
+        'sale_id'
+    ];
 
     public function product(){
     	return $this->belongsTo(Product::class,'product_id');

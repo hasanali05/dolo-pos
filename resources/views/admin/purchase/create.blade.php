@@ -155,10 +155,11 @@ Home page
                               <tr>
                                   <th class="sn">#</th>
                                   <th class="model">Product name</th>
-                                  <th class="s-n">unique code</th>
+                                  <th class="s-n">unique code / <br> Quantity</th>
                                   <th class="s-n">Warrenty<br><span class="text-info" style="font-size: 12px;">(Default : 0 days)</span></th>
                                   <th class="unit">Buy Price (BDT)</th>
                                   <th class="total">Sell Price (BDT)</th>
+                                  <th class="unit">Line Price (BDT)</th>
                                   <th class="action">Action</th>
                               </tr>
 
@@ -166,8 +167,21 @@ Home page
                             <tbody id="tbody">
                                 <tr v-for="(detail, index) in purchaseDetails" :key="index">
                                   <td class="sn">@{{index+1}}</td>
-                                  <td class="model">@{{detail.name}}</td>
-                                  <td class="s-n"><input type="text" style="width:100%" v-model="detail.unique_code"></td>
+                                  <td class="model">
+                                    @{{detail.name}}
+                                    <br>
+                                    <select v-model="detail.qty_type">
+                                      <option value="unique">unique</option>
+                                      <option value="quantity">quantity</option>
+                                    </select>
+                                  </td>
+                                  <td class="s-n" v-if="detail.qty_type == 'unique'">
+                                    <input type="text" style="width:100%" v-model="detail.unique_code">
+                                  </td>
+                                  <td class="s-n" v-else>
+                                    <span style="width:50%">qty</span>
+                                    <input type="number" style="width:50%" v-model="detail.quantity">
+                                  </td>
                                   <td class="unit">
                                     <input type="number" min="0" style="width:48%" v-model="detail.warranty_duration">
                                     <select style="width:48%; height: 100%;" v-model="detail.warranty_type">
@@ -178,6 +192,8 @@ Home page
                                   </td>
                                   <td class="unit"><input type="number" min="1" style="width:100%" v-model="detail.buying_price"></td>
                                   <td class="total"><input type="number" min="1" style="width:100%" v-model="detail.selling_price"></td>
+                                  <td class="total" v-if="detail.qty_type == 'unique'">@{{calculateLineTotal(detail)}}</td>
+                                  <td class="total" v-else>@{{isNaN(detail.buying_price * detail.quantity) ? 0 : detail.buying_price * detail.quantity}}</td>
                                   <td class="action">
                                     <a data-toggle="tooltip" data-original-title="Remove" @click.prevent="removeRow(index)">
                                       <i class="fa fa-trash text-danger m-r-10"></i> 
@@ -343,7 +359,14 @@ Home page
                 let total = 0;
                 this.purchaseDetails.forEach(function (detail) {
                   if (detail.buying_price) {
-                    total+=Number(detail.buying_price);
+                    if (detail.qty_type == 'quantity') {
+                      total+=Number(detail.buying_price) * Number(detail.quantity);
+                    } else { 
+                      var str = detail.unique_code
+                      var trim = str.replace(/(^,)|(,$)/g, "")   
+                      trimArray = trim.split(',')              
+                      total+=Number(detail.buying_price * trimArray.length);
+                    }
                   }
                 })
                 this.total = total;
@@ -403,13 +426,24 @@ Home page
                 addToPurchase(event) 
                 { 
                     var _this = this;
-                    if(event.target.value>=0) 
+                    var index = _this.purchaseDetails.findIndex(detail => detail.id == _this.products[event.target.value].id);
+                    if(index < 0 && event.target.value>=0) 
                       _this.purchaseDetails.push(_this.products[event.target.value]);
                 },
                 removeRow(index) 
                 {   
                   this.purchaseDetails.splice(index, 1);
-                },           
+                },     
+                calculateLineTotal(detail) 
+                {
+                    if (detail.qty_type == 'unique') {
+                      var buying_price = detail.buying_price ? detail.buying_price : 0;
+                      var str = detail.unique_code ? detail.unique_code : ''
+                      var trim = str.replace(/(^,)|(,$)/g, "")    
+                      trimArray = trim.split(',')              
+                      return Number( buying_price * trimArray.length);
+                    }
+                },     
                 clearData() {
                     var _this = this;
 
@@ -507,13 +541,21 @@ Home page
                         _this.errors.push("You must have to select some product.");
                         count++;
                     }
-                    _this.purchaseDetails.forEach(function (detail) {
+                    _this.purchaseDetails.forEach(function (detail) {                      
+                      var str = detail.unique_code
+                      var trim = str.replace(/(^,)|(,$)/g, "")   
+                      detail.unique_code = trim; 
+
                       if(!detail.buying_price) {
                           _this.errors.push("Add buying prices to all product.");
                           count++;
                       }
-                      if(!detail.unique_code) {
-                          _this.errors.push("Add buying prices to all product.");
+                      if(detail.qty_type == 'unique' && !detail.unique_code) {
+                          _this.errors.push("Add unique code properly to all product.");
+                          count++;
+                      }
+                      if(detail.qty_type == 'quantity' && (!detail.quantity || detail.quantity < 1)) {
+                          _this.errors.push("Add quantity properly to all product.");
                           count++;
                       }
                     })

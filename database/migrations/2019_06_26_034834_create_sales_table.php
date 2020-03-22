@@ -18,6 +18,7 @@ class CreateSalesTable extends Migration
 
             $table->integer('customer_id')->unsigned();
             $table->date('sale_date');
+            $table->date('next_payment_date')->nullable();
             $table->double('amount',8,2)->default(0);
             $table->double('commission',8,2)->default(0);
             $table->double('payment',8,2)->default(0);

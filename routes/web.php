@@ -42,6 +42,11 @@ Route::prefix('admin')->group(function()
 		Route::get('/accounts-all', 'AccountController@accountsAll')->name('accounts.all');
 		Route::post('/accounts-status-change', 'AccountController@statusChange')->name('accounts.statusChange');
 		Route::post('/accounts-add-or-update', 'AccountController@addOrUpdate')->name('accounts.addOrUpdate');
+
+		//balanceTransfers
+		Route::get('/balanceTransfers', 'BalanceTransferController@balanceTransfers')->name('balanceTransfers');
+		Route::get('/balanceTransfers-all', 'BalanceTransferController@balanceTransfersAll')->name('balanceTransfers.all');
+		Route::post('/balanceTransfers-add-or-update', 'BalanceTransferController@addOrUpdate')->name('balanceTransfers.addOrUpdate');
 		
 		//ledgers
 		Route::get('/ledgers', 'LedgerController@ledgers')->name('ledgers');
@@ -139,9 +144,9 @@ Route::prefix('admin')->group(function()
 		Route::get('/salesDetails', 'SaleDetailController@salesDetails')->name('salesDetails');
 		Route::get('/salesDetails-all', 'SaleDetailController@salesDetailAll')->name('salesDetails.all');
         //SaleTransection
-		Route::get('/saleTransaction', 'saleTransactionController@saleTransaction')->name('saleTransaction');
-		Route::get('/saleTransaction-all', 'saleTransactionController@saleTransactionAll')->name('saleTransaction.all');
-		Route::post('/saleTransaction-add-or-update', 'saleTransactionController@addOrUpdate')->name('saleTransaction.addOrUpdate');
+		Route::get('/saleTransaction', 'SaleTransactionController@saleTransaction')->name('saleTransaction');
+		Route::get('/saleTransaction-all', 'SaleTransactionController@saleTransactionAll')->name('saleTransaction.all');
+		Route::post('/saleTransaction-add-or-update', 'SaleTransactionController@addOrUpdate')->name('saleTransaction.addOrUpdate');
 
 		//damages 
 		Route::get('/damages', 'DamageController@damages')->name('damages');
@@ -155,7 +160,19 @@ Route::prefix('admin')->group(function()
 		Route::post('/warranties-status-change', 'WarrantyController@statusChange')->name('warranties.statusChange');
 		Route::post('/warranties-add-or-update', 'WarrantyController@addOrUpdate')->name('warranties.addOrUpdate');
 
+		Route::group(['prefix' => 'note'], function()
+		{
+			Route::resource('checklists', 'ChecklistController');
+			Route::resource('listjobs', 'ListjobController');
+		
+			Route::post('/assignUser', 'NoteOperationController@assignUser')->name('assignUser.operation');
+			Route::post('/removeUser', 'NoteOperationController@removeUser')->name('removeUser.operation');
+			
+			Route::post('/checklist', 'ChecklistController@assignUser')->name('assignUser.checklist');
+			Route::post('/removeUser', 'ChecklistController@removeUser')->name('removeUser.checklist');
+		});
 
+		
 		Route::get('/', 'AdminController@index')->name('admin.index');
 	});
 	Route::post('/admin/emailCheck', 'Auth\AdminLoginController@emailCheck')->name('admin.emailCheck');

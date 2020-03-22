@@ -15,6 +15,9 @@ class CustomerController extends Controller
  	 public function customersAll()
     {
         $customers = Customer::with('account')->get();
+        foreach ($customers as $customer) {
+            $customer['due'] = $customer->due;
+        }
         return response()->json(["customers"=>$customers]);
     }
 

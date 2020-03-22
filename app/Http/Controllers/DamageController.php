@@ -47,6 +47,7 @@ class DamageController extends Controller
                 	'inventory_id' => $request->damage['inventory_id'],
                     'issue_date' => $request->damage['issue_date'],
                     'reason' => $request->damage['reason'],
+                    'quantity' => $request->damage['quantity'],
                     'status' => 'damaged',
                 ]);
 

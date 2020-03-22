@@ -21,6 +21,7 @@ class CreatePurchaseDetailsTable extends Migration
             $table->string('warranty_duration')->nullable();
             $table->enum('warranty_type', ['days', 'months', 'years'])->default('days')->nullable();
             $table->string('unique_code');
+            $table->integer('quantity')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });

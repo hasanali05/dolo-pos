@@ -143,7 +143,7 @@ Home page
                   Products:
                     <select class="select2 form-control custom-select" style="width: 100%; height:36px;" @change="addTosale($event)">
                         <option value="-1"><--- Select Product ---></option>
-                        <option v-for="(inventory,index) in products" :value="index" :key="index">@{{ inventory.product.name + " | " + inventory.supplier.name}}</option>
+                        <option v-for="(inventory,index) in products" :value="index" :key="index">@{{ inventory.product.name + " | " + inventory.supplier.name + (inventory.qty_type == 'unique' ?  (" | " + inventory.unique_code) : '')}}</option>
                     </select>
                 </div>
                 <div class="col-md-6"> 
@@ -161,9 +161,10 @@ Home page
                                   <th class="sn">#</th>
                                   <th class="model">Product name</th>
                                   <th class="model">Supplier name</th>
-                                  <th class="s-n">unique code</th>
+                                  <th class="s-n">unique code / <br> Quantity</th>
                                   <th class="s-n">Warrenty</th>
                                   <th class="unit">Price (BDT)</th>
+                                  <th class="unit">Line Price (BDT)</th>
                                   <th class="action">Action</th>
                               </tr>
 
@@ -172,12 +173,21 @@ Home page
                                 <tr v-for="(detail, index) in saleDetails" :key="index">
                                   <td class="sn">@{{index+1}}</td>
                                   <td class="model">@{{detail.product.name}}</td>
-                                  <td class="model">@{{detail.supplier.name}}</td>
-                                  <td class="s-n">@{{detail.unique_code}}</td>
+                                  <td class="model">@{{detail.supplier.name}}</td>                                  
+                                  <td class="s-n" v-if="detail.qty_type == 'unique'">
+                                      @{{detail.unique_code}}
+                                  </td>
+                                  <td class="s-n" v-if="detail.qty_type == 'quantity'">
+                                    avl: @{{detail.quantity - detail.sold_quantity}}
+                                      <br>
+                                    sale:<input type="number" style="width:50%" v-model="detail.sold_quantity" :max="detail.quantity" min="1">
+                                  </td>
                                   <td class="unit">
                                     <span>@{{ detail.purchase.warranty_duration}} @{{ detail.purchase.warranty_type }}</span>
                                   </td>
                                   <td class="total"><input type="number" min="1" style="width:100%" v-model="detail.selling_price"></td>
+                                  <td class="total" v-if="detail.qty_type == 'unique'">@{{isNaN(detail.selling_price) ? 0 : detail.selling_price}}</td>
+                                  <td class="total" v-else>@{{isNaN(detail.selling_price * detail.sold_quantity) ? 0 : detail.selling_price * detail.sold_quantity}}</td>
                                   <td class="action">
                                     <a data-toggle="tooltip" data-original-title="Remove" @click.prevent="removeRow(index)">
                                       <i class="fa fa-trash text-danger m-r-10"></i> 
@@ -276,6 +286,10 @@ Home page
                     <div class="col-sm-12 p-t-10 p-b-10">
                          <label>Payment amount</label>
                          <input type="number" v-model="payment_amount" min="0" class="form-control">
+                    </div>               
+                    <div class="col-sm-12 p-t-10 p-b-10" v-if="computedDue > 0">
+                        <label>Next Payment Date</label>
+                        <input class="form-control" type="date" value="2011-08-19" v-model="next_payment_date">
                     </div>
 
                     <div class="col-sm-12 p-t-10 p-b-10">
@@ -482,6 +496,7 @@ Home page
                 convayance: '',
                 grandTotal: '',
                 sale_date: '',
+                next_payment_date: '',
                 payment_amount: 0,
                 payment_note: '',
             },
@@ -490,7 +505,11 @@ Home page
                 let total = 0;
                 this.saleDetails.forEach(function (detail) {
                   if (detail.selling_price) {
-                    total+=Number(detail.selling_price);
+                    if (detail.qty_type == 'quantity') {
+                      total+=Number(detail.selling_price) * Number(detail.sold_quantity);
+                    } else {                      
+                      total+=Number(detail.selling_price);
+                    }
                   }
                 })
                 this.total = total;
@@ -820,8 +839,12 @@ Home page
                           _this.errors.push("Add buying prices to all product.");
                           count++;
                       }
-                      if(!detail.unique_code) {
-                          _this.errors.push("Add buying prices to all product.");
+                      if(detail.qty_type == 'unique' && !detail.unique_code) {
+                          _this.errors.push("Add unique code properly to all product.");
+                          count++;
+                      }
+                      if(detail.qty_type == 'quantity' && (!detail.sold_quantity || detail.sold_quantity < 1)) {
+                          _this.errors.push("Add quantity properly to all product.");
                           count++;
                       }
                     })
@@ -831,6 +854,10 @@ Home page
                     }
                     if (!_this.sale_date) {
                         _this.errors.push("Select a sale date.");
+                        count++;
+                    }
+                    if (_this.computedDue > 0 && !_this.next_payment_date) {
+                        _this.errors.push("Select a next payment date.");
                         count++;
                     }
                      if (!_this.payment_amount) {

@@ -9,7 +9,6 @@ class Customer extends Model
     use SoftDeletes;
     protected $fillable = [ 'account_id', 'name', 'contact', 'address', 'is_active', ];
 
-
     public function account()
     {
         return $this->belongsTo(Account::class);
@@ -19,4 +18,8 @@ class Customer extends Model
         return $this->hasMany(Sale::class);
     }
 
+    public function getDueAttribute($value)
+    {
+        return $this->sale->sum('due');
+    }
 }

@@ -6,6 +6,7 @@
                 <li class="sidebar-item"><a href="{{route('accounts')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Account</span></a></li>
                 <li class="sidebar-item"><a href="{{route('ledgers')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Ledger</span></a></li>
                 <li class="sidebar-item"><a href="{{route('expenses')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Expense</span></a></li>
+                <li class="sidebar-item"><a href="{{route('balanceTransfers')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Balance Transfer</span></a></li>
             </ul>
         </li>
         <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-compress"></i><span class="hide-menu">Sale Module</span></a>
@@ -40,6 +41,7 @@
         <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-compress"></i><span class="hide-menu">Report Module</span></a>
             <ul aria-expanded="false" class="collapse first-level">
                 <li class="sidebar-item"><a href="{{route('report.overview')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Summery</span></a></li>
+                <li class="sidebar-item"><a href="{{route('checklists.index')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> To do list</span></a></li>
             </ul>
         </li>
         <li class="sidebar-item">

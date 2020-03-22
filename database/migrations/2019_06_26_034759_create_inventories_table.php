@@ -16,9 +16,11 @@ class CreateInventoriesTable extends Migration
         Schema::create('inventories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('product_id')->unsigned();
-            $table->string('unique_code');
-
+            $table->string('unique_code')->nullable();
+            
+            $table->enum('qty_type', ['unique', 'quantity'])->default('quantity');
             $table->integer('quantity')->default(1);
+            $table->integer('sold_quantity')->default(0);
             $table->double('buying_price',8,2)->default(0);
             $table->double('selling_price',8,2)->default(0);
             $table->enum('status', ['inventory', 'sold', 'warranty', 'damaged'])->default('inventory');

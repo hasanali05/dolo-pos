@@ -50,10 +50,24 @@ class PurchaseController extends Controller
         }
         foreach ($request['detail'] as $detail) {
             $validator = \Validator::make($detail, [
-                'unique_code'=>'required|string|unique:purchase_details,unique_code',
+                'qty_type'=>'required|string|in:unique,quantity',
                 'buying_price'=>'required|numeric',
             ]);
 
+            if ($validator->fails()) {
+                return response()->json(['success' =>false , 'errors'=>$validator->messages()]);
+            }
+            
+            if ($detail['qty_type'] == 'unique') {
+                $validator = \Validator::make($detail, [
+                    'unique_code'=>'required|string|unique:purchase_details,unique_code',
+                ]);
+            } else {
+                $validator = \Validator::make($detail, [
+                    'quantity'=>'required|numeric|min:1',
+                ]);
+            }
+    
             if ($validator->fails()) {
                 return response()->json(['success' =>false , 'errors'=>$validator->messages()]);
             }
@@ -73,7 +87,11 @@ class PurchaseController extends Controller
         $total = 0;
         foreach ($request['detail'] as $detail) {
             $product = $detail;
-            $total += $product['buying_price'];
+            if ($product['qty_type'] == 'quantity') {
+                $total += $product['buying_price'] * $product['quantity'];
+            } else {
+                $total += $product['buying_price'];
+            }
             // create details 
             $purchaseDetail = PurchaseDetail::create([
                 'purchase_id' => $purchase->id,
@@ -81,21 +99,27 @@ class PurchaseController extends Controller
                 'price' => $product['buying_price'],
                 'warranty_duration' => array_key_exists('warranty_duration', $product)?  $product['warranty_duration'] : 0,
                 'warranty_type' => array_key_exists('warranty_type', $product)?  $product['warranty_type']: 'days',
-                'unique_code' => $product['unique_code'],
+                'unique_code' => $product['unique_code'] ?? $product['id'].'_'.now()->timestamp,
+                'quantity' => $product['quantity'] ?? 1,
             ]);
             // add inventory
-            Inventory::create([
-                'product_id' => $product['id'],
-                'unique_code' => $product['unique_code'],
-                'quantity' => 1,
+            $uniqueArray = explode(',' ,$product['unique_code']);
 
-                'buying_price' => $product['buying_price'],
-                'selling_price' => array_key_exists('selling_price', $product)?$product['selling_price']:$product['buying_price'],
-                'status' => 'inventory',
-
-                'supplier_id' => $supplier['id'],
-                'purchase_id' => $purchaseDetail->id,
-            ]);
+            foreach ($uniqueArray as $unique) {
+                Inventory::create([
+                    'product_id' => $product['id'],
+                    'unique_code' => $unique ?? $product['id'].'_'.now()->timestamp,
+                    'quantity' => $product['quantity'] ?? 1,
+                    'qty_type' => $product['qty_type'],
+    
+                    'buying_price' => $product['buying_price'],
+                    'selling_price' => array_key_exists('selling_price', $product)?$product['selling_price']:$product['buying_price'],
+                    'status' => 'inventory',
+    
+                    'supplier_id' => $supplier['id'],
+                    'purchase_id' => $purchaseDetail->id,
+                ]);
+            }
         }
 
         $inventoryAccount = Account::where('name', '=', 'Inventory')

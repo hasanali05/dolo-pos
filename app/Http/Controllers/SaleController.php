@@ -51,9 +51,19 @@ class SaleController extends Controller
         }
         foreach ($request['detail'] as $detail) {
             $validator = \Validator::make($detail, [
-                // 'unique_code'=>'required|string|unique:sale_details,unique_code',
-                // 'buying_price'=>'required|numeric',
+                'qty_type'=>'required|string|in:unique,quantity',
+                'selling_price'=>'required|numeric',
             ]);
+
+            if ($validator->fails()) {
+                return response()->json(['success' =>false , 'errors'=>$validator->messages()]);
+            }
+            
+            if ($detail['qty_type'] == 'quantity') {
+                $validator = \Validator::make($detail, [
+                    'sold_quantity'=>'required|numeric|min:1',
+                ]);
+            }
 
             if ($validator->fails()) {
                 return response()->json(['success' =>false , 'errors'=>$validator->messages()]);
@@ -63,9 +73,10 @@ class SaleController extends Controller
         $account = $request->account;
         $saleData = $request->sale;
         // create sale
-        $sale = sale::create([
+        $sale = Sale::create([
             'customer_id' => $customer['id'],
             'sale_date' => $saleData['sale_date'],
+            'next_payment_date' => $saleData['next_payment_date'] ?? null,
             'amount' => 0,
             'commission' => 0,
             'payment' => 0,
@@ -76,7 +87,11 @@ class SaleController extends Controller
         foreach ($request['detail'] as $detail) {
             $inventory = $detail;
             $product = $detail['product'];
-            $total += $inventory['selling_price'];
+            if ($inventory['qty_type'] == 'quantity') {
+                $total += $inventory['selling_price'] * $inventory['sold_quantity'];
+            } else {
+                $total += $inventory['selling_price'];
+            }
             $total_buying_price += $inventory['buying_price'];
             $days = 0;
             if(array_key_exists('purchase', $inventory) && $inventory['purchase']['warranty_type'] == 'days') {
@@ -96,15 +111,26 @@ class SaleController extends Controller
                 'warranty_start' => now(),
                 'warranty_end' => now()->add($days, 'day'),
                 'unique_code' => $inventory['unique_code'],
+                'quantity' => $inventory['quantity'],
             ]);
             // update inventory
-            Inventory::where('id','=',$inventory['id'])->update([
+            $inventoryArray = 
+            [
                 'selling_price' => $inventory['selling_price'],
                 'status' => 'sold',
-
                 'customer_id' => $customer['id'],
                 'sale_id' => $sale_detail->id,
-            ]);
+            ];    
+
+            if ($inventory['qty_type'] == 'quantity') {
+                $inventoryArray['quantity'] = $inventory['quantity'] - $inventory['sold_quantity'];
+                $inventoryArray['sold_quantity'] = $inventory['sold_quantity'];
+                if ($inventory['quantity'] - $inventory['sold_quantity'] > 0) {                    
+                    $inventoryArray['status'] = 'inventory';
+                }
+            }
+
+            Inventory::where('id','=',$inventory['id'])->update($inventoryArray );
         }
         // update transaction
         SaleTransaction::create([
@@ -115,7 +141,7 @@ class SaleController extends Controller
         // update sale  
         $sale->update([
             'amount' => $total,
-            'commission' => $saleData['convayance'],
+            'commission' => $saleData['convayance'] ?? 0,
             'payment' => $saleData['payment'],
             'due' => $total-$saleData['convayance']-$saleData['payment'],
         ]);      

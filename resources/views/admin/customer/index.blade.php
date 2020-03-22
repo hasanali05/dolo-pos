@@ -44,6 +44,7 @@ Home page
                         <th>Customer Name</th>
                         <th>Customer Contact</th>   
                         <th>Customer Address</th>   
+                        <th>Due</th>   
                         <th>Active/Not</th>
                         <th>Action</th>
                     </tr>
@@ -54,7 +55,8 @@ Home page
                         <th>Account name</th>
                         <th>Customer Name</th>
                         <th>Customer Contact</th>   
-                        <th>Customer Address</th>   
+                        <th>Customer Address</th>  
+                        <th>Due</th>    
                         <th>Active/Not</th>
                         <th>Action</th>
                     </tr>
@@ -67,6 +69,7 @@ Home page
                         <td>@{{customer.name}}</td>
                         <td>@{{customer.contact}}</td>
                         <td>@{{customer.address}}</td>
+                        <td>@{{customer.due}}</td>
                         
 
                         <td>

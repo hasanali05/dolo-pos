@@ -17,6 +17,7 @@ class CreateSaleDetailsTable extends Migration
             $table->bigIncrements('id');
 
             $table->integer('sale_id')->unsigned();
+            $table->integer('quantity')->default(1);
             $table->integer('inventory_id')->unsigned();
             $table->double('price',8,2)->default(0);
             $table->string('warranty_duration')->nullable();
