@@ -25,7 +25,7 @@ class SaleController extends Controller
 	}
     public function salesAll()
     {
-        $sales = Sale::with('customer', 'details', 'details.inventory.product')->get();
+        $sales = Sale::with('customer', 'details', 'details.inventory.product')->orderBy('created_at', 'desc')->get();
         return response()->json(["sales"=>$sales]);
     }
 
@@ -74,6 +74,7 @@ class SaleController extends Controller
         $saleData = $request->sale;
         // create sale
         $sale = Sale::create([
+            'user_id' => auth()->id(),
             'customer_id' => $customer['id'],
             'sale_date' => $saleData['sale_date'],
             'next_payment_date' => $saleData['next_payment_date'] ?? null,
@@ -111,7 +112,7 @@ class SaleController extends Controller
                 'warranty_start' => now(),
                 'warranty_end' => now()->add($days, 'day'),
                 'unique_code' => $inventory['unique_code'],
-                'quantity' => $inventory['quantity'],
+                'quantity' => $inventory['sold_quantity'],
             ]);
             // update inventory
             $inventoryArray = 
@@ -136,14 +137,14 @@ class SaleController extends Controller
         SaleTransaction::create([
             'customer_id' => $customer['id'],
             'reason' => 'sale',
-            'amount' => (-1)*($total-$saleData['convayance']),
+            'amount' => (-1)*($total+$saleData['convayance']),
         ]);
         // update sale  
         $sale->update([
             'amount' => $total,
             'commission' => $saleData['convayance'] ?? 0,
             'payment' => $saleData['payment'],
-            'due' => $total-$saleData['convayance']-$saleData['payment'],
+            'due' => $total + $saleData['convayance']-$saleData['payment'],
         ]);      
         SaleTransaction::create([
             'customer_id' => $customer['id'],
@@ -249,9 +250,9 @@ class SaleController extends Controller
         $ledgerCustomer->detail = $sale->id;
         $ledgerCustomer->type = 'sale';
 
-        $ledgerCustomer->debit = $total-$saleData['convayance'];
+        $ledgerCustomer->debit = $total+$saleData['convayance'];
         $ledgerCustomer->credit = $saleData['payment'];
-        $ledgerCustomer->balance = $total-$saleData['payment']-$saleData['convayance'];
+        $ledgerCustomer->balance = $total-$saleData['payment']+$saleData['convayance'];
 
         $ledgerCustomer->created_by = Auth::user()->id;
         $ledgerCustomer->modified_by = Auth::user()->id;
@@ -279,9 +280,9 @@ class SaleController extends Controller
             $ledgerConvayance->detail = $sale->id;
             $ledgerConvayance->type = 'sale';
 
-            $ledgerConvayance->debit = $saleData['convayance'];
-            $ledgerConvayance->credit = 0;
-            $ledgerConvayance->balance = $saleData['convayance'];
+            $ledgerConvayance->debit = 0;
+            $ledgerConvayance->credit = $saleData['convayance'];
+            $ledgerConvayance->balance = (-1) * $saleData['convayance'];
 
             $ledgerConvayance->created_by = Auth::user()->id;
             $ledgerConvayance->modified_by = Auth::user()->id;

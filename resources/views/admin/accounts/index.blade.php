@@ -35,7 +35,7 @@ Home page
                     </button>
                 </div>
 
-            <table class="table table-bordered" width="100%" cellspacing="0">
+            <table class="table table-bordered" width="100%" cellspacing="0" ref="dataTableContent">
                 <thead style="text-align: center;">
                     <tr>
                         <th>S/L</th>
@@ -234,6 +234,8 @@ Home page
 @endsection
 
 @section('custom-js')
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+<script src="http://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
     <!-- <script src="{{asset('/')}}/template/assets/libs/bootstrap-table/dist/bootstrap-table.min.js"></script> -->
 
@@ -256,10 +258,20 @@ Home page
                 successMessage: '',
                 groups: JSON.parse('{!!$accountGroups!!}'),
                 subGroups: JSON.parse('{!!$accountSubGroups!!}'),
+                datatable: '',
             },
             mounted() {
+                this.datatable = $(this.$refs.dataTableContent).DataTable();
                 var _this = this;
                 _this.getAllData();
+            },
+            watch: {
+                accounts(val) {
+                    this.datatable.destroy();
+                    this.$nextTick(() => {
+                        this.datatable = $(this.$refs.dataTableContent).DataTable()
+                    });
+                }
             },
             methods: {
                 getAllData() {

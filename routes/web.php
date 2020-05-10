@@ -24,6 +24,8 @@ Route::prefix('admin')->group(function()
 	Route::middleware('auth:admin')->group(function()
 	{
 		//profile
+		// Route::get('/invoice', 'AdminController@invoice')->name('admin.invoice');
+		Route::post('/invoice', 'AdminController@invoice')->name('admin.invoice');
 		Route::get('/dashboard', 'AdminController@dashboard')->name('admin.dashboard');
 		Route::get('/myprofile', 'AdminController@myprofile')->name('admin.myprofile');
 		Route::post('/profile-update', 'AdminController@updateProfile')->name('admin.updateProfile');

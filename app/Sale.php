@@ -10,7 +10,7 @@ class Sale extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use SoftDeletes;
-    protected $fillable = [ 'customer_id', 'sale_date', 'amount', 'commission', 'payment','due', 'next_payment_date' ];
+    protected $fillable = [ 'user_id', 'customer_id', 'sale_date', 'amount', 'commission', 'payment','due', 'next_payment_date' ];
 
     protected $auditInclude = [
         'customer_id', 
@@ -21,6 +21,10 @@ class Sale extends Model implements Auditable
         'due'
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     public function customer()
     {
         return $this->belongsTo(Customer::class);

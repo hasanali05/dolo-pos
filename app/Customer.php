@@ -20,6 +20,6 @@ class Customer extends Model
 
     public function getDueAttribute($value)
     {
-        return $this->sale->sum('due');
+        return $this->sale->sum('due') ?? 0;
     }
 }

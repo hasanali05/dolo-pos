@@ -16,6 +16,7 @@ class CreateSalesTable extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->bigIncrements('id');
 
+            $table->integer('user_id')->unsigned()->nullable();
             $table->integer('customer_id')->unsigned();
             $table->date('sale_date');
             $table->date('next_payment_date')->nullable();

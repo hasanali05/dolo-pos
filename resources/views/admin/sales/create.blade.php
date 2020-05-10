@@ -248,9 +248,7 @@ Home page
                         <label>Select customer</label>
                         <select class="select2 form-control custom-select" style="width: 100%; height:36px;" @change="changecustomer($event)">
                             <option value="-1">Not registered customer</option>
-                            <optgroup>
-                                <option v-for="(customer,index) in customers" :value="index" :key="index">@{{ customer.name }}</option>
-                            </optgroup>
+                            <option v-for="(customer,index) in customers" :value="index" :key="index">@{{ customer.name }}</option>
                         </select>
                         <button type="button" class="btn btn-dark w-100" data-toggle="modal" data-target="#createCustomerModel"  @click.prevent="clearCustomerData()">
                         Create New
@@ -274,6 +272,7 @@ Home page
                     <div class="col-sm-12 p-t-10 p-b-10">
                       <label>Payment Collection to</label>
                       <select class="select2 form-control custom-select" style="width: 100%; height:36px;"  @change="changeAccount($event)">
+                          <option value="">--Select Account--</option>
                           <option v-for="(account, index) in transactionAccounts" :value="index">@{{account.name}}</option>
                       </select>
                     </div>
@@ -493,9 +492,9 @@ Home page
                 selectList: [],
 
                 total: '',
-                convayance: '',
+                convayance: '0',
                 grandTotal: '',
-                sale_date: '',
+                sale_date: '{{date('Y-m-d')}}',
                 next_payment_date: '',
                 payment_amount: 0,
                 payment_note: '',
@@ -516,12 +515,13 @@ Home page
                 return this.total;
               },
               computedGrandTotal () {
-                if(Number(this.convayance) > this.grandTotal) this.convayance = this.grandTotal;
+                // if(Number(this.convayance) > this.grandTotal) this.convayance = this.grandTotal;
                 if(Number(this.convayance) < 0) this.convayance = 0;
-                this.grandTotal = this.total-Number(this.convayance);
+                this.grandTotal = this.total+Number(this.convayance);
                 return this.grandTotal;
               },
               computedPaid () {
+                if(!this.payment_amount) this.payment_amount = 0;
                 if(this.payment_amount > this.grandTotal) this.payment_amount = this.grandTotal;
                 if(this.payment_amount < 0) this.payment_amount = 0;
                 return this.payment_amount;
@@ -758,7 +758,7 @@ Home page
                     _this.total= '';
                     _this.convayance= '';
                     _this.grandTotal= '';
-                    _this.sale_date= '';
+                    _this.sale_date= '{{date('Y-m-d')}}';
                     _this.payment_amount= 0;
                     _this.payment_note= '';
                 },
@@ -860,7 +860,7 @@ Home page
                         _this.errors.push("Select a next payment date.");
                         count++;
                     }
-                     if (!_this.payment_amount) {
+                    if (!_this.payment_amount) {
                         _this.errors.push("you must have to select payment amount.");
                         count++;
                     }

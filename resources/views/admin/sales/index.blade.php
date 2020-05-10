@@ -38,7 +38,7 @@ Home page
                     </button>
                 </div>
  
-                <table class="table table-bordered" width="100%" cellspacing="0">
+                <table class="table table-bordered" width="100%" cellspacing="0" ref="dataTableContent">
                     <thead style="text-align: center;">
                         <tr>
                             <th>S/L</th>
@@ -69,9 +69,13 @@ Home page
                                     <span class="icon text-white" >
                                         <i class="fas fa-eye"></i>
                                     </span>
-                                </button>                                   
+                                </button> 
+                                <button class="btn btn-warning btn-icon-split" @click="printInvoice(index)">
+                                    <span class="icon text-white" >
+                                        <i class="fa fa-print"></i>
+                                    </span>
+                                </button>
                             </td>
-
                         </tr>
                     </tbody>
                 </table>
@@ -159,6 +163,7 @@ Home page
                                                         <th>Product</th>
                                                         <th>Unique code</th>
                                                         <th>Price</th>
+                                                        <th>Qty</th>
                                                         <th>Warranty</th>
                                                     </tr>
                                                 </thead>
@@ -168,6 +173,7 @@ Home page
                                                         <td>@{{sale.inventory?sale.inventory.product.name:''}}</td>
                                                         <td>@{{sale.unique_code}}</td>
                                                         <td>@{{sale.price}}</td>
+                                                        <td>@{{sale.quantity}}</td>
                                                         <td>@{{sale.warranty_duration}} @{{sale.warranty_type}}</td>
                                                     </tr>
                                                 </tbody>
@@ -184,6 +190,11 @@ Home page
                 </div>
             </div>
         </div>
+        <form id="print-form"  target="_blank" action="{{route('admin.invoice')}}" method="POST" style="display: none;">
+            @csrf
+            <input type="hidden" name="invoiceId" :value="InvoiceSaleId"/>
+            <input type="hidden" name="type" value="sale"/>
+        </form>
     </div>  
 </div>
 
@@ -193,6 +204,8 @@ Home page
 
 @section('custom-js')
 
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+<script src="http://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <!-- <script src="{{asset('/')}}/template/assets/libs/bootstrap-table/dist/bootstrap-table.min.js"></script> -->
 
     <script src="{{asset('/')}}/js/vue.js"></script>
@@ -222,13 +235,35 @@ Home page
                 sales: [],
                 customers: [],
                 successMessage: '',
+                InvoiceSaleId: '',
+                datatable: '',
             },
             mounted() {
+                this.datatable = $(this.$refs.dataTableContent).DataTable();
                 var _this = this;
                 _this.getAllData();
-                  _this.getAllCustomerData();
+                _this.getAllCustomerData();
+            },
+            watch: {
+                sales(val) {
+                    this.datatable.destroy();
+                    this.$nextTick(() => {
+                        this.datatable = $(this.$refs.dataTableContent).DataTable()
+                    });
+                }
             },
             methods: {
+                printInvoice (index) {
+                    var _this = this;
+                    _this.errors = [];
+                    _this.currentIndex = index;
+                    _this.sale = _this.sales[index];
+                    
+                    _this.$set(_this, 'InvoiceSaleId', _this.sale.id);
+                    setTimeout(() => {
+                        document.getElementById('print-form').submit();
+                    }, 100);
+                },
                 getAllCustomerData() {
                     var _this = this;
                     axios.get('{{ route("customers.all") }}')

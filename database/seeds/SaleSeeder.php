@@ -26,7 +26,7 @@ class SaleSeeder extends Seeder
         for($i=0;$i<10;$i++){
             $customer = App\Customer::create([
                 'account_id' => $account->id,
-                'name'=>"Sama".$i,
+                'name'=>"Customer".$i,
                 'contact'=>"0182738434",
                 'address'=>"Dhaka",
                 'is_active'=>1,

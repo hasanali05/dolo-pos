@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use PDF;
+use App\Sale;
 
 class AdminController extends Controller
 {
@@ -14,6 +16,30 @@ class AdminController extends Controller
 	public function index()
 	{
 		return view('admin.pages.index');
+	}
+	public function invoice(Request $request)
+	{
+		$type = $request->type ?? '';
+		$invoiceId = $request->invoiceId ?? '';
+		if (!$type || !$invoiceId) abort(403);
+		switch ($type) {
+			case 'sale':
+				$data = Sale::with('user', 'details', 'details.inventory.product', 'customer', 'warranty')->find($invoiceId);
+				$data['customer']['due'] = $data->customer->due;
+				$data['customer']['previousDue'] = $data->customer->due - $data->amount - $data->commission + $data->payment;
+				// return $data;
+				$pdf = PDF::loadView('admin.invoices.sale', ['data'=>$data])->setPaper('a4', 'portrait')->setWarnings(false);
+				return $pdf->stream();
+				return $data;
+				break;
+			default:
+				abort(403);
+				break;
+		}
+		return $request;
+		$data = [];
+		// return view('admin.pages.invoice');
+		return view('admin.pages.invoice');
 	}
 	public function myprofile()
 	{

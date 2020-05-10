@@ -33,7 +33,7 @@ Home page
                     </button>
                 </div>
 
-            <table class="table table-bordered table-striped" data-mobile-responsive="true" width="100%" cellspacing="0">
+            <table class="table table-bordered table-striped" data-mobile-responsive="true" width="100%" cellspacing="0" ref="dataTableContent">
                 <thead>
                     <tr>
                          <th>S/L</th>
@@ -64,7 +64,6 @@ Home page
                         <th>Action</th>
                     </tr>
                 </tfoot>
-                <tbody>
                 <tbody>
                     <tr v-for="(inventory, index) in inventories">
                         <td>@{{index+1}}</td>
@@ -290,6 +289,8 @@ Home page
 @endsection
 
 @section('custom-js')
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+<script src="http://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
     <!-- <script src="{{asset('/')}}/template/assets/libs/bootstrap-table/dist/bootstrap-table.min.js"></script> -->
 
@@ -330,10 +331,20 @@ Home page
                 currentIndex: 0,
                 inventories:[],        
                 successMessage:'',
+                datatable: '',
             },
             mounted() {
+                this.datatable = $(this.$refs.dataTableContent).DataTable();
                 var _this = this;
                 _this.getAllData();
+            },
+            watch: {
+                inventories(val) {
+                    this.datatable.destroy();
+                    this.$nextTick(() => {
+                        this.datatable = $(this.$refs.dataTableContent).DataTable()
+                    });
+                }
             },
             methods: {
                 getAllData() {
